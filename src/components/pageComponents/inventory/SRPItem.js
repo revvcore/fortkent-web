@@ -1,4 +1,11 @@
+"use client";
+import StyledButton from "@/components/commonComponents/actions/buttons/StyledButton";
+import { siteIdentity } from "@/data/siteIdentity";
+import FormModal from "./FormModal";
+import { useState } from "react";
 export default function SRPItem({ item }) {
+  const [openFormModal, setOpenFormModal] = useState(false);
+  const [formTitle, setFormTitle] = useState("");
   const vehicleName =
     `${item.year} ${item.make} ${item.model}` || "Unknown Vehicle";
 
@@ -7,7 +14,19 @@ export default function SRPItem({ item }) {
     currency: "USD",
     minimumFractionDigits: 0,
   });
-
+  // Calculate estimated monthly installment
+  const principal = (item?.price?.sale || item?.price?.msrp || 0) - 1000;
+  const annualRate = 0.064;
+  const months = 84;
+  const monthlyRate = annualRate / 12;
+  const estimatedMonthly =
+    principal > 0
+      ? (
+          (principal * monthlyRate) /
+          (1 - Math.pow(1 + monthlyRate, -months))
+        ).toFixed(2)
+      : null;
+  const estMonthlyInst = currencyFormatter.format(estimatedMonthly) || null;
   const msrp = currencyFormatter.format(item?.price?.msrp) || null;
   const sale = currencyFormatter.format(item?.price?.sale) || null;
   const showSavings = msrp && sale && msrp > sale;
@@ -77,11 +96,131 @@ export default function SRPItem({ item }) {
           </tbody>
         </table>
       </div>
-      <div>
-        <button className="bg-blue-500 text-white py-2 px-4 rounded">
-          Add to Cart
-        </button>
+      <div className="space-y-2 mt-2">
+        <StyledButton
+          href={`/inventory/${item.slug}`}
+          variant="success"
+          className="w-full"
+          size="md"
+          onClick={() => {
+            setOpenFormModal(true), setFormTitle("E-Price");
+          }}
+        >
+          Est. <b>{estMonthlyInst}</b>/mo.
+        </StyledButton>
+        <StyledButton
+          href={`/inventory/${item.slug}`}
+          variant="outline"
+          className="w-full"
+          size="sm"
+          onClick={() => {
+            setOpenFormModal(true), setFormTitle("E-Price");
+          }}
+        >
+          Get E-Price
+        </StyledButton>
+        <StyledButton
+          href={`/inventory/${item.slug}`}
+          variant="outline"
+          className="w-full"
+          size="sm"
+          onClick={() => {
+            setOpenFormModal(true), setFormTitle("Pre-Approved");
+          }}
+        >
+          Get Pre-Approved
+        </StyledButton>
+        <StyledButton
+          href={`/inventory/${item.slug}`}
+          variant="outline"
+          className="w-full"
+          size="sm"
+        >
+          Full Details
+        </StyledButton>
+        <p className="text-sm text-center text-gray-500">
+          or Call{" "}
+          <a
+            href={`tel:+1${siteIdentity.phoneSale.replace(/\D/g, "")}`}
+            className="font-bold"
+          >
+            {siteIdentity.phoneSale}
+          </a>
+        </p>
       </div>
+      <FormModal isOpen={openFormModal} onClose={() => setOpenFormModal(false)}>
+        <div className="bg-white rounded p-4 max-w-lg w-full">
+          <div className="text-start">
+            <p className="text-xl tracking-tight font-bold">
+              Get {formTitle} for {vehicleName}
+            </p>
+            <p className="text-sm text-gray-600 mb-4">
+              Submit the form below, and our representative will be in touch
+              shortly.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {formFields.map((field) => (
+              <div key={field.name}>
+                <label className="block text-sm font-medium mb-1">
+                  {field.label}
+                </label>
+                <input
+                  className="w-full border border-slate-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  type={field.type}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                />
+              </div>
+            ))}
+          </div>
+          <StyledButton
+            className="my-4 w-full"
+            variant="primary"
+            size="md"
+            onClick={() => setOpenFormModal(false)}
+          >
+            Submit
+          </StyledButton>
+          <p className="text-xs text-gray-500 mt-2">
+            By participating, you consent to receive text messages sent by an
+            automatic telephone dialing system. Consent to these terms is not a
+            condition of purchase.
+          </p>
+        </div>
+      </FormModal>
     </div>
   );
 }
+
+const formFields = [
+  {
+    label: "First Name",
+    name: "firstName",
+    type: "text",
+    placeholder: "Enter first name",
+    required: true,
+  },
+  {
+    label: "Last Name",
+    name: "lastName",
+    type: "text",
+    placeholder: "Enter last name",
+    required: true,
+  },
+  {
+    label: "Email",
+    name: "email",
+    type: "email",
+    placeholder: "Enter email address",
+    required: true,
+  },
+  {
+    label: "Phone",
+    name: "phone",
+    type: "tel",
+    placeholder: "Enter phone number",
+    required: true,
+  },
+];
