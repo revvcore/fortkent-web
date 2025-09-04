@@ -1,5 +1,7 @@
 import { Geist_Mono, Manrope } from "next/font/google";
 import "../globals.css";
+import SiteHeader from "@/components/commonComponents/header/SiteHeader";
+import SiteFooter from "@/components/commonComponents/footer/SiteFooter";
 
 const fontSans = Manrope({
   variable: "--font-manrope-sans",
@@ -20,7 +22,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${fontSans.variable} ${fontMono.variable} antialiased`}>
+        <SiteHeader/>
         {children}
+        <SiteFooter/>
       </body>
     </html>
   );

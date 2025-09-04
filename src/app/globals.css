@@ -10,7 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-manrope-sans);
   --font-mono: var(--font-geist-mono);
-  --color-primary: #ed1d24;
+  --color-primary-500: #ed1d24;
 }
 
 /* @media (prefers-color-scheme: dark) {

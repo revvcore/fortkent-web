@@ -36,7 +36,7 @@ Different cookies are used to perform different functions:
 - **Analytics** - We use Google Analytics to measure how you interact with our website and to improve your user experience. Learn more: https://support.google.com/analytics/answer/6004245?hl=en or opt-out at https://tools.google.com/dlpage/gaoptout.
 - **Targeted Advertising** - To compile data on user interaction with our site and serve ads off-site based on that interaction.
 
-You can manage cookies at the browser level. Visit www.networkadvertising.org to opt out of advertising cookies. Note that opting out does not remove all ads, just those tailored to your behavior.
+You can manage cookies at the browser level. [Visit](https://link.com) www.networkadvertising.org to opt out of advertising cookies. Note that opting out does not remove all ads, just those tailored to your behavior.
 
 ## USE OF INFORMATION COLLECTED
 We use the information we collect for the following:

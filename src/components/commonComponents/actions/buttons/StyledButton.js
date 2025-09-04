@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 const variants = {
   primary:
-    "bg-primary hover:bg-slate-950 ring-4 ring-primary/60 hover:ring-slate-600 text-white",
+    "bg-primary-500 hover:bg-slate-950 ring-4 ring-primary-500/60 hover:ring-slate-600 text-white",
   secondary: "bg-slate-900 hover:bg-slate-950 ring-4 ring-slate-600 text-white",
   success: "bg-green-500 text-white hover:bg-slate-900",
   outline:
