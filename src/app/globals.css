@@ -24,3 +24,9 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+.page-container{
+  @apply px-4 max-w-7xl sm:px-6 lg:px-20
+}
+h1{
+  @apply text-3xl font-bold leading-10
+}
