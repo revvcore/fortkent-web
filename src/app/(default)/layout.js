@@ -2,7 +2,7 @@ import { Geist_Mono, Manrope } from "next/font/google";
 import "../globals.css";
 import SiteHeader from "@/components/commonComponents/header/SiteHeader";
 import SiteFooter from "@/components/commonComponents/footer/SiteFooter";
-import ContactBar from "@/components/commonComponents/contactbar/ContactBar";
+import ContactBar from "@/components/commonComponents/header/ContactBar";
 
 const fontSans = Manrope({
   variable: "--font-manrope-sans",

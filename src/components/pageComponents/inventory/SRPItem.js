@@ -163,11 +163,11 @@ export default function SRPItem({ item }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {formFields.map((field) => (
               <div key={field.name}>
-                <label className="block text-sm font-medium mb-1">
+                <label className="styleLabel">
                   {field.label}
                 </label>
                 <input
-                  className="w-full border border-slate-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="styleInput"
                   type={field.type}
                   name={field.name}
                   placeholder={field.placeholder}

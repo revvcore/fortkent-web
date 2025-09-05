@@ -1,37 +1,30 @@
 "use client";
-import SpinLoader from "@/components/commonComponents/loader/SpinLoader";
-import SRPItem from "@/components/pageComponents/inventory/SRPItem";
-import { siteIdentity } from "@/data/siteIdentity";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import SRPInventory from "./SRPInventory";
+import Filters from "./Filters";
 
-function SRPPageContent() {
+export default function SRPPage() {
   const [inventoryItems, setInventoryItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("p")) || 1;
   const itemsPerPage = 12;
 
-  const searchParam = useSearchParams();
-  const pageParam = searchParam.get("p");
-  useEffect(() => {
-    if (pageParam) {
-      setCurrentPage(Number(pageParam));
-    }
-  }, [pageParam]);
-
-  const totalPages = Math.ceil(inventoryItems.length / itemsPerPage);
-  const paginatedItems = inventoryItems.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  const handlePrevPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  // ✅ parse filters from URL only (Filters component keeps them in sync)
+  const filters = {
+    make: searchParams.get("make") || "",
+    year: searchParams.get("year") || "",
+    model: searchParams.get("model") || "",
+    trim: searchParams.get("trim") || "",
+    condition: searchParams.get("condition") || "",
+    color: searchParams.get("color") || "",
+    type: searchParams.get("type") || "",
+    minPrice: searchParams.get("minPrice") || "",
+    maxPrice: searchParams.get("maxPrice") || "",
   };
 
-  const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  };
   useEffect(() => {
     const fetchInventoryItems = async () => {
       setLoading(true);
@@ -46,71 +39,75 @@ function SRPPageContent() {
     fetchInventoryItems();
   }, []);
 
-  console.log(inventoryItems);
+  // ✅ filter logic
+  const filteredItems = useMemo(() => {
+    let result = inventoryItems;
+
+    if (filters.make) result = result.filter((i) => i.make === filters.make);
+    if (filters.year)
+      result = result.filter((i) => String(i.year) === filters.year);
+    if (filters.model) result = result.filter((i) => i.model === filters.model);
+    if (filters.trim) result = result.filter((i) => i.trim === filters.trim);
+    if (filters.condition)
+      result = result.filter((i) => i.condition === filters.condition);
+    if (filters.color)
+      result = result.filter((i) => i?.color?.exterior === filters.color);
+    if (filters.type) result = result.filter((i) => i.type === filters.type);
+
+    if (filters.minPrice)
+      result = result.filter((i) => i.price >= Number(filters.minPrice));
+    if (filters.maxPrice)
+      result = result.filter((i) => i.price <= Number(filters.maxPrice));
+
+    return result;
+  }, [filters, inventoryItems]);
+
+  // ✅ options cleaner
+  const cleanOptions = (arr, isYear = false) => {
+    const values = [...new Set(arr)].filter(Boolean);
+    return isYear
+      ? values.sort((a, b) => Number(b) - Number(a))
+      : values.sort();
+  };
+
+  const dynamicOptions = useMemo(
+    () => ({
+      make: cleanOptions(inventoryItems.map((i) => i.make)),
+      year: cleanOptions(
+        inventoryItems.map((i) => i.year),
+        true
+      ),
+      model: cleanOptions(inventoryItems.map((i) => i.model)),
+      trim: cleanOptions(inventoryItems.map((i) => i.trim)),
+      condition: cleanOptions(inventoryItems.map((i) => i.conditionType)),
+      color: cleanOptions(inventoryItems.map((i) => i?.specifications?.color?.exterior)),
+      type: cleanOptions(inventoryItems.map((i) => i.bodyType)),
+    }),
+    [inventoryItems]
+  );
+
+  // ✅ paginate after filter
+  const paginatedItems = filteredItems.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="w-full bg-white">
-      <div className="section-container py-12 flex flex-row items-start">
-        <div className="w-1/3 flex items-center border p-4">
-          <img
-            src={siteIdentity.logo}
-            alt={siteIdentity.name}
-            className="w-32 h-auto"
-          />
+      <div className="section-container py-12 flex flex-row items-start gap-6">
+        {/* Sidebar filters */}
+        <div className="w-1/3 py-6 sticky top-24 self-start">
+          <Filters options={dynamicOptions} />
         </div>
 
-        {loading ? (
-          <SpinLoader />
-        ) : (
-          <div className="w-full md:w-2/3">
-            <div className="w-full grid grid-cols-2 px-4 md:px-8 gap-8">
-              {paginatedItems.map((item) => (
-                <SRPItem key={item._id} item={item} />
-              ))}
-            </div>{" "}
-            <div className="flex justify-center mt-4">
-              <button
-                onClick={() => {
-                  handlePrevPage();
-                  window.history.replaceState(
-                    null,
-                    "",
-                    `?p=${currentPage - 1}`
-                  );
-                }}
-                disabled={currentPage === 1}
-                className="px-4 py-2 mx-2 bg-gray-200 rounded disabled:opacity-50"
-              >
-                Previous
-              </button>
-              <span className="px-4 py-2 mx-2">
-                Page {currentPage} of {totalPages}
-              </span>
-              <button
-                onClick={() => {
-                  handleNextPage();
-                  window.history.replaceState(
-                    null,
-                    "",
-                    `?p=${currentPage + 1}`
-                  );
-                }}
-                disabled={currentPage === totalPages}
-                className="px-4 py-2 mx-2 bg-gray-200 rounded disabled:opacity-50"
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        )}
+        {/* Inventory list */}
+        <SRPInventory
+          items={paginatedItems}
+          totalItems={filteredItems.length}
+          itemsPerPage={itemsPerPage}
+          loading={loading}
+        />
       </div>
     </div>
-  );
-}
-
-export default function SRPPage() {
-  return (
-    <Suspense fallback={<SpinLoader />}>
-      <SRPPageContent />
-    </Suspense>
   );
 }

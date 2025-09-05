@@ -4,6 +4,10 @@ export const navLinks = [
     href: "/",
   },
   {
+    title: "Inventory",
+    href: "/inventory",
+  },
+  {
     title: "Products",
     isSubMenu: true,
     subMenu: [

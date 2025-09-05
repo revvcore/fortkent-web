@@ -8,6 +8,7 @@ const variants = {
   success: "bg-green-500 text-white hover:bg-slate-900",
   outline:
     "border-1 border-slate-300 bg-slate-50 text-gray-500 hover:bg-slate-100 hover:text-gray-700",
+    error: "bg-red-500 text-white hover:bg-slate-900",
   //   accent: "text-white bg-accent border border-accent ring-4 ring-accent/50",
 
   //   white:
