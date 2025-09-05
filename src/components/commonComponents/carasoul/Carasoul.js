@@ -81,12 +81,14 @@ export default function Carasoul() {
   const totalPages = Math.ceil(imageData.length / currentImagesPerPage);
 
   return (
+   
+
     <div className="overflow-hidden mt-5 mb-5">
       <div className="flex h-1/2 items-center justify-center p-8 relative">
         {/* Left Arrow */}
         <button
           onClick={handlePrevious}
-          className="absolute left-8 z-20 bg-gray-400 backdrop-blur-sm  text-white p-2 rounded-lg transition-all duration-300  "
+          className="absolute  -left-1 z-20 bg-gray-400 backdrop-blur-sm text-white p-2  transition-all duration-300"
           aria-label="Previous images"
         >
           <ChevronLeft className="w-8 h-8" />
@@ -95,18 +97,18 @@ export default function Carasoul() {
         {/* Right Arrow */}
         <button
           onClick={handleNext}
-          className="absolute right-8 z-20 bg-gray-400 backdrop-blur-sm  text-white p-2 rounded-lg transition-all duration-300  "
+          className="absolute -right-2 z-20 bg-gray-400 backdrop-blur-sm text-white p-2  transition-all duration-300"
           aria-label="Next images"
         >
           <ChevronRight className="w-8 h-8" />
         </button>
 
         {/* Image Grid Container */}
-        <div className="w-full h-full max-w-7xl mx-auto page-container">
+        <div className="w-full h-full max-w-7xl mx-auto section-container">
           <div className="grid grid-cols-1 transition-all duration-700 ease-in-out">
             {getCurrentImages().map((image, index) => (
               <div
-                key={image.id}
+                key={image._id}
                 className="relative border border-white/10"
                 style={{
                   animationDelay: `${index * 150}ms`,
@@ -114,11 +116,27 @@ export default function Carasoul() {
                 }}
               >
                 <div className="relative h-[66vh] overflow-hidden">
-                  <img
-                    src={image.thumbnail}
-                    alt={`Slide ${image.id}`}
-                    className="w-full h-full object-cover transition-transform duration-500"
-                  />
+                  {image.isRedirect ? (
+                    <a
+                      href={image.redirectUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        src={image.bannerUrl}
+                        alt={image.title}
+                        title={image.title}
+                        className="w-full h-full object-cover transition-transform duration-500"
+                      />
+                    </a>
+                  ) : (
+                    <img
+                      src={image.bannerUrl}
+                      alt={image.title}
+                      title={image.title}
+                      className="w-full h-full object-cover transition-transform duration-500"
+                    />
+                  )}
                 </div>
               </div>
             ))}
@@ -146,5 +164,6 @@ export default function Carasoul() {
         </div>
       </div>
     </div>
+   
   );
 }

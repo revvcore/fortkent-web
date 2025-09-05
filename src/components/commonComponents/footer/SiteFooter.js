@@ -6,12 +6,12 @@ export default function SiteFooter() {
   return (
     <>
       <div className="py-6 bg-[#232323]">
-        <div className="page-container">
+        <div className="section-container">
           {/* Upper Secion */}
           <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-6 ">
             <div>
               <div>
-                <img className="w-12 aspect-square" src="file.svg" alt="icon" />
+                <img className="h-12 " src={siteIdentity.logo} alt={siteIdentity.siteName} />
               </div>
               <div className="mt-5 flex gap-4">
                 {siteIdentity?.socialLinks?.map((link, idx) => (
@@ -21,6 +21,7 @@ export default function SiteFooter() {
                       src={`/icons/social/${link.icon}.webp`}
                     />
                   </a>
+                  
                 ))}
               </div>
               <div className="mt-4">

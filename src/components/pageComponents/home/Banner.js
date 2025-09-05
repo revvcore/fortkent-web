@@ -98,12 +98,12 @@ export default function Banner() {
   const totalPages = Math.ceil(sliders.length / currentVideosPerPage);
 
   return (
-    <div className="  overflow-hidden mt-5 mb-5 ">
-      <div className=" flex h-1/2 items-center justify-center p-4 bg-black">
+    <div className="overflow-hidden mt-5 mb-5">
+      <div className="flex h-1/2 items-center justify-center p-4 bg-black">
         {/* Left Arrow */}
         <button
           onClick={handlePrevious}
-          className="absolute -left-2 z-20   text-white p-4 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-2xl group"
+          className="absolute -left-2 z-20 text-white p-4 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-2xl group"
           aria-label="Previous videos"
         >
           <ChevronLeft className="w-8 h-8 transition-transform duration-200" />
@@ -112,7 +112,7 @@ export default function Banner() {
         {/* Right Arrow */}
         <button
           onClick={handleNext}
-          className="absolute -right-2 z-20   text-white p-4 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-2xl group"
+          className="absolute -right-2 z-20 text-white p-4 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-2xl group"
           aria-label="Next videos"
         >
           <ChevronRight className="w-8 h-8 group-hover:scale-110 transition-transform duration-200" />
@@ -124,27 +124,23 @@ export default function Banner() {
             className="flex transition-transform duration-700 ease-in-out"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
-            {sliders.map((video, index) => (
+            {sliders.map((video) => (
               <div
-                key={video.id}
+                key={video._id}
                 className="min-w-full group relative border border-white/10"
-                onMouseEnter={() => handleVideoHover(video.id, true)}
-                onMouseLeave={() => handleVideoHover(video.id, false)}
-                // style={{
-                //   animationDelay: `${index * 150}ms`,
-                //   animation: 'fadeInUp 0.6s ease-out forwards'
-                // }}
+                onMouseEnter={() => handleVideoHover(video._id, true)}
+                onMouseLeave={() => handleVideoHover(video._id, false)}
               >
                 {/* Video Container */}
-                <div className="relative h-[640px]  overflow-hidden">
+                <div className="relative h-[640px] overflow-hidden">
                   <video
-                    className="w-full  object-cover transition-transform duration-500 "
-                    poster={video.thumbnail}
+                    className="w-full object-cover transition-transform duration-500"
+                    poster={video.fallBackImg}
                     muted
                     loop
                     playsInline
                     onLoadedData={(e) => {
-                      if (playingVideo === video.id) {
+                      if (playingVideo === video._id) {
                         e.target.play();
                       }
                     }}
@@ -152,21 +148,20 @@ export default function Banner() {
                     <source src={video.videoUrl} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
+
+                  {/* Overlay Content */}
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center text-white px-6">
                       <MarkDownRenderer content={video?.content} />
                     </div>
                   </div>
 
-                  {/* Video Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0  transition-opacity duration-700">
+                  {/* Video Overlay (Play/Pause button) */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-700">
                     <div className="absolute bottom-4 left-4 right-4">
-                      <div className="flex items-center justify-between text-white">
-                        <span className="text-sm font-medium bg-black/40 px-2 py-1 rounded">
-                          {video.duration}
-                        </span>
+                      <div className="flex items-center justify-end text-white">
                         <button className="bg-white/20 backdrop-blur-sm p-2 rounded-full hover:bg-white/30 transition-colors">
-                          {playingVideo === video.id ? (
+                          {playingVideo === video._id ? (
                             <Pause className="w-4 h-4" />
                           ) : (
                             <Play className="w-4 h-4" />

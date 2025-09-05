@@ -9,9 +9,21 @@ export const siteIdentity = {
   city: "Fort Kent",
   state: "ME",
   zip: "04743",
-  socialLinks: [{
+  socialLinks: [
+    {
     platform: "Facebook",
     url: "https://www.facebook.com/fortkentpowersports",
     icon: "facebook"
-  }, ]
+  },
+{
+    platform: "Ebay",
+    url: "https://www.ebay.com/fortkentpowersports",
+    icon: "ebay"
+  },
+  {
+    platform: "Google",
+    url: "https://www.google.com/fortkentpowersports",
+    icon: "google"
+  }
+ ]
 };
