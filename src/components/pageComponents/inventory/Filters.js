@@ -4,6 +4,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import SearchableSelect from "@/components/commonComponents/form/SearchableSelect";
 import StyledButton from "@/components/commonComponents/actions/buttons/StyledButton";
+import RangeSlider from "@/components/commonComponents/form/RangeSlider";
 
 export default function Filters({ options }) {
   const searchParams = useSearchParams();
@@ -104,28 +105,16 @@ export default function Filters({ options }) {
         {renderSelect("color", "Color", options.color)}
         {renderSelect("type", "Type", options.type)}
 
-        {/* Price Range */}
-        {/* <div className="">
-          <label className="styleLabel">Select Price Range</label>
-          <div className="flex gap-2">
-            <input
-              type="number"
-              name="minPrice"
-              placeholder="Min Price"
-              value={filters.minPrice}
-              onChange={handleChange}
-              className="styleInput"
-            />
-            <input
-              type="number"
-              name="maxPrice"
-              placeholder="Max Price"
-              value={filters.maxPrice}
-              onChange={handleChange}
-              className="styleInput"
-            />
-          </div>
-        </div> */}
+        <RangeSlider
+          label="Select Price Range"
+          min={0}
+          max={200000}
+          step={1000}
+          values={[Number(filters.minPrice), Number(filters.maxPrice)]}
+          onChange={([min, max]) =>
+            setFilters((prev) => ({ ...prev, minPrice: min, maxPrice: max }))
+          }
+        />
       </div>
 
       {/* Reset */}

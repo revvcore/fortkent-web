@@ -11,6 +11,8 @@ export default function SRPPage() {
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("p")) || 1;
   const itemsPerPage = 12;
+  const sortBy = searchParams.get("sortBy") || "";
+  const sortOrder = searchParams.get("sortOrder") || "";
 
   // ✅ parse filters from URL only (Filters component keeps them in sync)
   const filters = {
@@ -55,12 +57,24 @@ export default function SRPPage() {
     if (filters.type) result = result.filter((i) => i.type === filters.type);
 
     if (filters.minPrice)
-      result = result.filter((i) => i.price >= Number(filters.minPrice));
+      result = result.filter((i) => i?.price?.msrp >= Number(filters.minPrice));
     if (filters.maxPrice)
-      result = result.filter((i) => i.price <= Number(filters.maxPrice));
+      result = result.filter((i) => i?.price?.msrp <= Number(filters.maxPrice));
 
+    // sorting
+    result = [...result].sort((a, b) => {
+      if (sortBy === "price") {
+        return sortOrder === "asc"
+          ? a?.price?.msrp - b?.price?.msrp
+          : b?.price?.msrp - a?.price?.msrp;
+      }
+      if (sortBy === "year") {
+        return sortOrder === "asc" ? a.year - b.year : b.year - a.year;
+      }
+      return 0;
+    });
     return result;
-  }, [filters, inventoryItems]);
+  }, [filters, inventoryItems, sortBy, sortOrder]);
 
   // ✅ options cleaner
   const cleanOptions = (arr, isYear = false) => {
@@ -80,7 +94,9 @@ export default function SRPPage() {
       model: cleanOptions(inventoryItems.map((i) => i.model)),
       trim: cleanOptions(inventoryItems.map((i) => i.trim)),
       condition: cleanOptions(inventoryItems.map((i) => i.conditionType)),
-      color: cleanOptions(inventoryItems.map((i) => i?.specifications?.color?.exterior)),
+      color: cleanOptions(
+        inventoryItems.map((i) => i?.specifications?.color?.exterior)
+      ),
       type: cleanOptions(inventoryItems.map((i) => i.bodyType)),
     }),
     [inventoryItems]
