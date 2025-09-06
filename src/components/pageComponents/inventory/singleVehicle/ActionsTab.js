@@ -1,11 +1,11 @@
 "use client";
 import StyledButton from "@/components/commonComponents/actions/buttons/StyledButton";
 import { siteIdentity } from "@/data/siteIdentity";
-import FormModal from "./FormModal";
+import FormModal from "../FormModal";
 import { useState } from "react";
 import { generateInventorySlug } from "@/lib/GenerateInventorySlug";
 import Link from "next/link";
-export default function SRPItem({ item }) {
+export default function ActionsTab({ item }) {
   const slug = generateInventorySlug(item);
   const [openFormModal, setOpenFormModal] = useState(false);
   const [formTitle, setFormTitle] = useState("");
@@ -39,17 +39,10 @@ export default function SRPItem({ item }) {
     : null;
 
   return (
-    <div className="border p-4 flex flex-col gap-2 border-slate-300 rounded-lg hover:shadow-lg transition-all">
+    <div className="p-4 flex flex-col gap-2">
       <div className="relative bg-slate-100">
-        <img
-          src={
-            item?.media?.imgFeatured?.url || "/images/fkps-still-in-crate.webp"
-          }
-          alt={vehicleName}
-          className="w-full h-[200px] object-contain"
-        />
         {showSavings ? (
-          <div className="absolute mx-auto text-center text-sm font-bold top-0 px-3 py-1 rounded-full bg-green-500 text-white">
+          <div className="mx-auto text-center text-sm font-bold px-3 py-1 rounded-full bg-green-500 text-white">
             🎉 SAVE {saving}
           </div>
         ) : null}
@@ -133,11 +126,7 @@ export default function SRPItem({ item }) {
         >
           Get Pre-Approved
         </StyledButton>
-        <Link href={`/vehicle/${slug}`}>
-          <StyledButton variant="outline" className="w-full" size="sm">
-            Full Details
-          </StyledButton>
-        </Link>
+
         <p className="text-sm text-center text-gray-500">
           or Call{" "}
           <a
