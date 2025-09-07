@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-manrope-sans);
   --font-mono: var(--font-geist-mono);
+  --color-primary-500: #ed1d24;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -22,5 +23,25 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Helvetica, sans-serif;
+  font-family: var(--font-manrope-sans), Helvetica, sans-serif;
+}
+
+.section-container {
+  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+h2 {
+  @apply text-2xl font-bold mt-6 mb-4;
+}
+
+h3 {
+  @apply text-xl font-bold mt-4 mb-2;
+}
+
+.styleInput {
+  @apply w-full cursor-default overflow-hidden rounded border border-slate-400 bg-white text-left shadow-sm focus:outline-gray-500 sm:text-sm py-2 px-3
+}
+
+.styleLabel {
+  @apply block text-sm font-medium mb-1
 }
