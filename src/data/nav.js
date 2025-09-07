@@ -37,18 +37,19 @@ export const navLinks = [
   },
 
   {
-    title: "About",
+    title: "Dealership Info",
     isSubMenu: true,
     subMenu: [
       {
-        title: "About i1SmartMarketing",
-        href: "/about/about-i1smartmarketing",
+        title: "About",
+        href: "/dealership-info/about",
       },
       {
-        title: "Team",
-        href: "/about/team",
+        title: "Employment",
+        href: "/dealership-info/employment",
       },
-      { title: "Privacy Policy", href: "/about/privacy-policy" },
+      { title: "Meet Our Staff", href: "/dealership-info/meet-our-staff" },
+       { title: "Contact Us", href: "/dealership-info/contact-us" },
     ],
   },
   {
