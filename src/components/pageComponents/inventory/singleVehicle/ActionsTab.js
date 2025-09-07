@@ -10,7 +10,7 @@ import { Bike, DollarSign, PhoneCall } from "lucide-react";
 export default function ActionsTab({ item }) {
   const [openFormModal, setOpenFormModal] = useState(false);
   const [formTitle, setFormTitle] = useState("");
- 
+
   const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -38,107 +38,110 @@ export default function ActionsTab({ item }) {
     : null;
 
   return (
-    <div className="p-4 flex flex-col gap-2 bg-slate-50 border border-slate-200 rounded">
+    <div>
       <div className="">
         {showSavings ? (
-          <div className="mx-auto text-center text-sm font-bold px-3 py-1 rounded-full bg-green-500 text-white">
-            🎉 SAVE {saving}
+          <div className="mx-auto text-center mb-4">
+            <p className="text-2xl font-black animate-pulse">
+              🎉 <span className="bg-gradient-to-r text-transparent bg-clip-text from-green-500 to-cyan-500">SAVE {saving}</span>
+            </p>
           </div>
         ) : null}
       </div>
-      <div className="flex-1">
-        {/* <h3 className="font-bold">{vehicleName}</h3> */}
-        <table className="w-full border-collapse">
-          <tbody>
-            <tr>
-              <td className="w-1/2 text-sm font-bold pb-1">Retail Price:</td>
-              <td className="w-1/2  text-right pb-1">{msrp}</td>
-            </tr>
-            {showSavings ? (
-              <>
-                <tr>
-                  <td className="w-1/2 text-sm font-bold pb-1">Sale Price:</td>
-                  <td className="w-1/2   text-right pb-1">
-                    <span className=" text-red-500 font-semibold">{sale}</span>
-                  </td>
-                </tr>
-                {/* <tr>
-                  <td className="w-1/2 text-sm font-bold pb-1">Savings:</td>
-                  <td className="w-1/2 text-sm text-right pb-1">
-                    <span className="text-sm text-red-500 font-semibold">
-                      {saving}
-                    </span>
-                  </td>
-                </tr> */}
-              </>
-            ) : null}
-          </tbody>
-        </table>
-      </div>
-      <div className="flex flex-col border border-slate-300 rounded bg-white">
-        <div className="p-2 text-center">
-          <p>Est. Payment</p>
-          <p className="text-2xl font-bold text-gray-900 -mt-1">
-            <b>{estMonthlyInst}</b>/mo.
-          </p>
+      <div className="p-4 flex flex-col gap-2 bg-slate-50 border border-slate-200 rounded">
+        <div className="flex-1">
+          {/* <h3 className="font-bold">{vehicleName}</h3> */}
+          <table className="w-full border-collapse">
+            <tbody>
+              <tr>
+                <td className="w-1/2 text-sm  pb-1">Retail Price:</td>
+                <td className="w-1/2 font-bold text-right pb-1">{msrp}</td>
+              </tr>
+              {showSavings ? (
+                <>
+                  <tr>
+                    <td className="w-1/2 text-sm  pb-1">Sale Price:</td>
+                    <td className="w-1/2 font-bold  text-right pb-1">
+                      <span className=" text-red-500 font-semibold">
+                        {sale}
+                      </span>
+                    </td>
+                  </tr>
+                </>
+              ) : null}
+            </tbody>
+          </table>
         </div>
-        <div className="p-2 border-t border-slate-300">
-          <p className="text-center text-primary-500">Personalize Payment</p>
+        <div className="flex flex-col border border-slate-300 rounded bg-white">
+          <div className="p-2 text-center">
+            <p>Est. Payment</p>
+            <p className="text-2xl font-bold text-gray-900 -mt-1">
+              <b>{estMonthlyInst}</b>/mo.
+            </p>
+          </div>
+          <div className="p-2 border-t border-slate-300">
+            <p className="text-center text-primary-500 text-sm font-semibold">
+              Personalize Payment
+            </p>
+          </div>
         </div>
-      </div>
-      <div className="space-y-2 mt-2">
-        <StyledButton
-          variant="success"
-          className="w-full"
-          size="md"
-          onClick={() => {
-            setOpenFormModal(true), setFormTitle("E-Price");
-          }}
-        >
-          Get E-Price
-        </StyledButton>
-        <StyledButton
-          variant="outline"
-          className="w-full"
-          size="sm"
-          onClick={() => {
-            setOpenFormModal(true), setFormTitle("Incentive");
-          }}
-        >
-          Get Incentive
-        </StyledButton>
-        <StyledButton
-          variant="outline"
-          className="w-full"
-          size="sm"
-          onClick={() => {
-            setOpenFormModal(true), setFormTitle("Incentive");
-          }}
-        >
-          Make Offer
-        </StyledButton>
+        <div className="space-y-2 mt-2">
+          <StyledButton
+            variant="success"
+            className="w-full"
+            size="md"
+            onClick={() => {
+              setOpenFormModal(true), setFormTitle("E-Price");
+            }}
+          >
+            Get E-Price
+          </StyledButton>
+          <StyledButton
+            variant="outline"
+            className="w-full"
+            size="sm"
+            onClick={() => {
+              setOpenFormModal(true), setFormTitle("Incentive");
+            }}
+          >
+            Get Incentive
+          </StyledButton>
+          <StyledButton
+            variant="outline"
+            className="w-full"
+            size="sm"
+            onClick={() => {
+              setOpenFormModal(true), setFormTitle("Incentive");
+            }}
+          >
+            Make Offer
+          </StyledButton>
 
-        <div className="mt-6 grid grid-cols-3 gap-2">
-          <button className="flex flex-col justify-center items-center text-center px-2 py-4 border border-slate-300 rounded bg-white hover:bg-slate-50/50 hover:text-gray-700 text-gray-400 cursor-pointer">
-            <DollarSign className="w-5 h-5" />
-            <p>Value Your Trade</p>
-          </button>
-          <button className="flex flex-col justify-center items-center text-center px-2 py-4 border border-slate-300 rounded bg-white hover:bg-slate-50/50 hover:text-gray-700 text-gray-400 cursor-pointer">
-            <Bike className="w-5 h-5" />
-            <p>Schedule a Test Ride</p>
-          </button>
-          <button className="flex flex-col justify-center items-center text-center px-2 py-4 border border-slate-300 rounded bg-white hover:bg-slate-50/50 hover:text-gray-700 text-gray-400 cursor-pointer">
-            <PhoneCall className="w-5 h-5" />
-            <p>Click to Call</p>
-          </button>
+          <div className="mt-6 grid grid-cols-3 gap-2">
+            <button className="flex flex-col justify-center items-center text-center px-2 md:py-4 aspect-square border border-slate-300 rounded bg-white hover:bg-slate-50/50 hover:text-gray-700 text-gray-400 cursor-pointer">
+              <DollarSign className="w-5 h-5" />
+              <p className="text-xs md:text-sm tracking-tight mt-1">Value Your Trade</p>
+            </button>
+            <button className="flex flex-col justify-center items-center text-center px-2 md:py-4 aspect-square border border-slate-300 rounded bg-white hover:bg-slate-50/50 hover:text-gray-700 text-gray-400 cursor-pointer">
+              <Bike className="w-5 h-5" />
+               <p className="text-xs md:text-sm  tracking-tight mt-1">Schedule a Test Ride</p>
+            </button>
+            <button className="flex flex-col justify-center items-center text-center px-2 md:py-4 aspect-square border border-slate-300 rounded bg-white hover:bg-slate-50/50 hover:text-gray-700 text-gray-400 cursor-pointer">
+              <PhoneCall className="w-5 h-5" />
+              <p className="text-xs md:text-sm  tracking-tight mt-1">Click to Call</p>
+            </button>
+          </div>
         </div>
+        <FormModal
+          isOpen={openFormModal}
+          onClose={() => setOpenFormModal(false)}
+        >
+          <div className="bg-white rounded p-4 max-w-lg w-full">
+            <CalculateInstalmentForm title={formTitle} item={item} />
+            {/* <GetEPriceForm title={formTitle} item={item} /> */}
+          </div>
+        </FormModal>
       </div>
-      <FormModal isOpen={openFormModal} onClose={() => setOpenFormModal(false)}>
-        <div className="bg-white rounded p-4 max-w-lg w-full">
-          <CalculateInstalmentForm title={formTitle} item={item} />
-          {/* <GetEPriceForm title={formTitle} item={item} /> */}
-        </div>
-      </FormModal>
     </div>
   );
 }

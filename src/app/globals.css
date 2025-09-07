@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
 
 :root {
   --background: #ffffff;
@@ -39,9 +41,14 @@ h3 {
 }
 
 .styleInput {
-  @apply w-full cursor-default overflow-hidden rounded border border-slate-400 bg-white text-left shadow-sm focus:outline-gray-500 sm:text-sm py-2 px-3
+  @apply w-full cursor-default overflow-hidden rounded border border-slate-400 bg-white text-left shadow-sm focus:outline-gray-500 sm:text-sm py-2 px-3;
 }
 
 .styleLabel {
-  @apply block text-sm font-medium mb-1
+  @apply block text-sm font-medium mb-1;
+}
+
+/* global.css or a tailwind layer */
+.slick-dots li.slick-active div {
+  @apply bg-primary-500;
 }
