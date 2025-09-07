@@ -1,10 +1,11 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, Suspense } from "react";
 import SRPInventory from "./SRPInventory";
 import Filters from "./Filters";
+import SpinLoader from "@/components/commonComponents/loader/SpinLoader";
 
-export default function SRPPage() {
+const SRPPageContent = () => {
   const [inventoryItems, setInventoryItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -112,7 +113,7 @@ export default function SRPPage() {
     <div className="w-full bg-white">
       <div className="section-container py-12 flex flex-row items-start gap-6">
         {/* Sidebar filters */}
-        <div className="w-1/3 py-6 sticky top-24 self-start">
+        <div className="w-1/3 py-6 self-start">
           <Filters options={dynamicOptions} />
         </div>
 
@@ -125,5 +126,12 @@ export default function SRPPage() {
         />
       </div>
     </div>
+  );
+};
+export default function SRPPage() {
+  return (
+    <Suspense fallback={<SpinLoader />}>
+      <SRPPageContent />
+    </Suspense>
   );
 }

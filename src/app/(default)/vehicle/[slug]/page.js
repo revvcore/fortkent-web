@@ -2,7 +2,7 @@ import SingleVehiclePage from "@/components/pageComponents/inventory/singleVehic
 import { generateInventorySlug } from "@/lib/GenerateInventorySlug";
 
 export default async function InventoryDetailPage({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
 
   const res = await fetch(
     "https://portal.revvcore.com/export/inventory/json/680b71c9d79737af91836e8f",

@@ -1,10 +1,10 @@
-import { Geist_Mono, Manrope } from "next/font/google";
+import { Geist_Mono, Gabarito } from "next/font/google";
 import "../globals.css";
 import SiteHeader from "@/components/commonComponents/header/SiteHeader";
 import SiteFooter from "@/components/commonComponents/footer/SiteFooter";
 import ContactBar from "@/components/commonComponents/header/ContactBar";
 
-const fontSans = Manrope({
+const fontSans = Gabarito({
   variable: "--font-manrope-sans",
   subsets: ["latin"],
 });
