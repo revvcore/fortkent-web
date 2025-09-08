@@ -40,7 +40,7 @@ h2 {
 }
 
 h3 {
-  @apply text-xl font-bold mt-4 mb-2;
+  @apply text-xl font-bold;
 }
 
 .styleInput {

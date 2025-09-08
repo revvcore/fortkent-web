@@ -1,4 +1,5 @@
 "use client";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Pagination({ totalItems, itemsPerPage }) {
@@ -52,9 +53,9 @@ export default function Pagination({ totalItems, itemsPerPage }) {
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="px-4 py-2 mx-1 bg-gray-200 rounded disabled:opacity-50"
+        className="px-4 py-2 mx-1 bg-slate-100 rounded disabled:opacity-50"
       >
-        Previous
+        <ChevronLeft className="inline-block size-4" />
       </button>
       {getPageNumbers().map((page, idx) =>
         page === "..." ? (
@@ -67,8 +68,8 @@ export default function Pagination({ totalItems, itemsPerPage }) {
             onClick={() => handlePageChange(page)}
             className={`px-4 py-2 mx-1 rounded ${
               page === currentPage
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 hover:bg-gray-300"
+                ? "bg-primary-500 text-white"
+                : "bg-slate-100 hover:bg-slate-200"
             }`}
             disabled={page === currentPage}
           >
@@ -79,9 +80,9 @@ export default function Pagination({ totalItems, itemsPerPage }) {
       <button
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="px-4 py-2 mx-1 bg-gray-200 rounded disabled:opacity-50"
+        className="px-4 py-2 mx-1 bg-slate-100 rounded disabled:opacity-50"
       >
-        Next
+        <ChevronRight className="inline-block size-4" />
       </button>
     </div>
   );
