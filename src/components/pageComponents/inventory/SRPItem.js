@@ -102,7 +102,7 @@ export default function SRPItem({ item }) {
       </div>
       <div className="space-y-2 mt-2">
         <Link href={`/vehicle/${slug}`} prefetch={true}>
-          <StyledButton variant="success" className="w-full" size="md">
+          <StyledButton variant="success" className="w-full mb-2" size="md">
             Est. <b>{estMonthlyInst}</b>/mo.
           </StyledButton>
         </Link>

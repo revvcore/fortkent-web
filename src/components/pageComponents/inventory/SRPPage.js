@@ -4,11 +4,15 @@ import { useEffect, useState, useMemo, Suspense } from "react";
 import SRPInventory from "./SRPInventory";
 import Filters from "./Filters";
 import SpinLoader from "@/components/commonComponents/loader/SpinLoader";
-import SearchInventory from "./search/SearchInventory";
+import { useDevice } from "@/lib/useDevice";
+import StyledButton from "@/components/commonComponents/actions/buttons/StyledButton";
+import { X } from "lucide-react";
 
 const SRPPageContent = ({ make }) => {
   const [inventoryItems, setInventoryItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showFilters, setShowFilters] = useState(false);
+  const { IsTab, IsMob } = useDevice();
 
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("p")) || 1;
@@ -121,14 +125,50 @@ const SRPPageContent = ({ make }) => {
   );
 
   return (
-    <div className="w-full bg-white">
-      <div className="section-container py-12 flex md:flex-row flex-col items-start gap-6">
+    <div className="w-full bg-white relative">
+      <div className="section-container py-12 flex md:flex-row flex-col items-start gap-6 relative">
         {/* Sidebar filters */}
-        <div className="w-full md:w-1/3 py-6 self-start">
-          <Filters options={dynamicOptions} />
-        </div>
+        {IsTab || IsMob ? (
+          <>
+            <div className="relative">
+              <StyledButton
+                className="fixed w-fit right-4 bottom-6 z-50"
+                onClick={() => setShowFilters(true)}
+              >
+                Filters
+              </StyledButton>
+            </div>
+            {/* Slide-over menu for filters */}
+            {showFilters && (
+              <div className="fixed inset-0 z-50 flex">
+                {/* Overlay */}
+                <div
+                  className="fixed inset-0 bg-black/30"
+                  onClick={() => setShowFilters(false)}
+                />
+                {/* Drawer */}
+                <div className="relative bg-slate-50 w-80 max-w-full h-full max-h-screen overflow-auto shadow-lg animate-slide-in-right">
+                  <button
+                    className="text-red-500 size-6 aspect-square absolute top-4 right-4"
+                    onClick={() => setShowFilters(false)}
+                    aria-label="Close"
+                  >
+                    <X />
+                  </button>
+                  <Filters
+                    options={dynamicOptions}
+                    closeModal={() => setShowFilters(false)}
+                  />
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="w-full md:w-1/3 self-start">
+            <Filters options={dynamicOptions} />
+          </div>
+        )}
 
-        {/* Inventory list */}
         <SRPInventory
           items={paginatedItems}
           totalItems={filteredItems.length}

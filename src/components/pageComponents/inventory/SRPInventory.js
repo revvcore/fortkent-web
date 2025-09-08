@@ -9,11 +9,13 @@ export default function SRPVehiclesInventory({
   totalItems,
   itemsPerPage,
   loading,
+  cols = 2,
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const sort = searchParams.get("sort") || "latest";
+  const gridColsClass = `grid-cols-1 md:grid-cols-${cols}`;
 
   const updateQuery = (key, value) => {
     const params = new URLSearchParams(searchParams);
@@ -33,8 +35,8 @@ export default function SRPVehiclesInventory({
         </div>
       ) : (
         <div className="w-full p-4 flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-500">
+          <div className="flex flex-col-reverse md:flex-row md:items-center md:justify-between">
+            <p className="text-sm text-gray-500 mt-4">
               Available Vehicles: <span>{totalItems}</span>
             </p>
 
@@ -54,7 +56,7 @@ export default function SRPVehiclesInventory({
             </div>
           </div>
 
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className={`w-full grid ${gridColsClass} gap-4`}>
             {items.map((item) => (
               <SRPItem key={item._id} item={item} />
             ))}

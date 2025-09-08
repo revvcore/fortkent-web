@@ -1,12 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Search } from "lucide-react";
 import SearchableSelect from "@/components/commonComponents/form/SearchableSelect";
 import StyledButton from "@/components/commonComponents/actions/buttons/StyledButton";
 import RangeSlider from "@/components/commonComponents/form/RangeSlider";
 
-export default function Filters({ options }) {
+export default function Filters({ options, closeModal }) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -43,6 +42,7 @@ export default function Filters({ options }) {
       maxPrice: "",
     });
     setResetting(true);
+    closeModal?.();
     router.replace("?"); // clear query params
   };
 
@@ -96,6 +96,8 @@ export default function Filters({ options }) {
 
   return (
     <div className="w-full p-4 bg-gray-50 rounded space-y-4">
+      <h3>Filters</h3>
+
       <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
         {renderSelect("make", "Make", options.make)}
         {renderSelect("year", "Year", options.year)}
