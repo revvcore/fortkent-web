@@ -18,6 +18,16 @@ export const navLinks = [
      ]
      
   },
+   {
+     title:"Service & Parts",
+     isSubMenu:true,
+     subMenu:[
+      {title:"Schedule a Service Appointment", href:"/schedule-a-service-appointment"},
+      {title:"Order a Parts", href:"/order-a-part"},
+   
+     ]
+     
+  },
   {
     title: "Dealership Info",
     isSubMenu: true,

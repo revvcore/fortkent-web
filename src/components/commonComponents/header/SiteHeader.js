@@ -9,6 +9,7 @@ import {
   Disclosure,
 } from "@headlessui/react";
 import { siteIdentity } from "@/data/siteIdentity";
+import SearchInventory from "@/components/pageComponents/inventory/search/SearchInventory";
 
 export default function SiteHeader() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -33,12 +34,7 @@ export default function SiteHeader() {
          {/* 🔍 Search Bar */}
       <div className="flex items-center justify-center p-3">
         <div className="relative w-full max-w-full">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-full  bg-gray-100 text-black pl-10 pr-4 py-2 focus:outline-none"
-          />
-          <Search className="h-5 w-5 text-gray-500 absolute left-3 top-2.5" /> 
+          <SearchInventory />
         </div>
       </div>
           <ul className="flex space-x-6 items-center text-gray-400 justify-center">
