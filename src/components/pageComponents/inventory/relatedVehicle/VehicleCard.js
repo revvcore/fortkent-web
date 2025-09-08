@@ -1,15 +1,9 @@
 "use client";
 import StyledButton from "@/components/commonComponents/actions/buttons/StyledButton";
-import { siteIdentity } from "@/data/siteIdentity";
-import FormModal from "./FormModal";
-import { useState } from "react";
 import { generateInventorySlug } from "@/lib/GenerateInventorySlug";
 import Link from "next/link";
-import GetEPriceForm from "@/components/commonComponents/form/GetEPriceForm";
-export default function SRPItem({ item }) {
+export default function VehicleCard({ item }) {
   const slug = generateInventorySlug(item);
-  const [openFormModal, setOpenFormModal] = useState(false);
-  const [formTitle, setFormTitle] = useState("");
   const vehicleName =
     `${item.year} ${item.make} ${item.model} ${item.trim} ${item.class} ${item.conditionType} ${item?.specifications?.color?.exterior}` ||
     "Unknown Vehicle";
@@ -20,7 +14,7 @@ export default function SRPItem({ item }) {
   });
   // Calculate estimated monthly installment
   const principal = (item?.price?.sale || item?.price?.msrp || 0) - 1000;
-  const annualRate = 0.0779; // 7.79% annual interest rate
+  const annualRate = 0.064;
   const months = 84;
   const monthlyRate = annualRate / 12;
   const estimatedMonthly =
@@ -40,7 +34,7 @@ export default function SRPItem({ item }) {
     : null;
 
   return (
-    <div className="border p-4 flex flex-col gap-2 border-slate-300 rounded-lg hover:shadow-lg transition-all">
+    <div className="flex-1 border p-4 flex flex-col gap-2 border-slate-300 rounded-lg hover:shadow-lg transition-all bg-white">
       <div className="relative bg-slate-100">
         <img
           src={
@@ -73,17 +67,9 @@ export default function SRPItem({ item }) {
                     </span>
                   </td>
                 </tr>
-                {/* <tr>
-                  <td className="w-1/2 text-sm font-bold pb-1">Savings:</td>
-                  <td className="w-1/2 text-sm text-right pb-1">
-                    <span className="text-sm text-red-500 font-semibold">
-                      {saving}
-                    </span>
-                  </td>
-                </tr> */}
               </>
             ) : null}
-            <tr>
+            {/* <tr>
               <td className="w-1/2 text-sm font-bold pb-1">VIN:</td>
               <td className="w-1/2 text-sm text-right pb-1">
                 {item?.vin || "Unknown"}
@@ -96,56 +82,17 @@ export default function SRPItem({ item }) {
                   {item?.specifications?.color?.exterior || "Unknown"}
                 </td>
               </tr>
-            ) : null}
+            ) : null} */}
           </tbody>
         </table>
       </div>
       <div className="space-y-2 mt-2">
         <Link href={`/vehicle/${slug}`}>
-          <StyledButton variant="success" className="w-full" size="md">
-            Est. <b>{estMonthlyInst}</b>/mo.
-          </StyledButton>
-        </Link>
-        <StyledButton
-          variant="outline"
-          className="w-full"
-          size="sm"
-          onClick={() => {
-            setOpenFormModal(true), setFormTitle("E-Price");
-          }}
-        >
-          Get E-Price
-        </StyledButton>
-        <StyledButton
-          variant="outline"
-          className="w-full"
-          size="sm"
-          onClick={() => {
-            setOpenFormModal(true), setFormTitle("Pre-Approved");
-          }}
-        >
-          Get Pre-Approved
-        </StyledButton>
-        <Link href={`/vehicle/${slug}`}>
           <StyledButton variant="outline" className="w-full" size="sm">
             Full Details
           </StyledButton>
         </Link>
-        <p className="text-sm text-center text-gray-500 mt-2">
-          or Call{" "}
-          <a
-            href={`tel:+1${siteIdentity.phoneSale.replace(/\D/g, "")}`}
-            className="font-bold"
-          >
-            {siteIdentity.phoneSale}
-          </a>
-        </p>
       </div>
-      <FormModal isOpen={openFormModal} onClose={() => setOpenFormModal(false)}>
-        <div className="bg-white rounded p-4 max-w-lg w-full">
-          <GetEPriceForm title={formTitle} item={item} />
-        </div>
-      </FormModal>
     </div>
   );
 }

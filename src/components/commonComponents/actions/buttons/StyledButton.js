@@ -9,6 +9,8 @@ const variants = {
   outline:
     "border-1 border-slate-300 bg-white text-gray-500 hover:bg-slate-100 hover:text-gray-700",
   error: "bg-red-500 text-white hover:bg-slate-900",
+  text: "text-center text-primary-500 text-sm font-semibold",
+  tab: "border-b-2 border-transparent hover:border-primary-500 text-gray-600 hover:text-gray-900 font-semibold",
   //   accent: "text-white bg-accent border border-accent ring-4 ring-accent/50",
 
   //   white:
@@ -32,6 +34,7 @@ const sizes = {
   xs: "px-2 py-1 text-sm rounded",
   menu: "p-2 rounded-lg",
   null: "px-0 py-0",
+  tab: "px-0 py-2 text-sm md:text-base rounded-none",
 };
 
 export default function StyledButton({

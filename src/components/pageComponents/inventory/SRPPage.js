@@ -4,6 +4,9 @@ import { useEffect, useState, useMemo, Suspense } from "react";
 import SRPInventory from "./SRPInventory";
 import Filters from "./Filters";
 import SpinLoader from "@/components/commonComponents/loader/SpinLoader";
+import { Search } from "lucide-react";
+import SearchInventory from "./search/SearchInv";
+// import SearchInventory from "./search/SearchInventory";
 
 const SRPPageContent = () => {
   const [inventoryItems, setInventoryItems] = useState([]);
@@ -131,6 +134,7 @@ const SRPPageContent = () => {
 export default function SRPPage() {
   return (
     <Suspense fallback={<SpinLoader />}>
+      <SearchInventory />
       <SRPPageContent />
     </Suspense>
   );
