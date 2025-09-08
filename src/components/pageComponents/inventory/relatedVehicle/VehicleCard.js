@@ -87,7 +87,7 @@ export default function VehicleCard({ item }) {
         </table>
       </div>
       <div className="space-y-2 mt-2">
-        <Link href={`/vehicle/${slug}`}>
+  <Link href={`/vehicle/${slug}`} prefetch={true}>
           <StyledButton variant="outline" className="w-full" size="sm">
             Full Details
           </StyledButton>

@@ -101,7 +101,7 @@ export default function SRPItem({ item }) {
         </table>
       </div>
       <div className="space-y-2 mt-2">
-        <Link href={`/vehicle/${slug}`}>
+        <Link href={`/vehicle/${slug}`} prefetch={true}>
           <StyledButton variant="success" className="w-full" size="md">
             Est. <b>{estMonthlyInst}</b>/mo.
           </StyledButton>
@@ -126,7 +126,7 @@ export default function SRPItem({ item }) {
         >
           Get Pre-Approved
         </StyledButton>
-        <Link href={`/vehicle/${slug}`}>
+        <Link href={`/vehicle/${slug}`} prefetch>
           <StyledButton variant="outline" className="w-full" size="sm">
             Full Details
           </StyledButton>
