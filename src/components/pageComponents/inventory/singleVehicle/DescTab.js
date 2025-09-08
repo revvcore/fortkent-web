@@ -3,7 +3,7 @@ import MarkDownRenderer from "@/components/commonComponents/markdown/MarkDownRen
 export default function DescTab({ item }) {
   return (
     <div>
-        <h3>Description</h3>
+      <h2>Description</h2>
       <MarkDownRenderer content={item.description} />
     </div>
   );

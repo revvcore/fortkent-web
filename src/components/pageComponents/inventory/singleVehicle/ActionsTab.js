@@ -1,9 +1,10 @@
 "use client";
 import StyledButton from "@/components/commonComponents/actions/buttons/StyledButton";
-import { siteIdentity } from "@/data/siteIdentity";
+// import { siteIdentity } from "@/data/siteIdentity";
 import FormModal from "../FormModal";
 import { useState } from "react";
-import Link from "next/link";
+// import Link from "next/link";
+import MakeOfferForm from "@/components/commonComponents/form/MakeOfferForm";
 import GetEPriceForm from "@/components/commonComponents/form/GetEPriceForm";
 import CalculateInstalmentForm from "@/components/commonComponents/form/CalculateInstalmentForm";
 import { Bike, DollarSign, PhoneCall } from "lucide-react";
@@ -18,7 +19,7 @@ export default function ActionsTab({ item }) {
   });
   // Calculate estimated monthly installment
   const principal = (item?.price?.sale || item?.price?.msrp || 0) - 1000;
-  const annualRate = 0.064;
+  const annualRate = 0.0779; // 7.79% annual interest rate
   const months = 84;
   const monthlyRate = annualRate / 12;
   const estimatedMonthly =
@@ -43,7 +44,10 @@ export default function ActionsTab({ item }) {
         {showSavings ? (
           <div className="mx-auto text-center mb-4">
             <p className="text-2xl font-black animate-pulse">
-              🎉 <span className="bg-gradient-to-r text-transparent bg-clip-text from-green-500 to-cyan-500">SAVE {saving}</span>
+              🎉{" "}
+              <span className="bg-gradient-to-r text-transparent bg-clip-text from-green-500 to-cyan-500">
+                SAVE {saving}
+              </span>
             </p>
           </div>
         ) : null}
@@ -80,9 +84,16 @@ export default function ActionsTab({ item }) {
             </p>
           </div>
           <div className="p-2 border-t border-slate-300">
-            <p className="text-center text-primary-500 text-sm font-semibold">
+            <StyledButton
+              variant="text"
+              size="null"
+              className="w-full"
+              onClick={() => {
+                setOpenFormModal(true), setFormTitle("Personalize Payment");
+              }}
+            >
               Personalize Payment
-            </p>
+            </StyledButton>
           </div>
         </div>
         <div className="space-y-2 mt-2">
@@ -111,7 +122,7 @@ export default function ActionsTab({ item }) {
             className="w-full"
             size="sm"
             onClick={() => {
-              setOpenFormModal(true), setFormTitle("Incentive");
+              setOpenFormModal(true), setFormTitle("Make Offer");
             }}
           >
             Make Offer
@@ -120,15 +131,21 @@ export default function ActionsTab({ item }) {
           <div className="mt-6 grid grid-cols-3 gap-2">
             <button className="flex flex-col justify-center items-center text-center px-2 md:py-4 aspect-square border border-slate-300 rounded bg-white hover:bg-slate-50/50 hover:text-gray-700 text-gray-400 cursor-pointer">
               <DollarSign className="w-5 h-5" />
-              <p className="text-xs md:text-sm tracking-tight mt-1">Value Your Trade</p>
+              <p className="text-xs md:text-sm tracking-tight mt-1">
+                Value Your Trade
+              </p>
             </button>
             <button className="flex flex-col justify-center items-center text-center px-2 md:py-4 aspect-square border border-slate-300 rounded bg-white hover:bg-slate-50/50 hover:text-gray-700 text-gray-400 cursor-pointer">
               <Bike className="w-5 h-5" />
-               <p className="text-xs md:text-sm  tracking-tight mt-1">Schedule a Test Ride</p>
+              <p className="text-xs md:text-sm  tracking-tight mt-1">
+                Schedule a Test Ride
+              </p>
             </button>
             <button className="flex flex-col justify-center items-center text-center px-2 md:py-4 aspect-square border border-slate-300 rounded bg-white hover:bg-slate-50/50 hover:text-gray-700 text-gray-400 cursor-pointer">
               <PhoneCall className="w-5 h-5" />
-              <p className="text-xs md:text-sm  tracking-tight mt-1">Click to Call</p>
+              <p className="text-xs md:text-sm  tracking-tight mt-1">
+                Click to Call
+              </p>
             </button>
           </div>
         </div>
@@ -137,42 +154,18 @@ export default function ActionsTab({ item }) {
           onClose={() => setOpenFormModal(false)}
         >
           <div className="bg-white rounded p-4 max-w-lg w-full">
-            <CalculateInstalmentForm title={formTitle} item={item} />
-            {/* <GetEPriceForm title={formTitle} item={item} /> */}
+            {formTitle === "Personalize Payment" && (
+              <CalculateInstalmentForm title={formTitle} item={item} />
+            )}
+            {(formTitle === "E-Price" || formTitle === "Incentive") && (
+              <GetEPriceForm title={formTitle} item={item} />
+            )}
+            {formTitle === "Make Offer" && (
+              <MakeOfferForm title={formTitle} item={item} />
+            )}
           </div>
         </FormModal>
       </div>
     </div>
   );
 }
-
-const formFields = [
-  {
-    label: "First Name",
-    name: "firstName",
-    type: "text",
-    placeholder: "Enter first name",
-    required: true,
-  },
-  {
-    label: "Last Name",
-    name: "lastName",
-    type: "text",
-    placeholder: "Enter last name",
-    required: true,
-  },
-  {
-    label: "Email",
-    name: "email",
-    type: "email",
-    placeholder: "Enter email address",
-    required: true,
-  },
-  {
-    label: "Phone",
-    name: "phone",
-    type: "tel",
-    placeholder: "Enter phone number",
-    required: true,
-  },
-];

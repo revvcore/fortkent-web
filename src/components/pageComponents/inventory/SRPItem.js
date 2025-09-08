@@ -20,7 +20,7 @@ export default function SRPItem({ item }) {
   });
   // Calculate estimated monthly installment
   const principal = (item?.price?.sale || item?.price?.msrp || 0) - 1000;
-  const annualRate = 0.064;
+  const annualRate = 0.0779; // 7.79% annual interest rate
   const months = 84;
   const monthlyRate = annualRate / 12;
   const estimatedMonthly =

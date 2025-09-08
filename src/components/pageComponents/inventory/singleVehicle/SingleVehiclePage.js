@@ -3,8 +3,11 @@ import RelatedVehicles from "../relatedVehicle/RelatedVehicles";
 import ActionsTab from "./ActionsTab";
 import DescTab from "./DescTab";
 import MediaGallery from "./MediaGallery";
+import UnitSpecsTab from "./UnitSpecsTab";
+import { useState } from "react";
 
 export default function SingleVehiclePage({ item }) {
+  const [activeTab, setActiveTab] = useState("desc");
   const vehicleName =
     `${item.year} ${item.make} ${item.model} ${item.trim} ${item.class} ${item.conditionType} ${item?.specifications?.color?.exterior} ${item.stockNumber}` ||
     "Unknown Vehicle";
@@ -18,7 +21,34 @@ export default function SingleVehiclePage({ item }) {
               Home - {item.conditionType} - {vehicleName}
             </div>
             <MediaGallery media={item.media} />
-            <DescTab item={item} />
+            <div className="py-4">
+              <div className="flex mb-4 border border-slate-300 w-fit rounded-full overflow-clip p-1">
+                <button
+                  className={`py-2 px-4 font-semibold 
+                    ${
+                      activeTab === "unitSpecs"
+                        ? "bg-primary-500 text-white rounded-full"
+                        : "text-gray-500 cursor-pointer"
+                    }`}
+                  onClick={() => setActiveTab("unitSpecs")}
+                >
+                  Unit Specifications
+                </button>
+                <button
+                  className={`py-2 px-4 font-semibold
+                    ${
+                      activeTab === "desc"
+                        ? "bg-primary-500 text-white rounded-full"
+                        : "text-gray-500 cursor-pointer"
+                    }`}
+                  onClick={() => setActiveTab("desc")}
+                >
+                  Description
+                </button>
+              </div>
+              {activeTab === "unitSpecs" && <UnitSpecsTab item={item} />}
+              {activeTab === "desc" && <DescTab item={item} />}
+            </div>
           </div>
           <div className="w-full md:w-1/3">
             <div>

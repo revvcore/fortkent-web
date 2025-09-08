@@ -7,7 +7,7 @@ export default function GetEPriceForm({ title, item }) {
     <div>
       <div className="text-start">
         <p className="text-xl tracking-tight font-bold">
-          Get {title} for {vehicleName}
+          {title} for {vehicleName}
         </p>
         <p className="text-sm text-gray-600 mb-4">
           Submit the form below, and our representative will be in touch
@@ -34,7 +34,7 @@ export default function GetEPriceForm({ title, item }) {
         size="md"
         onClick={() => setOpenFormModal(false)}
       >
-        Get {title}
+        Make Offer
       </StyledButton>
       <p className="text-xs text-gray-500 mt-2">
         By participating, you consent to receive text messages sent by an
@@ -72,6 +72,13 @@ const formFields = [
     name: "phone",
     type: "tel",
     placeholder: "Enter phone number",
+    required: true,
+  },
+  {
+    label: "Your Offer (in USD)",
+    name: "offer",
+    type: "number",
+    placeholder: "Enter your offer",
     required: true,
   },
 ];
