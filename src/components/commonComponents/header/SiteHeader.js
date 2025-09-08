@@ -14,33 +14,34 @@ export default function SiteHeader() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   return (
-    <header className="w-full  text-black">
-      {/* 🔍 Search Bar */}
-      <div className="flex items-center justify-center p-3">
-        <div className="relative w-full max-w-md">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-full rounded-full bg-gray-100 text-black pl-10 pr-4 py-2 focus:outline-none"
-          />
-          <Search className="h-5 w-5 text-gray-500 absolute left-3 top-2.5" /> {/* ✅ Lucide icon */}
-        </div>
-      </div>
+    <header className="w-full section-container text-black">
+     
 
       {/* Navbar */}
       <div className="page-container flex items-center justify-between p-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 md:w-1/5">
           <img
-            className="h-12"
+            className="h-12 lg:h-20"
             src={siteIdentity.logo}
             alt={siteIdentity.siteName}
           />
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:block md:w-3/5">
-          <ul className="flex space-x-6 items-center justify-center">
+        <nav className="hidden md:block md:w-4/5">
+         {/* 🔍 Search Bar */}
+      <div className="flex items-center justify-center p-3">
+        <div className="relative w-full max-w-full">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="w-full  bg-gray-100 text-black pl-10 pr-4 py-2 focus:outline-none"
+          />
+          <Search className="h-5 w-5 text-gray-500 absolute left-3 top-2.5" /> 
+        </div>
+      </div>
+          <ul className="flex space-x-6 items-center text-gray-400 justify-center">
             {navLinks.map((nav, idx) =>
               nav.isSubMenu ? (
                 <li key={idx}>

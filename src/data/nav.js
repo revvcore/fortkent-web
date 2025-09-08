@@ -4,25 +4,25 @@ export const navLinks = [
     href: "/",
   },
   {
-    title: "Inventory",
+    title: "Contact",
+    href: "/contact",
+  },
+   {
+    title: "inventory",
     href: "/inventory",
   },
   {
-    title: "About",
+    title: "Dealership Info",
     isSubMenu: true,
     subMenu: [
       {
-        title: "About Dealership",
+        title: "About",
         href: "/about",
       },
-      {
-        title: "Team",
-        href: "/about/team",
-      },
-      { title: "Privacy Policy", href: "/privacy-policy" },
+      { title: "Empowerment", href: "/empowerment" },
     ],
   },
-  {
+   {
     title: "Contact",
     href: "/contact",
   },
