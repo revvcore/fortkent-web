@@ -5,7 +5,7 @@ export default function ContactBar(){
     return (
         <div className="bg-black p-1">
 
-        <div className="section-container flex  text-white ">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex  text-white ">
             <div className="flex items-center ">
   <MapPin className="stroke-black text-gray-800 fill-current" />
   <h4 className="uppercase">{siteIdentity.address}{" "}{siteIdentity.city}{", "}{siteIdentity.state}{" "}{siteIdentity.zip}{"  "}</h4>

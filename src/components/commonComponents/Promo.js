@@ -1,6 +1,6 @@
 export default function Promo({
     title = "About",
-    image = "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=800"
+    image = "/images/promo"
 }) {
     return (
         <div className="relative">

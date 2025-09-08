@@ -1,7 +1,7 @@
 export default function HeroSection(){
     return(
         <>
-        <div className="text-center justify-items-center py-10 section-container ">
+        <div className="text-center justify-items-center section-container ">
                 <div className="max-w-3xl">
 
                     <h1>You'll Be Back Riding In No Time!</h1>

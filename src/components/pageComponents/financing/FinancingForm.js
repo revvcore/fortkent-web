@@ -1,6 +1,6 @@
 export default function FinancingForm() {
     return (
-        <div className="max-w-2xl mx-auto py-8">
+        <div className="max-w-2xl mx-auto section-container ">
             <p className="text-gray-500 text-center mb-6">
                 Please note that your information is saved on our server as you enter it!
             </p>

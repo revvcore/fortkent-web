@@ -1,6 +1,6 @@
 export default function AppointmentForm() {
     return (
-        <div className="section-container py-12">
+        <div className="section-container ">
 
         <form className="max-w-xl mx-auto p-4 bg-white rounded shadow space-y-4 ">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

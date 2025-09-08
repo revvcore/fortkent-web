@@ -3,7 +3,7 @@ import StyledButton from "@/components/commonComponents/actions/buttons/StyledBu
 export default function HowToContact() {
     return (
         <>
-            <div className="section-container py-12">
+            <div className="section-container ">
                 <div className="relative">
                     <img
                         className="w-full h-[400px] rounded-2xl "
