@@ -5,11 +5,13 @@ export default function Promo({
     return (
         <div className="relative">
             <img
-                className="w-full h-[300px] "
+                className="w-full h-[300px] object-cover"
                 src={image}
                 alt={title}
             />
-            <h1 className="absolute inset-0 flex items-center justify-center text-white">{title}</h1>
+            {/* Overlay for darkness */}
+            <div className="absolute inset-0 bg-black/60" aria-hidden="true" />
+            <h1 className="absolute inset-0 flex items-center justify-center text-white text-3xl font-bold z-10">{title}</h1>
         </div>
     );
 }
