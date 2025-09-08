@@ -98,8 +98,8 @@ export default function Banner() {
   const totalPages = Math.ceil(sliders.length / currentVideosPerPage);
 
   return (
-    <div className="overflow-hidden mt-5 mb-5">
-      <div className="flex h-1/2 items-center justify-center p-4 bg-black">
+    <div className="overflow-hidden mt-5 ">
+      <div className="flex items-center justify-center pb-1 bg-black">
         {/* Left Arrow */}
         <button
           onClick={handlePrevious}
@@ -119,7 +119,7 @@ export default function Banner() {
         </button>
 
         {/* Video Grid Container */}
-        <div className="w-full h-full max-w-7xl mx-auto overflow-hidden">
+        <div className="w-full h-fit max-w-full  overflow-hidden">
           <div
             className="flex transition-transform duration-700 ease-in-out"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -132,7 +132,7 @@ export default function Banner() {
                 onMouseLeave={() => handleVideoHover(video._id, false)}
               >
                 {/* Video Container */}
-                <div className="relative h-[640px] overflow-hidden">
+                <div className="relative h-[400px] overflow-hidden">
                   <video
                     className="w-full object-cover transition-transform duration-500"
                     poster={video.fallBackImg}

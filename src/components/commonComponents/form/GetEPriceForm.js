@@ -34,7 +34,7 @@ export default function GetEPriceForm({ title, item }) {
         size="md"
         onClick={() => setOpenFormModal(false)}
       >
-        Submit
+        Get {title}
       </StyledButton>
       <p className="text-xs text-gray-500 mt-2">
         By participating, you consent to receive text messages sent by an

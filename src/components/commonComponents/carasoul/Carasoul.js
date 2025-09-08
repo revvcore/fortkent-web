@@ -83,8 +83,8 @@ export default function Carasoul() {
   return (
    
 
-    <div className="overflow-hidden mt-5 mb-5">
-      <div className="flex h-1/2 items-center justify-center p-8 relative">
+    <div className="overflow-hidden  mb-5">
+      <div className="flex h-1/2 items-center justify-center pb-8 relative">
         {/* Left Arrow */}
         <button
           onClick={handlePrevious}
@@ -143,7 +143,7 @@ export default function Carasoul() {
           </div>
 
           {/* Pagination Dots */}
-          <div className="flex justify-center items-center mt-12 space-x-3">
+          <div className="flex justify-center items-center mt-2 space-x-3">
             {Array.from({ length: totalPages }).map((_, index) => (
               <button
                 key={index}
@@ -154,8 +154,8 @@ export default function Carasoul() {
                 }}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
                   index === currentIndex
-                    ? "bg-black scale-125 shadow-lg"
-                    : "bg-black hover:bg-white/60 hover:scale-110"
+                    ? "bg-gray-600 scale-125 shadow-lg"
+                    : "bg-gray-200 hover:bg-white/60 hover:scale-110"
                 }`}
                 aria-label={`Go to page ${index + 1}`}
               />

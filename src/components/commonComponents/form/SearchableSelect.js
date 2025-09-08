@@ -34,38 +34,37 @@ export default function SearchableSelect({
 
   return (
     <div className="w-full">
-      {label && (
-        <label className="styleLabel">{label}</label>
-      )}
+      {label && <label className="styleLabel">{label}</label>}
 
       <Combobox
         value={value}
         onChange={(val) => onChange({ target: { name, value: val } })}
       >
         <div className="relative">
-          <div className="relative w-full cursor-default overflow-hidden rounded border border-slate-400 bg-white text-left shadow-sm focus:outline-gray-500 sm:text-sm">
-            <ComboboxInput
-              className="w-full border-none py-2 pl-3 leading-5 text-gray-900 focus:ring-0"
-              displayValue={(opt) => opt}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder={placeholder}
-            />
-            {/* Buttons */}
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 gap-1">
-              {value && (
-                <button
-                  type="button"
-                  onClick={handleClear}
-                  className="p-1 text-red-500 cursor-pointer"
-                >
-                  <X className="h-4 w-4" aria-hidden="true" />
-                </button>
-              )}
-              <ComboboxButton className="cursor-pointer">
+          <ComboboxButton className="cursor-pointer w-full">
+            <div className="relative w-full cursor-default overflow-hidden rounded border border-slate-400 bg-white text-left shadow-sm focus:outline-gray-500 sm:text-sm">
+              <ComboboxInput
+                className="w-full border-none py-2 pl-3 leading-5 text-gray-900 focus:ring-0"
+                displayValue={(opt) => opt}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder={placeholder}
+              />
+              {/* Buttons */}
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 gap-1">
+                {value && (
+                  <button
+                    type="button"
+                    onClick={handleClear}
+                    className="p-1 text-red-500 cursor-pointer"
+                  >
+                    <X className="h-4 w-4" aria-hidden="true" />
+                  </button>
+                )}
+
                 <ChevronDown className="h-5 w-5 text-gray-400" />
-              </ComboboxButton>
+              </div>
             </div>
-          </div>
+          </ComboboxButton>
 
           <Transition
             as={Fragment}

@@ -4,16 +4,21 @@ import { useEffect, useState, useMemo, Suspense } from "react";
 import SRPInventory from "./SRPInventory";
 import Filters from "./Filters";
 import SpinLoader from "@/components/commonComponents/loader/SpinLoader";
+import { useDevice } from "@/lib/useDevice";
+import StyledButton from "@/components/commonComponents/actions/buttons/StyledButton";
+import { X } from "lucide-react";
 
-const SRPPageContent = () => {
+const SRPPageContent = ({ make }) => {
   const [inventoryItems, setInventoryItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showFilters, setShowFilters] = useState(false);
+  const { IsTab, IsMob } = useDevice();
 
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("p")) || 1;
   const itemsPerPage = 12;
-  const sortBy = searchParams.get("sortBy") || "";
-  const sortOrder = searchParams.get("sortOrder") || "";
+  const sort = searchParams.get("sort") || "latest";
+  const searchParam = searchParams.get("s") || "";
 
   // ✅ parse filters from URL only (Filters component keeps them in sync)
   const filters = {
@@ -32,7 +37,9 @@ const SRPPageContent = () => {
     const fetchInventoryItems = async () => {
       setLoading(true);
       const response = await fetch(
-        "https://portal.revvcore.com/export/inventory/json/680b71c9d79737af91836e8f"
+        `https://portal.revvcore.com/export/inventory/json/680b71c9d79737af91836e8f?search=${
+          searchParam || ""
+        }&make=${make || ""}`
       );
       const data = await response.json();
       setInventoryItems(data);
@@ -63,19 +70,27 @@ const SRPPageContent = () => {
       result = result.filter((i) => i?.price?.msrp <= Number(filters.maxPrice));
 
     // sorting
-    result = [...result].sort((a, b) => {
-      if (sortBy === "price") {
-        return sortOrder === "asc"
-          ? a?.price?.msrp - b?.price?.msrp
-          : b?.price?.msrp - a?.price?.msrp;
-      }
-      if (sortBy === "year") {
-        return sortOrder === "asc" ? a.year - b.year : b.year - a.year;
-      }
-      return 0;
-    });
+    result = [...result];
+    switch (sort) {
+      case "priceHigh":
+        result.sort((a, b) => (b?.price?.msrp || 0) - (a?.price?.msrp || 0));
+        break;
+      case "priceLow":
+        result.sort((a, b) => (a?.price?.msrp || 0) - (b?.price?.msrp || 0));
+        break;
+      case "yearLatest":
+        result.sort((a, b) => (b.year || 0) - (a.year || 0));
+        break;
+      case "yearOld":
+        result.sort((a, b) => (a.year || 0) - (b.year || 0));
+        break;
+      case "latest":
+      default:
+        // Assuming latest means by _id or created order, fallback to no sort
+        break;
+    }
     return result;
-  }, [filters, inventoryItems, sortBy, sortOrder]);
+  }, [filters, inventoryItems, sort]);
 
   // ✅ options cleaner
   const cleanOptions = (arr, isYear = false) => {
@@ -110,19 +125,56 @@ const SRPPageContent = () => {
   );
 
   return (
-    <div className="w-full bg-white">
-      <div className="section-container py-12 flex flex-row items-start gap-6">
+    <div className="w-full bg-white relative">
+      <div className="section-container py-12 flex md:flex-row flex-col items-start gap-6 relative">
         {/* Sidebar filters */}
-        <div className="w-1/3 py-6 self-start">
-          <Filters options={dynamicOptions} />
-        </div>
+        {IsTab || IsMob ? (
+          <>
+            <div className="relative">
+              <StyledButton
+                className="fixed w-fit right-4 bottom-6 z-50"
+                onClick={() => setShowFilters(true)}
+              >
+                Filters
+              </StyledButton>
+            </div>
+            {/* Slide-over menu for filters */}
+            {showFilters && (
+              <div className="fixed inset-0 z-50 flex">
+                {/* Overlay */}
+                <div
+                  className="fixed inset-0 bg-black/30"
+                  onClick={() => setShowFilters(false)}
+                />
+                {/* Drawer */}
+                <div className="relative bg-slate-50 w-80 max-w-full h-full max-h-screen overflow-auto shadow-lg animate-slide-in-right">
+                  <button
+                    className="text-red-500 size-6 aspect-square absolute top-4 right-4"
+                    onClick={() => setShowFilters(false)}
+                    aria-label="Close"
+                  >
+                    <X />
+                  </button>
+                  <Filters
+                    options={dynamicOptions}
+                    closeModal={() => setShowFilters(false)}
+                  />
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="w-full md:w-1/3 self-start">
+            <Filters options={dynamicOptions} />
+          </div>
+        )}
 
-        {/* Inventory list */}
         <SRPInventory
           items={paginatedItems}
           totalItems={filteredItems.length}
           itemsPerPage={itemsPerPage}
           loading={loading}
+          sort={sort}
         />
       </div>
     </div>

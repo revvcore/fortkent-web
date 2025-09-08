@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
 
 :root {
   --background: #ffffff;
@@ -27,7 +29,10 @@ body {
 }
 
 .section-container {
-  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  @apply mx-auto max-w-6xl px-4 sm:px-6 lg:px-8;
+}
+h1 {
+  @apply text-3xl font-bold mt-6 mb-4;
 }
 
 h2 {
@@ -35,13 +40,18 @@ h2 {
 }
 
 h3 {
-  @apply text-xl font-bold mt-4 mb-2;
+  @apply text-xl font-bold;
 }
 
 .styleInput {
-  @apply w-full cursor-default overflow-hidden rounded border border-slate-400 bg-white text-left shadow-sm focus:outline-gray-500 sm:text-sm py-2 px-3
+  @apply w-full cursor-default overflow-hidden rounded border border-slate-400 bg-white text-left shadow-sm focus:outline-gray-500 sm:text-sm py-2 px-3;
 }
 
 .styleLabel {
-  @apply block text-sm font-medium mb-1
+  @apply block text-sm font-medium mb-1;
+}
+
+/* global.css or a tailwind layer */
+.slick-dots li.slick-active div {
+  @apply bg-primary-500;
 }

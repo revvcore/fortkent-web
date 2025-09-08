@@ -11,8 +11,8 @@ export default function SRPItem({ item }) {
   const [openFormModal, setOpenFormModal] = useState(false);
   const [formTitle, setFormTitle] = useState("");
   const vehicleName =
-    `${item.year} ${item.make} ${item.model}` || "Unknown Vehicle";
-
+    `${item.year} ${item.make} ${item.model} ${item.trim} ${item.class} ${item.conditionType} ${item?.specifications?.color?.exterior}` ||
+    "Unknown Vehicle";
   const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -20,7 +20,7 @@ export default function SRPItem({ item }) {
   });
   // Calculate estimated monthly installment
   const principal = (item?.price?.sale || item?.price?.msrp || 0) - 1000;
-  const annualRate = 0.064;
+  const annualRate = 0.0779; // 7.79% annual interest rate
   const months = 84;
   const monthlyRate = annualRate / 12;
   const estimatedMonthly =
@@ -56,7 +56,7 @@ export default function SRPItem({ item }) {
         ) : null}
       </div>
       <div className="flex-1">
-        <h3 className="font-bold">{vehicleName}</h3>
+        <h3 className="font-bold line-clamp-2">{vehicleName}</h3>
         <table className="w-full border-collapse">
           <tbody>
             <tr>
@@ -101,19 +101,12 @@ export default function SRPItem({ item }) {
         </table>
       </div>
       <div className="space-y-2 mt-2">
+        <Link href={`/vehicle/${slug}`} prefetch={true}>
+          <StyledButton variant="success" className="w-full mb-2" size="md">
+            Est. <b>{estMonthlyInst}</b>/mo.
+          </StyledButton>
+        </Link>
         <StyledButton
-          href={`/inventory/${item.slug}`}
-          variant="success"
-          className="w-full"
-          size="md"
-          onClick={() => {
-            setOpenFormModal(true), setFormTitle("E-Price");
-          }}
-        >
-          Est. <b>{estMonthlyInst}</b>/mo.
-        </StyledButton>
-        <StyledButton
-          href={`/inventory/${item.slug}`}
           variant="outline"
           className="w-full"
           size="sm"
@@ -124,7 +117,6 @@ export default function SRPItem({ item }) {
           Get E-Price
         </StyledButton>
         <StyledButton
-          href={`/inventory/${item.slug}`}
           variant="outline"
           className="w-full"
           size="sm"
@@ -134,12 +126,12 @@ export default function SRPItem({ item }) {
         >
           Get Pre-Approved
         </StyledButton>
-        <Link href={`/vehicle/${slug}`}>
+        <Link href={`/vehicle/${slug}`} prefetch>
           <StyledButton variant="outline" className="w-full" size="sm">
             Full Details
           </StyledButton>
         </Link>
-        <p className="text-sm text-center text-gray-500">
+        <p className="text-sm text-center text-gray-500 mt-2">
           or Call{" "}
           <a
             href={`tel:+1${siteIdentity.phoneSale.replace(/\D/g, "")}`}
