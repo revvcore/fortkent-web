@@ -3,6 +3,7 @@ import "../globals.css";
 import SiteHeader from "@/components/commonComponents/header/SiteHeader";
 import SiteFooter from "@/components/commonComponents/footer/SiteFooter";
 import ContactBar from "@/components/commonComponents/header/ContactBar";
+import GlobalRouteLoader from "@/components/commonComponents/loader/GlobalRouteLoader";
 
 const fontSans = Gabarito({
   variable: "--font-manrope-sans",
@@ -23,10 +24,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${fontSans.variable} ${fontMono.variable} antialiased`}>
-        <ContactBar/>
-        <SiteHeader/>
+        <ContactBar />
+        <SiteHeader />
+        <GlobalRouteLoader />
         {children}
-        <SiteFooter/>
+        <SiteFooter />
       </body>
     </html>
   );

@@ -1,149 +1,110 @@
-import React, { useState, useRef, useEffect } from "react";
+import SpinLoader from "@/components/commonComponents/loader/SpinLoader";
+import { currencyFormatter } from "@/lib/CurrencyFormatter";
+import { generateInventorySlug } from "@/lib/GenerateInventorySlug";
+import { ChevronRight, Search } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
-const SearchInventory = () => {
+export default function SearchInventory() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState(false);
-  const popupRef = useRef(null);
 
-  // Debounced search and API filter using query param
   useEffect(() => {
-    if (query.trim().length === 0) {
-      setResults([]);
-      setShowPopup(false);
-      return;
+    const fetchInventoryItems = async () => {
+      setLoading(true);
+      const response = await fetch(
+        `https://portal.revvcore.com/export/inventory/json/680b71c9d79737af91836e8f?search=${query}`
+      );
+      const data = await response.json();
+      setResults(data);
+      setLoading(false);
+    };
+    if (query.length > 2) {
+      fetchInventoryItems();
     }
-    setLoading(true);
-
-    const searchQuery = encodeURIComponent(query.trim());
-
-    const handler = setTimeout(() => {
-      fetch(
-        `https://portal.revvcore.com/export/inventory/json/680b71c9d79737af91836e8f?search=${searchQuery}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          const items = data.results || [];
-          setResults(items.slice(0, 5)); // Show top 5 results
-          setShowPopup(items.length > 0);
-        })
-        .catch(() => {
-          setResults([]);
-          setShowPopup(false);
-        })
-        .finally(() => setLoading(false));
-    }, 200);
-
-    return () => clearTimeout(handler);
   }, [query]);
 
-  const handleInputChange = (e) => {
-    setQuery(e.target.value);
-  };
-
-  const handleResultClick = (item) => {
-    // You can customize the fields here according to your display needs
-    setQuery(
-      [
-        item.year,
-        item.make,
-        item.model,
-        item.stockNumber,
-        item.vin,
-        item.color,
-        item.trim,
-        item.class,
-        item.name,
-      ]
-        .filter(Boolean)
-        .join(" - ")
-    );
-    setShowPopup(false);
-    // Optionally handle selection
-  };
-
-  // Hide popup when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setShowPopup(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   return (
-    <div style={{ position: "relative", width: 300 }}>
-      <input
-        type="text"
-        value={query}
-        onChange={handleInputChange}
-        placeholder="Search by year, make, model, stock #, VIN, color, trim, class..."
-        style={{ width: "100%", padding: "8px" }}
-        onFocus={() => results.length > 0 && setShowPopup(true)}
-        autoComplete="off"
-      />
-      {loading && (
-        <div
-          style={{
-            position: "absolute",
-            top: "110%",
-            left: 0,
-            width: "100%",
-            background: "#fff",
-            zIndex: 1000,
-            padding: "8px",
-          }}
-        >
-          Loading...
-        </div>
-      )}
-      {showPopup && results.length > 0 && (
-        <div
-          ref={popupRef}
-          style={{
-            position: "absolute",
-            top: "110%",
-            left: 0,
-            width: "100%",
-            background: "#fff",
-            border: "1px solid #ccc",
-            borderRadius: 4,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-            zIndex: 1000,
-          }}
-        >
-          {results.map((item) => (
-            <div
-              key={item._id}
-              onClick={() => handleResultClick(item)}
-              style={{
-                padding: "8px",
-                cursor: "pointer",
-                borderBottom: "1px solid #eee",
-              }}
-            >
-              {[
-                item.year,
-                item.make,
-                item.model,
-                item.stockNumber,
-                item.vin,
-                item.color,
-                item.trim,
-                item.class,
-                item.name,
-              ]
-                .filter(Boolean)
-                .join(" - ")}
+    <div className="relative">
+      <div className="relative w-full cursor-default overflow-hidden rounded border border-slate-400 bg-white text-left shadow-sm ">
+        <input
+          type="text"
+          value={query}
+          className="focus:outline-gray-500 sm:text-sm py-2 px-3 w-full"
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search Inventory (e.g., '2018 KAYO Storm')"
+          onFocus={() => setShowPopup(true)}
+          onBlur={() => setShowPopup(false)}
+        />
+        <Search className="size-4 aspect-square absolute right-2 top-1/2 transform -translate-y-1/2" />
+      </div>
+      {showPopup && results.length > 3 && (
+        <div className="absolute max-w-screen z-50 bg-white border border-slate-300 rounded shadow-lg shadow-slate-300 max-h-[60vh] overflow-auto">
+          {loading ? (
+            <SpinLoader />
+          ) : (
+            <div>
+              <div className="py-2 px-4 flex justify-between items-center">
+                <p>Total Results: {results.length}</p>
+                <Link
+                  href={`/inventory?s=${query}`}
+                  className="text-sm font-semibold text-primary-500"
+                  prefetch={true}
+                >
+                  See All Results{" "}
+                  <ChevronRight className="inline-block size-4" />
+                </Link>
+              </div>
+              {results.slice(0, 5).map((item) => {
+                const vehicleName =
+                  `${item.year} ${item.make} ${item.model} ${item.trim} ${item.class} ${item.conditionType} ${item?.specifications?.color?.exterior}` ||
+                  "Unknown Vehicle";
+                const msrp =
+                  currencyFormatter.format(item?.price?.msrp) || null;
+                const sale =
+                  currencyFormatter.format(item?.price?.sale) || null;
+                const showSavings = msrp && sale && msrp > sale;
+                const saving = showSavings
+                  ? currencyFormatter.format(
+                      item?.price?.msrp - item?.price?.sale
+                    )
+                  : null;
+                return (
+                  <Link
+                    href={`/vehicle/${generateInventorySlug(item)}`}
+                    key={item._id}
+                    className="flex border-t border-slate-300 bg-white hover:bg-slate-100 p-4"
+                    prefetch={true}
+                  >
+                    <img
+                      src={item.media?.imgFeatured?.url || "/no-image.webp"}
+                      alt=""
+                      className="w-16 aspect-square object-cover mr-4"
+                    />
+                    <div className="flex-1">
+                      <p className="font-semibold">{vehicleName}</p>
+                      <p>
+                        <span
+                          className={`text-sm text-gray-500 ${
+                            sale ? "line-through" : ""
+                          }`}
+                        >
+                          {msrp}
+                        </span>
+                        {sale && (
+                          <span className="text-primary-500 ml-1">{sale}</span>
+                        )}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
-          ))}
+          )}
         </div>
       )}
     </div>
   );
-};
-
-export default SearchInventory;
+}
