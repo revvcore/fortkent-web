@@ -5,7 +5,7 @@ export default function Vehicle(){
                 <div className="grid grid-cols-1 md:grid-cols-2">
                     <div className="p-2 ">
                         <img
-                            className="rounded-3xl"
+                            className="rounded-3xl h-[400px] w-full object-cover"
                             src="/about/vehicles.webp"
                             alt="Vehicle Image"
                         />

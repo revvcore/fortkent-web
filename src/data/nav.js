@@ -3,13 +3,20 @@ export const navLinks = [
     title: "Home",
     href: "/",
   },
-  {
-    title: "Contact",
-    href: "/contact",
-  },
+ 
    {
     title: "inventory",
     href: "/inventory",
+  },
+  {
+     title:"Financing",
+     isSubMenu:true,
+     subMenu:[
+      {title:"Financing", href:"/financing"},
+      {title:"Pre-Qualify", href:"/financing/pre-qualify"},
+      {title:"Credit Application", href:"/financing/credit-application"},
+     ]
+     
   },
   {
     title: "Dealership Info",
@@ -19,11 +26,10 @@ export const navLinks = [
         title: "About",
         href: "/about",
       },
-      { title: "Empowerment", href: "/empowerment" },
+      { title: "Employment", href: "/about/employment" },
+      { title: "Meet Our Staff", href: "/about/meet-our-staff" },
+      { title: "Contact Us", href: "/about/contact-us" },
     ],
   },
-   {
-    title: "Contact",
-    href: "/contact",
-  },
+  
 ];

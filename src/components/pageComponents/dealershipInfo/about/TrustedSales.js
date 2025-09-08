@@ -1,11 +1,11 @@
 export default function TrustedSales(){
     return(
         <>
-        <div className="section-container py-10">
+       <div className="section-container py-10">
            <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="p-2">
                 <img
-                className="rounded-3xl"
+                className="rounded-3xl h-[400px] w-full object-cover"
                  src="/about/trust.webp"
                 alt="Trusted Sales Image"
                 />

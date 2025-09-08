@@ -1,4 +1,5 @@
 import { siteIdentity } from "@/data/siteIdentity";
+import { salesServiceHours, customerSupport } from "@/data/footerInfo";
 import { Facebook } from "lucide-react";
 import Image from "next/image";
 
@@ -37,54 +38,32 @@ export default function SiteFooter() {
                 </p>
               </div>
             </div>
-            <div className=" text-white max-w-sm    ">
-              <h2 className="text-xl  text-center  bg-neutral-800 p-6">
-                Sales & Service Hours
-              </h2>
-
-              <div className=" divide-gray-700">
-                {/* Mon-Fri */}
-                <div className="flex justify-between p-3 hover:bg-neutral-800">
-                  <span>Mon-Fri</span>
-                  <span>8:00 AM - 5:00 PM</span>
-                </div>
-
-                {/* Sat */}
-                <div className="flex justify-between p-3 bg-neutral-800">
-                  <span>Sat</span>
-                  <span>8:00 AM - 12:00 PM</span>
-                </div>
-
-                {/* Sun */}
-                <div className="flex justify-between p-3 hover:bg-neutral-800">
-                  <span>Sun</span>
-                  <span className="text-red-500 font-medium">Gone Riding!</span>
-                </div>
+            <div className="text-white max-w-sm">
+              <h2 className="text-xl text-center bg-neutral-800 p-6">Sales & Service Hours</h2>
+              <div className="divide-gray-700">
+                {salesServiceHours.map((item, idx) => (
+                  <div
+                    key={item.day}
+                    className={`flex justify-between p-3 ${item.highlight ? "bg-neutral-800" : "hover:bg-neutral-800"}`}
+                  >
+                    <span>{item.day}</span>
+                    <span className={item.closed ? "text-red-500 font-medium" : ""}>{item.hours}</span>
+                  </div>
+                ))}
               </div>
             </div>
-            <div className=" text-white max-w-sm    ">
-              <h2 className="text-xl  text-center  bg-neutral-800 p-6">
-                Customer Support
-              </h2>
-
-              <div className=" divide-gray-700">
-                {/* Mon-Fri */}
-                <div className="flex justify-between p-3 hover:bg-neutral-800">
-                  <span>Sales</span>
-                  <span>(207) 834-3607</span>
-                </div>
-
-                {/* Sat */}
-                <div className="flex justify-between p-3 bg-neutral-800">
-                  <span>Service </span>
-                  <span>(207) 834-3659</span>
-                </div>
-
-                {/* Sun */}
-                <div className="flex justify-between p-3 hover:bg-neutral-800">
-                  <span>Parts </span>
-                  <span className=" font-medium">(207) 834-3659</span>
-                </div>
+            <div className="text-white max-w-sm">
+              <h2 className="text-xl text-center bg-neutral-800 p-6">Customer Support</h2>
+              <div className="divide-gray-700">
+                {customerSupport.map((item, idx) => (
+                  <div
+                    key={item.label}
+                    className={`flex justify-between p-3 ${item.highlight ? "bg-neutral-800" : "hover:bg-neutral-800"}`}
+                  >
+                    <span>{item.label}</span>
+                    <span className={item.bold ? "font-medium" : ""}>{item.value}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
