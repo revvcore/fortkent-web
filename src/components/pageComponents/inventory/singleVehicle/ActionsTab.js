@@ -1,18 +1,16 @@
 "use client";
 import StyledButton from "@/components/commonComponents/actions/buttons/StyledButton";
 import { siteIdentity } from "@/data/siteIdentity";
-import FormModal from "./FormModal";
+import FormModal from "../FormModal";
 import { useState } from "react";
-import { generateInventorySlug } from "@/lib/GenerateInventorySlug";
 import Link from "next/link";
 import GetEPriceForm from "@/components/commonComponents/form/GetEPriceForm";
-export default function SRPItem({ item }) {
-  const slug = generateInventorySlug(item);
+import CalculateInstalmentForm from "@/components/commonComponents/form/CalculateInstalmentForm";
+import { Bike, DollarSign, PhoneCall } from "lucide-react";
+export default function ActionsTab({ item }) {
   const [openFormModal, setOpenFormModal] = useState(false);
   const [formTitle, setFormTitle] = useState("");
-  const vehicleName =
-    `${item.year} ${item.make} ${item.model}` || "Unknown Vehicle";
-
+ 
   const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -40,37 +38,28 @@ export default function SRPItem({ item }) {
     : null;
 
   return (
-    <div className="border p-4 flex flex-col gap-2 border-slate-300 rounded-lg hover:shadow-lg transition-all">
-      <div className="relative bg-slate-100">
-        <img
-          src={
-            item?.media?.imgFeatured?.url || "/images/fkps-still-in-crate.webp"
-          }
-          alt={vehicleName}
-          className="w-full h-[200px] object-contain"
-        />
+    <div className="p-4 flex flex-col gap-2 bg-slate-50 border border-slate-200 rounded">
+      <div className="">
         {showSavings ? (
-          <div className="absolute mx-auto text-center text-sm font-bold top-0 px-3 py-1 rounded-full bg-green-500 text-white">
+          <div className="mx-auto text-center text-sm font-bold px-3 py-1 rounded-full bg-green-500 text-white">
             🎉 SAVE {saving}
           </div>
         ) : null}
       </div>
       <div className="flex-1">
-        <h3 className="font-bold">{vehicleName}</h3>
+        {/* <h3 className="font-bold">{vehicleName}</h3> */}
         <table className="w-full border-collapse">
           <tbody>
             <tr>
               <td className="w-1/2 text-sm font-bold pb-1">Retail Price:</td>
-              <td className="w-1/2 text-sm text-right pb-1">{msrp}</td>
+              <td className="w-1/2  text-right pb-1">{msrp}</td>
             </tr>
             {showSavings ? (
               <>
                 <tr>
                   <td className="w-1/2 text-sm font-bold pb-1">Sale Price:</td>
-                  <td className="w-1/2 text-sm text-right pb-1">
-                    <span className="text-sm text-red-500 font-semibold">
-                      {sale}
-                    </span>
+                  <td className="w-1/2   text-right pb-1">
+                    <span className=" text-red-500 font-semibold">{sale}</span>
                   </td>
                 </tr>
                 {/* <tr>
@@ -83,26 +72,22 @@ export default function SRPItem({ item }) {
                 </tr> */}
               </>
             ) : null}
-            <tr>
-              <td className="w-1/2 text-sm font-bold pb-1">VIN:</td>
-              <td className="w-1/2 text-sm text-right pb-1">
-                {item?.vin || "Unknown"}
-              </td>
-            </tr>
-            {item?.specifications?.color?.exterior ? (
-              <tr>
-                <td className="w-1/2 text-sm font-bold pb-1">Color:</td>
-                <td className="w-1/2 text-sm text-right pb-1">
-                  {item?.specifications?.color?.exterior || "Unknown"}
-                </td>
-              </tr>
-            ) : null}
           </tbody>
         </table>
       </div>
+      <div className="flex flex-col border border-slate-300 rounded bg-white">
+        <div className="p-2 text-center">
+          <p>Est. Payment</p>
+          <p className="text-2xl font-bold text-gray-900 -mt-1">
+            <b>{estMonthlyInst}</b>/mo.
+          </p>
+        </div>
+        <div className="p-2 border-t border-slate-300">
+          <p className="text-center text-primary-500">Personalize Payment</p>
+        </div>
+      </div>
       <div className="space-y-2 mt-2">
         <StyledButton
-          href={`/inventory/${item.slug}`}
           variant="success"
           className="w-full"
           size="md"
@@ -110,50 +95,81 @@ export default function SRPItem({ item }) {
             setOpenFormModal(true), setFormTitle("E-Price");
           }}
         >
-          Est. <b>{estMonthlyInst}</b>/mo.
-        </StyledButton>
-        <StyledButton
-          href={`/inventory/${item.slug}`}
-          variant="outline"
-          className="w-full"
-          size="sm"
-          onClick={() => {
-            setOpenFormModal(true), setFormTitle("E-Price");
-          }}
-        >
           Get E-Price
         </StyledButton>
         <StyledButton
-          href={`/inventory/${item.slug}`}
           variant="outline"
           className="w-full"
           size="sm"
           onClick={() => {
-            setOpenFormModal(true), setFormTitle("Pre-Approved");
+            setOpenFormModal(true), setFormTitle("Incentive");
           }}
         >
-          Get Pre-Approved
+          Get Incentive
         </StyledButton>
-        <Link href={`/vehicle/${slug}`}>
-          <StyledButton variant="outline" className="w-full" size="sm">
-            Full Details
-          </StyledButton>
-        </Link>
-        <p className="text-sm text-center text-gray-500">
-          or Call{" "}
-          <a
-            href={`tel:+1${siteIdentity.phoneSale.replace(/\D/g, "")}`}
-            className="font-bold"
-          >
-            {siteIdentity.phoneSale}
-          </a>
-        </p>
+        <StyledButton
+          variant="outline"
+          className="w-full"
+          size="sm"
+          onClick={() => {
+            setOpenFormModal(true), setFormTitle("Incentive");
+          }}
+        >
+          Make Offer
+        </StyledButton>
+
+        <div className="mt-6 grid grid-cols-3 gap-2">
+          <button className="flex flex-col justify-center items-center text-center px-2 py-4 border border-slate-300 rounded bg-white hover:bg-slate-50/50 hover:text-gray-700 text-gray-400 cursor-pointer">
+            <DollarSign className="w-5 h-5" />
+            <p>Value Your Trade</p>
+          </button>
+          <button className="flex flex-col justify-center items-center text-center px-2 py-4 border border-slate-300 rounded bg-white hover:bg-slate-50/50 hover:text-gray-700 text-gray-400 cursor-pointer">
+            <Bike className="w-5 h-5" />
+            <p>Schedule a Test Ride</p>
+          </button>
+          <button className="flex flex-col justify-center items-center text-center px-2 py-4 border border-slate-300 rounded bg-white hover:bg-slate-50/50 hover:text-gray-700 text-gray-400 cursor-pointer">
+            <PhoneCall className="w-5 h-5" />
+            <p>Click to Call</p>
+          </button>
+        </div>
       </div>
       <FormModal isOpen={openFormModal} onClose={() => setOpenFormModal(false)}>
         <div className="bg-white rounded p-4 max-w-lg w-full">
-          <GetEPriceForm title={formTitle} item={item} />
+          <CalculateInstalmentForm title={formTitle} item={item} />
+          {/* <GetEPriceForm title={formTitle} item={item} /> */}
         </div>
       </FormModal>
     </div>
   );
 }
+
+const formFields = [
+  {
+    label: "First Name",
+    name: "firstName",
+    type: "text",
+    placeholder: "Enter first name",
+    required: true,
+  },
+  {
+    label: "Last Name",
+    name: "lastName",
+    type: "text",
+    placeholder: "Enter last name",
+    required: true,
+  },
+  {
+    label: "Email",
+    name: "email",
+    type: "email",
+    placeholder: "Enter email address",
+    required: true,
+  },
+  {
+    label: "Phone",
+    name: "phone",
+    type: "tel",
+    placeholder: "Enter phone number",
+    required: true,
+  },
+];

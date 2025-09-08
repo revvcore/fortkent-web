@@ -1,7 +1,9 @@
 import BRP from "./BRP";
+import Clothing from "./Clothing";
 import HowToContact from "./HowToContact";
 import Promo from "./Promo";
 import TrustedSales from "./TrustedSales";
+import Vehicle from "./Vehicle";
 
 export default function AboutPage(){
     return(
@@ -11,6 +13,8 @@ export default function AboutPage(){
             <BRP/>
             <TrustedSales/>
             <HowToContact/>
+            <Clothing/>
+            <Vehicle/>
         </div>
         </>
     )
