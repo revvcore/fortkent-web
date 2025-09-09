@@ -9,7 +9,7 @@ export default function SiteFooter() {
       <div className="py-6 bg-[#232323]">
         <div className="section-container">
           {/* Upper Secion */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-6 ">
+          <div className="grid justify-items-center grid-cols-1 lg:grid-cols-3 lg:gap-6 ">
             <div>
               <div>
                 <img className="h-12 " src={siteIdentity.logo} alt={siteIdentity.siteName} />
@@ -38,7 +38,7 @@ export default function SiteFooter() {
                 </p>
               </div>
             </div>
-            <div className="text-white max-w-sm">
+            <div className="text-white w-full lg:max-w-sm">
               <h2 className="text-xl text-center bg-neutral-800 p-6">Sales & Service Hours</h2>
               <div className="divide-gray-700">
                 {salesServiceHours.map((item, idx) => (
@@ -52,7 +52,7 @@ export default function SiteFooter() {
                 ))}
               </div>
             </div>
-            <div className="text-white max-w-sm">
+            <div className="text-white w-full lg:max-w-sm">
               <h2 className="text-xl text-center bg-neutral-800 p-6">Customer Support</h2>
               <div className="divide-gray-700">
                 {customerSupport.map((item, idx) => (
@@ -68,7 +68,7 @@ export default function SiteFooter() {
             </div>
           </div>
           {/* Lower Section */}
-          <div className="text-white mt-10 flex  justify-between">
+          <div className="text-white mt-10 flex flex-col lg:flex-row  justify-between">
             <p>
               2025 Fort Kent Powersports. All Rights Reserved.
               <span className="hover:text-red-600 ml-6 mr-2"> Contact</span>|

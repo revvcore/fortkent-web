@@ -1,4 +1,4 @@
-import Promo from "../../commonComponents/Promo";
+import Promo from "../../commonComponents/HomePageSlider";
 import FinancingForm from "./FinancingForm";
 import HeroSection from "./HeroSection";
 

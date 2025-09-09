@@ -11,8 +11,8 @@ export default function TrustedSales(){
                 />
             </div>
             <div className="p-2 place-content-center">
-            <h1>Trusted Sales and Service for BRP & Polaris® Products</h1>
-            <p className="text-gray-400">We stand behind the BRP & Polaris® Industries products we sell and the service provided by our factory trained technicians. Our sales and service experience, along with our enthusiasm for powersports make us the right choice for all things BRP & Polaris®.</p>
+            <h2>Trusted Sales and Service for BRP & Polaris® Products</h2>
+            <p className="text-gray-400 mt-3">We stand behind the BRP & Polaris® Industries products we sell and the service provided by our factory trained technicians. Our sales and service experience, along with our enthusiasm for powersports make us the right choice for all things BRP & Polaris®.</p>
 
             </div>
             

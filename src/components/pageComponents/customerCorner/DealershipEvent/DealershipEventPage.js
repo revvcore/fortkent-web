@@ -1,4 +1,4 @@
-import Promo from "@/components/commonComponents/Promo";
+import Promo from "@/components/commonComponents/HomePageSlider";
 import HeroSection from "./HeroSection";
 
 export default function DealershipEventPage() {

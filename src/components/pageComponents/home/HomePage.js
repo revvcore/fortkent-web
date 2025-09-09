@@ -1,12 +1,14 @@
 import Carasoul from "@/components/commonComponents/carasoul/Carasoul";
-import Banner from "./Banner";
 import ExperiencePage from "./ExperiencePage";
 import FeaturedVehicles from "./FeaturedVehicles";
+import PromotionBanners from "./PromotionBanners";
+import BrowseInventory from "./BrowseInventory";
 export default function HomePage() {
   return (
     <div>
-      <Banner />
+      <PromotionBanners/>
       <Carasoul />
+      <BrowseInventory/>
       <FeaturedVehicles />
       <ExperiencePage />
     </div>

@@ -7,7 +7,7 @@ export default function ContactForm() {
       <div className="section-container py-10">
           <div className="text-center justify-items-center  ">
         <div className="max-w-3xl">
-          <h1>Contact Our Store in {siteIdentity.city}, {siteIdentity.state}</h1>
+          <h2>Contact Our Store in {siteIdentity.city}, {siteIdentity.state}</h2>
           <p className="text-gray-400">
             Contact us at {siteIdentity.siteName} located conveniently in {siteIdentity.city}, {siteIdentity.state}. We are only a short drive from Caribou. Serving
             communities near Edmundston, and Frenchville. Call, email or come in
@@ -18,10 +18,10 @@ export default function ContactForm() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-10">
           {/* Left: Contact Form */}
           <div>
-            <h2 className="font-bold text-2xl mb-1 italic">
+            <h3 className="  mb-1 ">
               We Look Forward to Hearing from You!
-            </h2>
-            <p className="text-gray-600 mb-4 text-sm">
+            </h3>
+            <p className="text-gray-600 mb-4 ">
               Please note that your information is saved on our server as you
               enter it.
             </p>

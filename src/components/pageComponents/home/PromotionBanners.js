@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
 import { sliders } from "@/data/homePageSlider";
 import MarkDownRenderer from "@/components/commonComponents/markdown/MarkDownRenderer";
 
-export default function Banner() {
+export default function PromotionBanners() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoScrolling, setIsAutoScrolling] = useState(true);
   const [playingVideo, setPlayingVideo] = useState(null);

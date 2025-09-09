@@ -3,7 +3,7 @@ import StyledButton from "@/components/commonComponents/actions/buttons/StyledBu
 export default function CreditContact() {
   return (
     <div
-      className="relative  min-h-[400px] flex items-center justify-center py-12"
+      className="relative h-[520px]  md:min-h-[400px] flex items-center justify-center py-12"
       style={{
         backgroundImage: 'url("/images/credit.webp")',
         backgroundAttachment: 'fixed',
@@ -15,9 +15,9 @@ export default function CreditContact() {
       <div className="bg-black/60 absolute inset-0" aria-hidden="true" >
       <div className="section-container  w-full ">
         <div className="  py-12 flex flex-col  items-center justify-center text-center text-white ">
-          <h1 className="mb-4">
+          <h2 className="mb-4">
             You can add in all your parts and accessories, apparel, extended service plan, cycle insurance, and more. You’ll have everything you need, and you only have to make one monthly payment.
-          </h1>
+          </h2>
           <p className="max-w-3xl mb-6 ">
             And because we finance more ATVs, UTVs, personal watercraft, and snowmobiles than anyone else, we understand your special needs. Only someone who knows how you feel when you hit the starter button understands that hitting the road ASAP is your biggest concern. That’s why we make it easy.
           </p>

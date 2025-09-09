@@ -11,8 +11,8 @@ export default function FinanceOption(){
                 />
             </div>
             <div className="p-2 place-content-center">
-            <h1>Simple Financing Options for Your New Ride</h1>
-            <p className="text-gray-400">If you’ve decided you want to finance your new ATV, personal watercraft, or snowmobile, you’re not alone. Seventy percent of our clients finance theirs. With a minimum down payment and approved credit, you can arrange a credit financing with us and get out on the road a few hours after picking out your ATV, UTV, personal watercraft, or snowmobile.</p>
+            <h2>Simple Financing Options for Your New Ride</h2>
+            <p className="text-gray-400 mt-3 ">If you’ve decided you want to finance your new ATV, personal watercraft, or snowmobile, you’re not alone. Seventy percent of our clients finance theirs. With a minimum down payment and approved credit, you can arrange a credit financing with us and get out on the road a few hours after picking out your ATV, UTV, personal watercraft, or snowmobile.</p>
 
             </div>
             

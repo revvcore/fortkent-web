@@ -1,4 +1,4 @@
-import Promo from "@/components/commonComponents/Promo";
+import Promo from "@/components/commonComponents/HomePageSlider";
 import ScheduleApointment from "./ScheduleApointment";
 import AppointmentForm from "./AppointmentForm";
 
@@ -7,7 +7,6 @@ export default function ScheduleServicePage(){
         <>
         <Promo title="Schedule a Service Appointment" />
         <ScheduleApointment/>
-        
         <AppointmentForm/>
         </>
     )

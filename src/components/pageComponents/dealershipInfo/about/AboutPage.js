@@ -1,7 +1,7 @@
 import BRP from "./BRP";
 import Clothing from "./Clothing";
 import HowToContact from "./HowToContact";
-import Promo from "../../../commonComponents/Promo";
+import Promo from "../../../commonComponents/HomePageSlider";
 import TrustedSales from "./TrustedSales";
 import Vehicle from "./Vehicle";
 

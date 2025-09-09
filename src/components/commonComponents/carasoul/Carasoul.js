@@ -1,93 +1,39 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef } from "react";
+import Slider from "react-slick";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { promotions as imageData } from "@/data/brandPromotions";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export default function Carasoul() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAutoScrolling, setIsAutoScrolling] = useState(true);
-  const autoScrollRef = useRef(null);
+  const sliderRef = useRef();
 
-  const imagesPerPage = {
-    mobile: 1,
-    tablet: 1,
-    desktop: 1,
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 700,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    pauseOnHover: true,
+    arrows: false,
+    appendDots: dots => (
+      <div className="flex justify-center items-center mt-2 space-x-3">{dots}</div>
+    ),
+    customPaging: i => (
+      <button className="w-2 h-2 rounded-full transition-all duration-300 bg-gray-200 hover:bg-white/60 hover:scale-110" />
+    ),
   };
-
-  const [currentImagesPerPage, setCurrentImagesPerPage] = useState(
-    imagesPerPage.desktop
-  );
-
-  // Responsive handling
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setCurrentImagesPerPage(imagesPerPage.mobile);
-      } else if (window.innerWidth < 1024) {
-        setCurrentImagesPerPage(imagesPerPage.tablet);
-      } else {
-        setCurrentImagesPerPage(imagesPerPage.desktop);
-      }
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  // Auto scroll functionality
-  useEffect(() => {
-    if (isAutoScrolling) {
-      autoScrollRef.current = setInterval(() => {
-        setCurrentIndex((prevIndex) => {
-          const maxIndex =
-            Math.ceil(imageData.length / currentImagesPerPage) - 1;
-          return prevIndex >= maxIndex ? 0 : prevIndex + 1;
-        });
-      }, 5000);
-    }
-
-    return () => {
-      if (autoScrollRef.current) {
-        clearInterval(autoScrollRef.current);
-      }
-    };
-  }, [isAutoScrolling, currentImagesPerPage]);
-
-  const handlePrevious = () => {
-    setIsAutoScrolling(false);
-    setCurrentIndex((prevIndex) => {
-      const maxIndex = Math.ceil(imageData.length / currentImagesPerPage) - 1;
-      return prevIndex <= 0 ? maxIndex : prevIndex - 1;
-    });
-    setTimeout(() => setIsAutoScrolling(true), 10000);
-  };
-
-  const handleNext = () => {
-    setIsAutoScrolling(false);
-    setCurrentIndex((prevIndex) => {
-      const maxIndex = Math.ceil(imageData.length / currentImagesPerPage) - 1;
-      return prevIndex >= maxIndex ? 0 : prevIndex + 1;
-    });
-    setTimeout(() => setIsAutoScrolling(true), 10000);
-  };
-
-  const getCurrentImages = () => {
-    const startIndex = currentIndex * currentImagesPerPage;
-    return imageData.slice(startIndex, startIndex + currentImagesPerPage);
-  };
-
-  const totalPages = Math.ceil(imageData.length / currentImagesPerPage);
 
   return (
-   
-
     <div className="overflow-hidden  ">
       <div className="flex h-1/2 items-center justify-center relative">
         {/* Left Arrow */}
         <button
-          onClick={handlePrevious}
+          onClick={() => sliderRef.current.slickPrev()}
           className="absolute  -left-1 z-20 bg-gray-400 backdrop-blur-sm text-white p-2  transition-all duration-300"
           aria-label="Previous images"
         >
@@ -96,7 +42,7 @@ export default function Carasoul() {
 
         {/* Right Arrow */}
         <button
-          onClick={handleNext}
+          onClick={() => sliderRef.current.slickNext()}
           className="absolute -right-2 z-20 bg-gray-400 backdrop-blur-sm text-white p-2  transition-all duration-300"
           aria-label="Next images"
         >
@@ -105,8 +51,8 @@ export default function Carasoul() {
 
         {/* Image Grid Container */}
         <div className="w-full h-full max-w-7xl mx-auto section-container">
-          <div className="grid grid-cols-1 transition-all duration-700 ease-in-out">
-            {getCurrentImages().map((image, index) => (
+          <Slider ref={sliderRef} {...settings}>
+            {imageData.map((image, index) => (
               <div
                 key={image._id}
                 className="relative border border-white/10"
@@ -140,30 +86,9 @@ export default function Carasoul() {
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* Pagination Dots */}
-          <div className="flex justify-center items-center mt-2 space-x-3">
-            {Array.from({ length: totalPages }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  setCurrentIndex(index);
-                  setIsAutoScrolling(false);
-                  setTimeout(() => setIsAutoScrolling(true), 10000);
-                }}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === currentIndex
-                    ? "bg-gray-600 scale-125 shadow-lg"
-                    : "bg-gray-200 hover:bg-white/60 hover:scale-110"
-                }`}
-                aria-label={`Go to page ${index + 1}`}
-              />
-            ))}
-          </div>
+          </Slider>
         </div>
       </div>
     </div>
-   
   );
 }
