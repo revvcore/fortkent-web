@@ -27,7 +27,7 @@ function PrevArrow({ onClick }) {
   );
 }
 
-export default function RelatedVehicles({ make }) {
+export default function RelatedVehicles({ make, toShow, toScroll }) {
   const [inventoryItems, setInventoryItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -55,25 +55,28 @@ export default function RelatedVehicles({ make }) {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
+    slidesToShow: toShow || 4,
+    slidesToScroll: toScroll || 1,
     arrows: true,
     autoplay: true,
     autoplaySpeed: 5000,
+    adaptiveHeight: false,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     appendDots: (dots) => (
-      <div className="py-2">
+      <div className="p-4">
         <ul className="flex justify-center">{dots}</ul>
       </div>
     ),
     customPaging: () => (
-      <div className="w-2 h-2 rounded-full bg-gray-300 hover:bg-red-400 transition-colors mt-2" />
+      <div className="w-2 h-2 rounded-full bg-gray-300 hover:bg-red-400 transition-colors my-6 mx-auto" />
     ),
     responsive: [
       { breakpoint: 1024, settings: { slidesToShow: 2 } },
       { breakpoint: 640, settings: { slidesToShow: 1 } },
     ],
+    // Add gap between slides by wrapping each slide's content
+    // Remove className here, as it does not apply to slick slides
   };
 
   return (
@@ -85,7 +88,7 @@ export default function RelatedVehicles({ make }) {
       ) : (
         <Slider {...settings}>
           {inventoryItems.map((vehicle) => (
-            <div key={vehicle._id} className="px-2">
+            <div key={vehicle._id} className="px-1 h-full flex-1">
               <VehicleCard item={vehicle} />
             </div>
           ))}
