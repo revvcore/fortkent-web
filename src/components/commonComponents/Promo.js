@@ -5,7 +5,7 @@ export default function Promo({
     return (
         <div className="relative">
             <img
-                className="w-full h-[300px] object-cover"
+                className="w-full h-[300px] object-cover "
                 src={image}
                 alt={title}
             />

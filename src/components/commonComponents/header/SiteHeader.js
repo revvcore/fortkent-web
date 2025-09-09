@@ -15,11 +15,11 @@ export default function SiteHeader() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   return (
-    <header className="w-full mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 p-3 text-black">
+    <header className="section-container pb-5 text-black">
      
 
       {/* Navbar */}
-      <div className=" flex items-center justify-between p-4">
+      <div className=" flex items-center justify-between p-2">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 md:w-1/5">
           <img

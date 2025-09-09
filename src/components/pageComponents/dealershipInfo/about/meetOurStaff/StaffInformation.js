@@ -22,7 +22,7 @@ export default function StaffInformation() {
             : staffProfiles.filter((profile) => profile.department === selectedDept);
 
     return (
-        <div className="section-container  justify-items-center">
+        <div className="section-container py-10 justify-items-center">
             {/* Filter Buttons */}
             <div className="flex flex-wrap gap-6 items-center mb-8 ">
                 {departments.map((dept) => (

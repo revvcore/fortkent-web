@@ -1,7 +1,7 @@
 export default function ScheduleApointment(){
     return(
         <>
-        <div className="section-container">
+        <div className="section-container py-10">
            <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="p-2">
                 <img

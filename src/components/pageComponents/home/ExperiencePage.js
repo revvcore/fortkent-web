@@ -3,7 +3,7 @@ export default function ExperiencePage(){
         <>
         
 
-        <div className="section-container">
+        <div className="section-container py-10">
            <h1 >
             Experiene the family difference
             </h1> 

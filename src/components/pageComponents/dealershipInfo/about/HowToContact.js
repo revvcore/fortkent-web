@@ -3,14 +3,14 @@ import StyledButton from "@/components/commonComponents/actions/buttons/StyledBu
 export default function HowToContact() {
     return (
         <>
-            <div className="section-container ">
+            <div className="section-container py-10 ">
                 <div className="relative">
                     <img
                         className="w-full h-[400px] rounded-2xl "
-                        src="https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=800"
+                        src="/images/contact"
                         alt="About"
                     />
-                   <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white p-6">
+                   <div className="absolute inset-0 flex flex-col items-center justify-center text-center bg-black/60 text-white p-6" aria-hidden="true" >
             <h1 className="text-2xl max-w-3xl mb-4 ">
               Comprehensive Selection of Clothing and Accessories for Top
               Powersports Brands

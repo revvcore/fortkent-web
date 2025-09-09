@@ -3,17 +3,18 @@ import StyledButton from "@/components/commonComponents/actions/buttons/StyledBu
 export default function CreditContact() {
   return (
     <div
-      className="relative min-h-[400px] flex items-center justify-center py-12"
+      className="relative  min-h-[400px] flex items-center justify-center py-12"
       style={{
-        backgroundImage: 'url("/images/fkps-still-in-crate.webp")',
+        backgroundImage: 'url("/images/credit.webp")',
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
       }}
     >
-      <div className="section-container w-full">
-        <div className="  py-12 flex flex-col items-center justify-center text-center text-white ">
+      <div className="bg-black/60 absolute inset-0" aria-hidden="true" >
+      <div className="section-container  w-full ">
+        <div className="  py-12 flex flex-col  items-center justify-center text-center text-white ">
           <h1 className="mb-4">
             You can add in all your parts and accessories, apparel, extended service plan, cycle insurance, and more. You’ll have everything you need, and you only have to make one monthly payment.
           </h1>
@@ -24,6 +25,8 @@ export default function CreditContact() {
             Contact Us
           </StyledButton>
         </div>
+      </div>
+
       </div>
     </div>
   );

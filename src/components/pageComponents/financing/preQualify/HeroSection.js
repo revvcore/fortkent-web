@@ -21,7 +21,7 @@ export default function HeroSection() {
     ];
 
     return (
-        <div className="max-w-5xl mx-auto section-container px-2">
+        <div className="max-w-5xl mx-auto section-container px-2 py-10">
             <h2 className="text-3xl md:text-4xl font-black italic text-center mb-10 leading-tight">
                 You can add in all your parts and accessories, apparel, extended service plan, cycle insurance, and more. You’ll have everything you need, and you only have to make one monthly payment.
             </h2>

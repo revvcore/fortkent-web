@@ -1,7 +1,7 @@
 export default function VisitSite(){
     return(
         <>
-        <div className="section-container">
+        <div className="section-container py-10">
            <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="p-2 place-content-center">
             <h1>Visit our Financing Center at Fort Kent Powersports!</h1>

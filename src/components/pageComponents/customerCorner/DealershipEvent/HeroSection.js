@@ -1,6 +1,6 @@
 export default function HeroSection() {
     return (
-        <section className="max-w-6xl mx-auto px-4 section-container">
+        <section className="max-w-6xl mx-auto px-4 section-container py-10">
             <div className="text-center">
                 <div className="text-red-600 font-bold text-lg mb-2">
                     Whether You Want an ATV Ride or an Open Water Adventure; Come Be a Part of the Fun!
