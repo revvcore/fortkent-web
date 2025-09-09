@@ -6,7 +6,7 @@ import Filters from "./Filters";
 import SpinLoader from "@/components/commonComponents/loader/SpinLoader";
 import { useDevice } from "@/lib/useDevice";
 import StyledButton from "@/components/commonComponents/actions/buttons/StyledButton";
-import { X } from "lucide-react";
+import { Filter, X } from "lucide-react";
 
 const SRPPageContent = ({ make }) => {
   const [inventoryItems, setInventoryItems] = useState([]);
@@ -135,6 +135,7 @@ const SRPPageContent = ({ make }) => {
                 className="fixed w-fit right-4 bottom-6 z-50"
                 onClick={() => setShowFilters(true)}
               >
+                <Filter className="w-4 h-4 mr-2" />
                 Filters
               </StyledButton>
             </div>

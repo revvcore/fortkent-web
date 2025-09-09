@@ -75,8 +75,7 @@ export default function RelatedVehicles({ make, toShow, toScroll }) {
       { breakpoint: 1024, settings: { slidesToShow: 2 } },
       { breakpoint: 640, settings: { slidesToShow: 1 } },
     ],
-    // Add gap between slides by wrapping each slide's content
-    // Remove className here, as it does not apply to slick slides
+    
   };
 
   return (
