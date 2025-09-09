@@ -3,7 +3,6 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useMemo, Suspense } from "react";
 import SRPInventory from "../inventory/SRPInventory";
 import SpinLoader from "@/components/commonComponents/loader/SpinLoader";
-// import SearchInventory from "../inventory/search/SearchInventory";
 
 const SRPPageContent = ({ make }) => {
   const [inventoryItems, setInventoryItems] = useState([]);
@@ -64,11 +63,8 @@ const SRPPageContent = ({ make }) => {
   );
 
   return (
-    <div className="w-full bg-white relative">
+    <section className="w-full bg-white scroll-smooth" id="inventory">
       <div className="section-container py-12 flex flex-col items-start relative">
-        {/* <div className="w-full">
-          <SearchInventory />
-        </div> */}
         <h2>{make} OEM Inventory</h2>
         <SRPInventory
           items={paginatedItems}
@@ -80,7 +76,7 @@ const SRPPageContent = ({ make }) => {
           make={make}
         />
       </div>
-    </div>
+    </section>
   );
 };
 export default function OEMInventory({ make }) {
