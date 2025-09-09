@@ -1,4 +1,4 @@
-import { Geist_Mono, Gabarito } from "next/font/google";
+import { Geist_Mono, Gabarito, Protest_Strike } from "next/font/google";
 import "../globals.css";
 import SiteHeader from "@/components/commonComponents/header/SiteHeader";
 import SiteFooter from "@/components/commonComponents/footer/SiteFooter";
@@ -8,6 +8,11 @@ import GlobalRouteLoader from "@/components/commonComponents/loader/GlobalRouteL
 const fontSans = Gabarito({
   variable: "--font-manrope-sans",
   subsets: ["latin"],
+});
+const fontHeading = Protest_Strike({
+  variable: "--font-for-heading",
+  subsets: ["latin"],
+  weight: ["400"],
 });
 
 const fontMono = Geist_Mono({
@@ -23,7 +28,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${fontSans.variable} ${fontMono.variable} antialiased`}>
+      <body
+        className={`${fontSans.variable} ${fontMono.variable} ${fontHeading.variable} antialiased`}
+      >
         <ContactBar />
         <SiteHeader />
         <GlobalRouteLoader />

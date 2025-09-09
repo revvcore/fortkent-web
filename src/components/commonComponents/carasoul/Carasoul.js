@@ -83,8 +83,8 @@ export default function Carasoul() {
   return (
    
 
-    <div className="overflow-hidden  mb-5">
-      <div className="flex h-1/2 items-center justify-center pb-8 relative">
+    <div className="overflow-hidden  ">
+      <div className="flex h-1/2 items-center justify-center relative">
         {/* Left Arrow */}
         <button
           onClick={handlePrevious}

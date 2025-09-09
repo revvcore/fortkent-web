@@ -41,5 +41,15 @@ export const navLinks = [
       { title: "Contact Us", href: "/about/contact-us" },
     ],
   },
+    {
+    title: "Customer Corner",
+    isSubMenu: true,
+    subMenu: [
+    
+      { title: "Dealership Events", href: "/dealership-events" },
+      { title: "Customer Reviews", href: "/customer-reviews" },
+     
+    ],
+  },
   
 ];

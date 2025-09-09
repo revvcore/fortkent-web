@@ -12,6 +12,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-manrope-sans);
   --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-for-heading);
   --color-primary-500: #ed1d24;
 }
 
@@ -32,15 +33,15 @@ body {
   @apply mx-auto max-w-6xl px-4 sm:px-6 lg:px-8;
 }
 h1 {
-  @apply text-3xl font-bold mt-6 mb-4;
+  @apply text-3xl md:text-5xl font-heading;
 }
 
 h2 {
-  @apply text-2xl font-bold mt-6 mb-4;
+  @apply text-2xl md:text-3xl font-heading;
 }
 
 h3 {
-  @apply text-xl font-bold;
+  @apply text-xl font-bold tracking-tight leading-6;
 }
 
 .styleInput {
@@ -51,7 +52,6 @@ h3 {
   @apply block text-sm font-medium mb-1;
 }
 
-/* global.css or a tailwind layer */
 .slick-dots li.slick-active div {
   @apply bg-primary-500;
 }
