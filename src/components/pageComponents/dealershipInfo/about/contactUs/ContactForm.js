@@ -1,7 +1,30 @@
+
+import { useState } from "react";
 import { salesServiceHours } from "@/data/footerInfo";
 import { siteIdentity } from "@/data/siteIdentity";
 
-export default function ContactForm() {
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    department: "General Inquiry",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Create the object of all form values
+    const formData = { ...form };
+    console.log("Form Data Object:", formData);
+    // You can handle the formData object as needed (e.g., send to API)
+  };
+
   return (
     <>
       <div className="section-container py-10">
@@ -25,7 +48,7 @@ export default function ContactForm() {
               Please note that your information is saved on our server as you
               enter it.
             </p>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="styleLable">
@@ -36,6 +59,8 @@ export default function ContactForm() {
                     name="firstName"
                     className="styleInput"
                     required
+                    value={form.firstName}
+                    onChange={handleChange}
                   />
                 </div>
                 <div>
@@ -47,6 +72,8 @@ export default function ContactForm() {
                     name="lastName"
                     className="styleInput"
                     required
+                    value={form.lastName}
+                    onChange={handleChange}
                   />
                 </div>
                 <div>
@@ -58,6 +85,8 @@ export default function ContactForm() {
                     name="email"
                     className="styleInput"
                     required
+                    value={form.email}
+                    onChange={handleChange}
                   />
                 </div>
                 <div>
@@ -69,6 +98,8 @@ export default function ContactForm() {
                     name="phone"
                     className="styleInput"
                     required
+                    value={form.phone}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -79,6 +110,8 @@ export default function ContactForm() {
                 <select
                   name="department"
                   className="styleInput"
+                  value={form.department}
+                  onChange={handleChange}
                 >
                   <option>General Inquiry</option>
                   <option>Sales</option>
@@ -93,6 +126,8 @@ export default function ContactForm() {
                 <textarea
                   name="message"
                   className="styleInput min-h-[100px]"
+                  value={form.message}
+                  onChange={handleChange}
                 />
               </div>
               <button className="bg-red-600 text-white px-6 py-2 rounded mt-2">
@@ -144,13 +179,14 @@ export default function ContactForm() {
               <div className="bg-gray-300 px-6 py-4  border-gray-200">
                 <h4 className="font-semibold text-center">Address</h4>
                 <p className="text-sm text-center mt-1">
-                  Fort Kent Powersports 377 Caribou Rd, Fort Kent, ME 04743
+                  {siteIdentity.siteName} {siteIdentity.address}, {siteIdentity.city}, {siteIdentity.state} {siteIdentity.zip}
                 </p>
               </div>
             </div>
           </div>
         </div>
       </div>
+
     </>
   );
-}
+
