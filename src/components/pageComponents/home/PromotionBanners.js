@@ -112,7 +112,7 @@ export default function PromotionBanners() {
         {/* Right Arrow */}
         <button
           onClick={handleNext}
-          className="absolute -right-2 z-20 text-white p-4 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-2xl group"
+          className="absolute right-0 z-20 text-white p-4 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-2xl group"
           aria-label="Next videos"
         >
           <ChevronRight className="w-8 h-8 group-hover:scale-110 transition-transform duration-200" />
