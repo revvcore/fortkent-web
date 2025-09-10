@@ -1,4 +1,4 @@
-import Promo from "@/components/commonComponents/HomePageSlider";
+import Promo from "@/components/commonComponents/PageHeader";
 import ScheduleApointment from "./ScheduleApointment";
 import AppointmentForm from "./AppointmentForm";
 

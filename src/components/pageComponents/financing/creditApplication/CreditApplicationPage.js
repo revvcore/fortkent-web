@@ -1,4 +1,4 @@
-import Promo from "@/components/commonComponents/HomePageSlider";
+import Promo from "@/components/commonComponents/PageHeader";
 import VisitSite from "./VisitSite";
 import FinanceOption from "./FinanceOption";
 import CreditContact from "./CreditContact";
