@@ -3,26 +3,26 @@
 import { useEffect, useState } from "react";
 
 const brands = [
-    { name: "POLARIS", src: "/inventory/polaris.png" },
-    { name: "KAYO", src: "/inventory/kayo.png" },
-    { name: "can-am", src: "/inventory/can-am.png" },
-    { name: "ski-doo", src: "/inventory/skidoo.png" },
-    { name: "sea-doo", src: "/inventory/seadoo.png" },
-    { name: "LYNX", src: "/inventory/lynx.png" },
-    { name: "WIDESCAPE", src: "/inventory/widescape.webp" },
-    { name: "TRITON", src: "/inventory/Triton.png" },
-    { name: "CAM SUPERLINE", src: "/inventory/camsuperline.png" },
-    { name: "TRIFECTA", src: "/inventory/trifecta.png" },
-    { name: "DURABULL", src: "/inventory/durabull.avif" },
-    { name: "EVINRUDE", src: "/inventory/evinrude.png" },
-    { name: "MANITOU", src: "/inventory/manitou.jpg" },
-    { name: "MERCURY", src: "/inventory/mercury.jpg" },
-    { name: "NITRO trailers", src: "/inventory/nitro-trailers.png" },
-    { name: "YAMAHA", src: "/inventory/yamaha.png" },
+    { name: "POLARIS", src: "/images/inventory/polaris.png" },
+    { name: "KAYO", src: "/images/inventory/kayo.png" },
+    { name: "can-am", src: "/images/inventory/can-am.png" },
+    { name: "ski-doo", src: "/images/inventory/skidoo.png" },
+    { name: "sea-doo", src: "/images/inventory/seadoo.png" },
+    { name: "LYNX", src: "/images/inventory/lynx.png" },
+    { name: "WIDESCAPE", src: "/images/inventory/widescape.webp" },
+    { name: "TRITON", src: "/images/inventory/Triton.png" },
+    { name: "CAM SUPERLINE", src: "/images/inventory/camsuperline.png" },
+    { name: "TRIFECTA", src: "/images/inventory/trifecta.png" },
+    { name: "DURABULL", src: "/images/inventory/durabull.avif" },
+    { name: "EVINRUDE", src: "/images/inventory/evinrude.png" },
+    { name: "MANITOU", src: "/images/inventory/manitou.jpg" },
+    { name: "MERCURY", src: "/images/inventory/mercury.jpg" },
+    { name: "NITRO trailers", src: "/images/inventory/nitro-trailers.png" },
+    { name: "YAMAHA", src: "/images/inventory/yamaha.png" },
 ];
 
 
-const INVENTORY_URL =process.env.INVENTORY_URL;
+const INVENTORY_URL =" https://portal.revvcore.com/export/inventory/json/680b71c9d79737af91836e8f";
 
 export default function BrowseInventory() {
     const [availableMakes, setAvailableMakes] = useState([]);
