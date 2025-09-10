@@ -1,6 +1,6 @@
 const staffProfiles = [
     {
-        image: "https://randomuser.me/api/portraits/men/11.jpg",
+        image: "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/01/4-150x150.png",
         title: "Keith Pelletier",
         subtitle: "Sales Manager",
         department: "Management Department"

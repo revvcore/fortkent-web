@@ -2,6 +2,7 @@
 import { oemBanners } from "@/data/oemBanners";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 
 const Slider = dynamic(() => import("react-slick"), { ssr: false });
 function NextArrow({ onClick }) {
@@ -25,7 +26,7 @@ function PrevArrow({ onClick }) {
     </button>
   );
 }
-export default function OEMBanners() {
+export default function OEMBanners({ make, isOEM }) {
   const settings = {
     dots: true,
     infinite: true,
@@ -47,22 +48,33 @@ export default function OEMBanners() {
       <div className="w-2 h-2 rounded-full bg-gray-300 hover:bg-red-400 transition-colors my-6 mx-auto" />
     ),
   };
+
+  const [banners, setBanners] = useState([]);
+  useEffect(() => {
+    if (make || isOEM === true) {
+      const filteredBanners = oemBanners.filter(
+        (banner) => banner.make?.toLowerCase() === make?.toLowerCase()
+      );
+      setBanners(filteredBanners);
+    } else {
+      setBanners(oemBanners);
+    }
+  }, [make]);
+
   return (
-    <section className="w-full max-w-screen " id="offers">
+    <section className="w-full max-w-screen overflow-hidden" id="offers">
       <Slider {...settings}>
-        {oemBanners
-          .filter((oem) => oem.make)
-          .map((banner) => (
-            <div key={banner.id} className="">
-              <img
-                src={banner.bannerUrl}
-                alt={banner.title}
-                className="w-full h-[400px] object-contain"
-                loading="lazy"
-                draggable="false"
-              />
-            </div>
-          ))}
+        {banners.map((banner) => (
+          <div key={banner.id} className="">
+            <img
+              src={banner.bannerUrl}
+              alt={banner.title}
+              className="w-full h-[400px] object-contain"
+              loading="lazy"
+              draggable="false"
+            />
+          </div>
+        ))}
       </Slider>
     </section>
   );

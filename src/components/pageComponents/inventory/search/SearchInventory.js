@@ -74,6 +74,7 @@ export default function SearchInventory() {
 
   const shouldShowPopup = showPopup && (loading || results.length > 3);
 
+  console.log({ results });
   return (
     <div className="relative" ref={containerRef}>
       <div className="relative w-full cursor-default overflow-hidden rounded border border-slate-400 bg-white text-left shadow-sm ">

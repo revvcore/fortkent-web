@@ -22,13 +22,13 @@ const SRPPageContent = ({ make }) => {
 
   // ✅ parse filters from URL only (Filters component keeps them in sync)
   const filters = {
-    make: searchParams.get("make") || "",
-    year: searchParams.get("year") || "",
-    model: searchParams.get("model") || "",
-    trim: searchParams.get("trim") || "",
-    condition: searchParams.get("condition") || "",
-    color: searchParams.get("color") || "",
-    type: searchParams.get("type") || "",
+    make: (searchParams.get("make") || "").toLowerCase(),
+    year: (searchParams.get("year") || "").toLowerCase(),
+    model: (searchParams.get("model") || "").toLowerCase(),
+    trim: (searchParams.get("trim") || "").toLowerCase(),
+    condition: (searchParams.get("condition") || "").toLowerCase(),
+    color: (searchParams.get("color") || "").toLowerCase(),
+    type: (searchParams.get("type") || "").toLowerCase(),
     minPrice: searchParams.get("minPrice") || "",
     maxPrice: searchParams.get("maxPrice") || "",
   };
@@ -53,17 +53,40 @@ const SRPPageContent = ({ make }) => {
   const filteredItems = useMemo(() => {
     let result = inventoryItems;
 
-    if (filters.make) result = result.filter((i) => i.make === filters.make);
+    if (filters.make)
+      result = result.filter(
+        (i) => (i.make || "").toLowerCase() === filters.make.toLowerCase()
+      );
     if (filters.year)
-      result = result.filter((i) => String(i.year) === filters.year);
-    if (filters.model) result = result.filter((i) => i.model === filters.model);
-    if (filters.trim) result = result.filter((i) => i.trim === filters.trim);
+      result = result.filter(
+        (i) => String(i.year).toLowerCase() === filters.year.toLowerCase()
+      );
+    if (filters.model)
+      result = result.filter(
+        (i) => (i.model || "").toLowerCase() === filters.model.toLowerCase()
+      );
+    if (filters.trim)
+      result = result.filter(
+        (i) => (i.trim || "").toLowerCase() === filters.trim.toLowerCase()
+      );
     if (filters.condition)
-      result = result.filter((i) => i.condition === filters.condition);
+      result = result.filter(
+        (i) =>
+          (i.condition || "").toLowerCase() === filters.condition.toLowerCase()
+      );
     if (filters.color)
-      result = result.filter((i) => i?.color?.exterior === filters.color);
-    if (filters.type) result = result.filter((i) => i.type === filters.type);
-
+      result = result.filter(
+        (i) =>
+          (
+            (i.color?.exterior || i?.specifications?.color?.exterior || "") + ""
+          ).toLowerCase() === filters.color.toLowerCase()
+      );
+    if (filters.type)
+      result = result.filter(
+        (i) =>
+          (i.type || i.bodyType || "").toLowerCase() ===
+          filters.type.toLowerCase()
+      );
     if (filters.minPrice)
       result = result.filter((i) => i?.price?.msrp >= Number(filters.minPrice));
     if (filters.maxPrice)
@@ -94,7 +117,7 @@ const SRPPageContent = ({ make }) => {
 
   // ✅ options cleaner
   const cleanOptions = (arr, isYear = false) => {
-    const values = [...new Set(arr)].filter(Boolean);
+    const values = [...new Set(arr.map((v) => (v ? v : v)))].filter(Boolean);
     return isYear
       ? values.sort((a, b) => Number(b) - Number(a))
       : values.sort();
