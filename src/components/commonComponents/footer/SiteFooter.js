@@ -39,7 +39,7 @@ export default function SiteFooter() {
               </div>
             </div>
             <div className="text-white w-full lg:max-w-sm">
-              <h2 className="text-xl text-center bg-neutral-800 p-6">Sales & Service Hours</h2>
+              <h2 className=" text-center bg-neutral-800 p-6">Sales & Service Hours</h2>
               <div className="divide-gray-700">
                 {salesServiceHours.map((item, idx) => (
                   <div
@@ -53,7 +53,7 @@ export default function SiteFooter() {
               </div>
             </div>
             <div className="text-white w-full lg:max-w-sm">
-              <h2 className="text-xl text-center bg-neutral-800 p-6">Customer Support</h2>
+              <h2 className=" text-center bg-neutral-800 p-6">Customer Support</h2>
               <div className="divide-gray-700">
                 {customerSupport.map((item, idx) => (
                   <div
