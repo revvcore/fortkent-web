@@ -29,33 +29,24 @@ function PrevArrow({ onClick }) {
   );
 }
 
-export default function RelatedVehicles({ make, toShow, toScroll }) {
+export default function ExploreOtherVehicles({ make, toShow, toScroll }) {
   const { inventory, loading } = useInventory();
 
-  // useEffect(() => {
-  //   const fetchInventoryItems = async () => {
-  //     setLoading(true);
-  //     const response = await fetch(
-  //       "https://portal.revvcore.com/export/inventory/json/680b71c9d79737af91836e8f"
-  //     );
-  //     const data = await response.json();
-
-  //     setInventoryItems(
-  //       make
-  //         ? data.filter((v) => v.make === make).slice(0, 12)
-  //         : data.slice(0, 12)
-  //     );
-
-  //     setLoading(false);
-  //   };
-
-  //   fetchInventoryItems();
-  // }, [make]); // ✅ runs again if `make` changes
-
-  const filteredVehicles = useMemo(() => {
-    return make
-      ? inventory.filter((v) => v.make === make).slice(0, 6)
-      : inventory.slice(0, 6);
+  const otherVehicles = useMemo(() => {
+    if (!inventory || inventory.length === 0) return [];
+    // Group vehicles by make, excluding the current make
+    const vehiclesByMake = inventory.reduce((acc, v) => {
+      if (v.make !== make) {
+        if (!acc[v.make]) acc[v.make] = [];
+        acc[v.make].push(v);
+      }
+      return acc;
+    }, {});
+    // Pick one vehicle from each make
+    const result = Object.values(vehiclesByMake)
+      .map((vehicles) => vehicles[0])
+      .slice(0, 6);
+    return result;
   }, [inventory, make]);
 
   const settings = {
@@ -92,7 +83,7 @@ export default function RelatedVehicles({ make, toShow, toScroll }) {
         </div>
       ) : (
         <Slider {...settings}>
-          {filteredVehicles.map((vehicle) => (
+          {otherVehicles.map((vehicle) => (
             <div key={vehicle._id} className="px-1 h-full flex-1">
               <VehicleCard item={vehicle} />
             </div>

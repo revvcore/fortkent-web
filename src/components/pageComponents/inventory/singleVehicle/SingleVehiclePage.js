@@ -1,4 +1,5 @@
 "use client";
+import ExploreOtherVehicles from "../relatedVehicle/ExploreOtherVehicles";
 import RelatedVehicles from "../relatedVehicle/RelatedVehicles";
 import ActionsTab from "./ActionsTab";
 import DescTab from "./DescTab";
@@ -61,6 +62,12 @@ export default function SingleVehiclePage({ item }) {
         <div className="section-container">
           <h2 className="text-center mb-4">Related Vehicles</h2>
           <RelatedVehicles make={item.make} />
+        </div>
+      </section>
+      <section className="w-full pt-8 pb-12 bg-slate-50">
+        <div className="section-container">
+          <h2 className="text-center mb-4">Explore More Options</h2>
+          <ExploreOtherVehicles make={item.make} />
         </div>
       </section>
     </main>

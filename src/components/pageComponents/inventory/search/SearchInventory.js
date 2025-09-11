@@ -5,6 +5,7 @@ import { generateInventorySlug } from "@/lib/GenerateInventorySlug";
 import Fuse from "fuse.js";
 import { ChevronRight, Search } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, useMemo } from "react";
 
 // Debounce hook for efficient local search
@@ -23,7 +24,7 @@ export default function SearchInventory() {
   const [showPopup, setShowPopup] = useState(false);
   const containerRef = useRef(null);
   const debouncedQuery = useDebounce(query, 300);
-
+  const path = usePathname();
   // Click-away handler
   useEffect(() => {
     function handleClickOutside(event) {
@@ -39,7 +40,9 @@ export default function SearchInventory() {
     }
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showPopup]);
-
+  useEffect(() => {
+    setShowPopup(false);
+  }, [path]);
   // Memoize Fuse instance for performance
   // Enhance inventory with a combined string for better multi-word search
   const enhancedInventory = useMemo(() => {
