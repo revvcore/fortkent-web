@@ -1,14 +1,31 @@
-
+"use client";
 import { useState } from "react";
 import { salesServiceHours } from "@/data/footerInfo";
 import { siteIdentity } from "@/data/siteIdentity";
 
+// Department options array
+const departmentOptions = [
+  "General Inquiry",
+  "Sales",
+  "Service",
+  "Parts",
+  "Finance",
+];
+
+const fields = [
+  { name: "firstName", label: "First Name", type: "text", required: true },
+  { name: "lastName", label: "Last Name", type: "text", required: true },
+  { name: "email", label: "Email", type: "email", required: true },
+  { name: "phone", label: "Phone", type: "tel", required: true },
+];
+
+export default function ContactForm() {
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
-    department: "General Inquiry",
+    department: departmentOptions[0],
     message: "",
   });
 
@@ -28,101 +45,69 @@ import { siteIdentity } from "@/data/siteIdentity";
   return (
     <>
       <div className="section-container py-10">
-          <div className="text-center justify-items-center  ">
-        <div className="max-w-3xl">
-          <h2>Contact Our Store in {siteIdentity.city}, {siteIdentity.state}</h2>
-          <p className="text-gray-400">
-            Contact us at {siteIdentity.siteName} located conveniently in {siteIdentity.city}, {siteIdentity.state}. We are only a short drive from Caribou. Serving
-            communities near Edmundston, and Frenchville. Call, email or come in
-            to visit us!
-          </p>
+        <div className="text-center justify-items-center">
+          <div className="max-w-3xl mx-auto">
+            <h2>
+              Contact Our Store in {siteIdentity.city}, {siteIdentity.state}
+            </h2>
+            <p className="text-gray-400">
+              Contact us at {siteIdentity.siteName} located conveniently in{" "}
+              {siteIdentity.city}, {siteIdentity.state}. We are only a short
+              drive from Caribou. Serving communities near Edmundston, and
+              Frenchville. Call, email or come in to visit us!
+            </p>
+          </div>
         </div>
-      </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-10">
           {/* Left: Contact Form */}
           <div>
-            <h3 className="  mb-1 ">
-              We Look Forward to Hearing from You!
-            </h3>
-            <p className="text-gray-600 mb-4 ">
+            <h3 className="mb-1">We Look Forward to Hearing from You!</h3>
+            <p className="text-gray-600 mb-4">
               Please note that your information is saved on our server as you
               enter it.
             </p>
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
+                {fields.map((field) => (
+                  <div key={field.name}>
+                    <label className="styleLable">
+                      {field.label}{" "}
+                      {field.required && (
+                        <span className="text-red-500">*</span>
+                      )}
+                    </label>
+                    <input
+                      type={field.type}
+                      name={field.name}
+                      className="styleInput"
+                      required={field.required}
+                      value={form[field.name]}
+                      onChange={handleChange}
+                    />
+                  </div>
+                ))}
+                {/* Department Select */}
+                <div className="md:col-span-2">
                   <label className="styleLable">
-                    First Name <span className="text-red-500">*</span>
+                    Department <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="text"
-                    name="firstName"
+                  <select
+                    name="department"
                     className="styleInput"
                     required
-                    value={form.firstName}
+                    value={form.department}
                     onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label className="styleLable">
-                    Last Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="lastName"
-                    className="styleInput"
-                    required
-                    value={form.lastName}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label className="styleLable">
-                    Email <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    className="styleInput"
-                    required
-                    value={form.email}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label className="styleLable">
-                    Phone <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    className="styleInput"
-                    required
-                    value={form.phone}
-                    onChange={handleChange}
-                  />
+                  >
+                    {departmentOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
               <div className="mt-4">
-                <label className="styleLable">
-                  Select Inquiry department
-                </label>
-                <select
-                  name="department"
-                  className="styleInput"
-                  value={form.department}
-                  onChange={handleChange}
-                >
-                  <option>General Inquiry</option>
-                  <option>Sales</option>
-                  <option>Service</option>
-                  <option>Parts</option>
-                </select>
-              </div>
-              <div className="mt-4">
-                <label className="styleLable">
-                  Message
-                </label>
+                <label className="styleLable">Message</label>
                 <textarea
                   name="message"
                   className="styleInput min-h-[100px]"
@@ -143,19 +128,19 @@ import { siteIdentity } from "@/data/siteIdentity";
           {/* Right: Map and Info Card */}
           <div>
             <div className="rounded overflow-hidden mb-4">
-              {/* Google Map iframe */}
+              {/* Google Map iframe - add your map here if needed */}
             </div>
-            <div className="bg-gray-200 rounded-xl p-0 border border-gray-100 shadow-sm overflow-hidden">
-              <div className="bg-gray-300 px-6 py-4">
+            <div className="bg-slate-100 rounded-xl p-0 border border-slate-300 overflow-hidden">
+              <div className=" px-6 py-4">
                 <h3 className="font-semibold text-center text-lg">Hours</h3>
               </div>
-              <div className="hover:bg-gray-300">
-                {salesServiceHours.map((item, idx) => (
+              <div>
+                {salesServiceHours.map((item) => (
                   <div
                     key={item.day}
-                    className={`flex justify-between px-6 py-3  text-[15px] ${
-                      item.highlight ? "bg-gray-300 " : ""
-                    } ${item.closed ? "" : "border-b border-gray-200 "}`}
+                    className={`flex justify-between px-6 py-3 text-sm ${
+                      item.highlight ? "" : ""
+                    } ${item.closed ? "" : "border-b border-gray-200"}`}
                   >
                     <span>
                       {item.day === "Mon-Fri"
@@ -166,9 +151,7 @@ import { siteIdentity } from "@/data/siteIdentity";
                     </span>
                     <span
                       className={
-                        item.closed
-                          ? "text-red-600 font-semibold hover:bg-gray-300"
-                          : ""
+                        item.closed ? "text-red-600 font-semibold" : ""
                       }
                     >
                       {item.hours}
@@ -176,17 +159,17 @@ import { siteIdentity } from "@/data/siteIdentity";
                   </div>
                 ))}
               </div>
-              <div className="bg-gray-300 px-6 py-4  border-gray-200">
+              <div className="bg-slate-100 px-6 py-4 border-slate-200">
                 <h4 className="font-semibold text-center">Address</h4>
                 <p className="text-sm text-center mt-1">
-                  {siteIdentity.siteName} {siteIdentity.address}, {siteIdentity.city}, {siteIdentity.state} {siteIdentity.zip}
+                  {siteIdentity.siteName} {siteIdentity.address},{" "}
+                  {siteIdentity.city}, {siteIdentity.state} {siteIdentity.zip}
                 </p>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </>
   );
-
+}

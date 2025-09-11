@@ -97,5 +97,9 @@ const oemMenu = [
   { name: "Explore Inventory", href: "#inventory" },
   { name: "Models", href: "#models" },
   { name: "Special Offers", href: "#offers" },
-  { name: "Schedule a Service Appointment", href: "/service", isButton: true },
+  {
+    name: "Schedule a Service Appointment",
+    href: "/schedule-a-service-appointment",
+    isButton: true,
+  },
 ];
