@@ -15,12 +15,16 @@ export default function OEMHeader({ make }) {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <img
-              className="h-12 w-auto"
+              className="h-12 w-auto md:max-w-32 max-w-[100px] object-contain"
               src={siteIdentity.logo}
               alt={siteIdentity.siteName}
             />
           </Link>
-          <img className="h-12 w-auto" src={make.logo} alt={make.make} />
+          <img
+            className="h-12 w-auto md:max-w-32 max-w-[100px] object-contain"
+            src={make.logo}
+            alt={make.make}
+          />
         </div>
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-4">
@@ -59,7 +63,7 @@ export default function OEMHeader({ make }) {
       </div>
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="lg:hidden bg-white border-t">
+        <div className="lg:hidden bg-white border-t fixed top-32 left-0 w-full z-40 shadow-md">
           <nav className="flex flex-col gap-2 px-4 py-2">
             {oemMenu.map((menu, idx) =>
               menu.isButton ? (

@@ -42,11 +42,11 @@ export default function LineupModels({ make }) {
     adaptiveHeight: true,
     centerMode: false,
     variableWidth: false,
-    appendDots: (dots) => (
-      <div className="py-2">
-        <ul className="flex justify-center">{dots}</ul>
-      </div>
-    ),
+    // appendDots: (dots) => (
+    //   <div className="py-2">
+    //     <ul className="flex justify-center">{dots}</ul>
+    //   </div>
+    // ),
     customPaging: () => (
       <div className="w-2 h-2 rounded-full bg-gray-300 hover:bg-red-400 transition-colors" />
     ),
@@ -55,7 +55,7 @@ export default function LineupModels({ make }) {
   const currentModels = categorizedModels[selectedCategory] || [];
 
   return (
-    <section className="w-full bg-slate-50 py-8 overflow-x-clip" id="models">
+    <section className="w-full bg-slate-50 py-8 max-w-screen" id="models">
       <div className="section-container">
         <h2 className="mb-6">Lineup Models for {make}</h2>
 

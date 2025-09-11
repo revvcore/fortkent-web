@@ -26,7 +26,7 @@ function PrevArrow({ onClick }) {
     </button>
   );
 }
-export default function OEMBanners({ make, isOEM }) {
+export default function OEMBanners({ make, isOEM = false }) {
   const settings = {
     dots: true,
     infinite: true,
@@ -39,19 +39,19 @@ export default function OEMBanners({ make, isOEM }) {
     adaptiveHeight: false,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    appendDots: (dots) => (
-      <div className="p-4">
-        <ul className="flex justify-center">{dots}</ul>
-      </div>
-    ),
+    // appendDots: (dots) => (
+    //   <div className="p-4">
+    //     <ul className="flex justify-center">{dots}</ul>
+    //   </div>
+    // ),
     customPaging: () => (
-      <div className="w-2 h-2 rounded-full bg-gray-300 hover:bg-red-400 transition-colors my-6 mx-auto" />
+      <div className="w-2 h-2 rounded-full bg-gray-300 hover:bg-red-400 transition-colors" />
     ),
   };
 
   const [banners, setBanners] = useState([]);
   useEffect(() => {
-    if (make || isOEM === true) {
+    if (make) {
       const filteredBanners = oemBanners.filter(
         (banner) => banner.make?.toLowerCase() === make?.toLowerCase()
       );
@@ -61,15 +61,18 @@ export default function OEMBanners({ make, isOEM }) {
     }
   }, [make]);
 
+  if (isOEM === true && !make) {
+    return null;
+  }
   return (
-    <section className="w-full max-w-screen overflow-hidden" id="offers">
+    <section className="w-full max-w-screen bg-slate-100" id="offers">
       <Slider {...settings}>
         {banners.map((banner) => (
           <div key={banner.id} className="">
             <img
               src={banner.bannerUrl}
               alt={banner.title}
-              className="w-full h-[400px] object-contain"
+              className="w-full max-h-[400px] h-fit object-contain"
               loading="lazy"
               draggable="false"
             />

@@ -7,7 +7,7 @@ export default function OEMPage({ make }) {
   return (
     <>
       <OEMHeader make={make} />
-      <OEMBanners make={make.make} isOEM={false} />
+      <OEMBanners make={make.make} isOEM={true} />
       <LineupModels make={make.make} />
       <OEMInventory make={make.make} />
     </>
