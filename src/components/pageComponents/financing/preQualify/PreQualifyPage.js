@@ -7,7 +7,6 @@ export default function PreQualifyPage(){
         <>
         <Promo title="Pre-Qualify" />
         <HeroSection/>
-        <AgreementForm/>
         </>
     )
 }
