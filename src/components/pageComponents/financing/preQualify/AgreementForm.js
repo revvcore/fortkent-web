@@ -1,7 +1,17 @@
 "use client"
 import { useState } from "react";
 
-const agreementText = ({ firstName, lastName, email, phone }) => `By filling out and signing this Application for Credit (Application) you are agreeing to allow Fort Kent Powersports (The Dealer) to apply for credit, insurance and warranty products on your behalf. This Application is for use with Fort Kent Powersports and its Lenders (The Lenders), only.\n\nBy signing, you agree to the following statement:\n\nI authorize Fort Kent Powersports, on my behalf, to submit information from this Application to The Lenders on my behalf. I certify to The Lenders to every policy, rule, or agreement adopted or enforced by the Lenders and to any policies, rules, or agreements which may be included in the contract to applications as part of the Lenders' application process. I have read this Application and everything stated in it is true to the best of my ability.\n\nName: ${firstName || "__________"} ${lastName || "__________"}\nEmail: ${email || "__________"}\nPhone: ${phone || "__________"}`;
+const agreementText = ({ firstName, lastName, email, phone }) => `By filling out and signing this Application for Credit ("Application"), you are agreeing to allow The Dealer ("Dealer") to apply for credit, insurance and warranty products on your behalf. This Application is for use with Fort Kent Powersports and their Lenders ("The Lenders").
+
+Additionally, by signing, you agree to the following statement:
+
+I authorize Fort Kent Powersports, as my agent, to: (i) submit information from this Application to The Lenders on my behalf; (ii) certify to The Lenders the accuracy of the information; and (iii) convey to The Lenders my consent to any policies, notices, agreements or other terms disclosed by The Lenders to applicants as part of The Lenders’ application process. I have read this Application and everything stated in it is true to the best of my ability. I authorize The Lenders to check my credit, employment history, or any other information, and to report such information, and its credit experience with me, to others. I am at least 18 years of age. Alimony, child support or separate maintenance income need not be revealed if you do not wish to have it considered as a basis for repaying this obligation.
+
+I hereby certify that the property purchased pursuant to this application is for my personal and/or business use; that I am fully responsible for making all payments for such property; that such property will be in my possession or under my control until the amount financed and all finance charges have been paid in full; and that I am not purchasing any property financed through The Lenders for the benefit or use of another without the prior written approval of The Lenders.
+
+IMPORTANT INFORMATION ABOUT ACCOUNT OPENING PROCEDURES: Federal law requires all financial institutions to obtain, verify, and record information that identifies each person who requests to open an account prior to account opening.
+
+WHAT THIS MEANS TO YOU: When you apply for credit, we will ask for your name, address, date of birth, and other information that will allow us to identify you. We may also ask to see your driver's license or other identifying documents. Failure to provide the required information may result in denial of your request to open an account.`;
 
 export default function AgreementForm() {
   const [form, setForm] = useState({
@@ -23,7 +33,7 @@ export default function AgreementForm() {
   };
 
   return (
-    <div className="max-w-lg mx-auto bg-white rounded-xl shadow p-6 mt-6">
+    <div className="max-w-lg mx-auto bg-white rounded-xl  p-6 mt-6">
       <h2 className="text-center font-semibold text-gray-700 mb-2">Fort Kent Powersports</h2>
       <div className="flex justify-center mb-2">
         <img src="/images/logo/logo-fort.webp" alt="Fort Kent Powersports" className="h-12" />
@@ -64,11 +74,18 @@ export default function AgreementForm() {
             readOnly
           />
           <div className="text-xs text-center mt-2">
-            <a href="#" className="text-blue-600 underline">Disaster Policy</a>
+            <a href="#" className="text-blue-600 underline">Privacy Policy</a>
           </div>
         </div>
-        <div className="text-xs text-gray-500 mb-2">
-          By checking the box below and clicking I agree to the terms as disclosed above/Next, you are declaring that you have read, acquire, and understand the following: Privacy Policy, Bank Privacy Policy, Credit Reporting and FCRA Notices, Equal Credit Opportunity Act, Risk-Based Pricing, and Additional Lender Disclosures.
+        <div className="text-xs text-gray-700 mb-2 text-center">
+          By checking the below box entitled "I agree to the terms as disclosed above", clicking “Next” and completing the following Application, you agree that you have read, agree to and understand the following,
+          <a href="#" className="underline text-blue-700 mx-1">General Application Disclosures</a>,
+          <a href="#" className="underline text-blue-700 mx-1">E-Sign Act Disclosures</a>,
+          Octane Lending, Inc.’s <a href="#" className="underline text-blue-700 mx-1">Privacy Policy</a>,
+          Fort Kent Powersports <a href="#" className="underline text-blue-700 mx-1">Privacy Policy</a> and
+          <a href="#" className="underline text-blue-700 mx-1">Terms and Conditions</a>,
+          <a href="#" className="underline text-blue-700 mx-1">COPPA Disclosures</a>, and
+          <a href="#" className="underline text-blue-700 mx-1">Alternate Lenders Disclosures</a>.
         </div>
         <div className="flex items-center mb-2">
           <input type="checkbox" name="agree" checked={form.agree} onChange={handleChange} className="mr-2" required />

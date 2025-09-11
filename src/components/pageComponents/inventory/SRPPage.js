@@ -1,75 +1,83 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState, useMemo, Suspense } from "react";
+import { useMemo, Suspense, useState } from "react";
 import SRPInventory from "./SRPInventory";
 import Filters from "./Filters";
 import SpinLoader from "@/components/commonComponents/loader/SpinLoader";
 import { useDevice } from "@/lib/useDevice";
 import StyledButton from "@/components/commonComponents/actions/buttons/StyledButton";
 import { Filter, X } from "lucide-react";
+import normalize from "@/lib/normalize";
+import { useInventory } from "@/context/InventoryContext";
 
 const SRPPageContent = ({ make }) => {
-  const [inventoryItems, setInventoryItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { inventory = [], loading } = useInventory(); // fallback to [] for safety
   const [showFilters, setShowFilters] = useState(false);
   const { IsTab, IsMob } = useDevice();
-
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("p")) || 1;
   const itemsPerPage = 12;
   const sort = searchParams.get("sort") || "latest";
   const searchParam = searchParams.get("s") || "";
 
-  // ✅ parse filters from URL only (Filters component keeps them in sync)
-  const filters = {
-    make: searchParams.get("make") || "",
-    year: searchParams.get("year") || "",
-    model: searchParams.get("model") || "",
-    trim: searchParams.get("trim") || "",
-    condition: searchParams.get("condition") || "",
-    color: searchParams.get("color") || "",
-    type: searchParams.get("type") || "",
-    minPrice: searchParams.get("minPrice") || "",
-    maxPrice: searchParams.get("maxPrice") || "",
-  };
+  const filters = useMemo(
+    () => ({
+      make: normalize(searchParams.get("make") || ""),
+      year: normalize(searchParams.get("year") || ""),
+      model: normalize(searchParams.get("model") || ""),
+      trim: normalize(searchParams.get("trim") || ""),
+      condition: normalize(searchParams.get("condition") || ""),
+      color: normalize(searchParams.get("color") || ""),
+      type: normalize(searchParams.get("type") || ""),
+      minPrice: searchParams.get("minPrice") || "",
+      maxPrice: searchParams.get("maxPrice") || "",
+    }),
+    [searchParams]
+  );
 
-  useEffect(() => {
-    const fetchInventoryItems = async () => {
-      setLoading(true);
-      const response = await fetch(
-        `https://portal.revvcore.com/export/inventory/json/680b71c9d79737af91836e8f?search=${
-          searchParam || ""
-        }&make=${make || ""}`
-      );
-      const data = await response.json();
-      setInventoryItems(data);
-      setLoading(false);
-    };
-
-    fetchInventoryItems();
-  }, []);
-
-  // ✅ filter logic
+  // Filtering, sorting, and pagination logic (client-side)
   const filteredItems = useMemo(() => {
-    let result = inventoryItems;
-
-    if (filters.make) result = result.filter((i) => i.make === filters.make);
+    let result = Array.isArray(inventory) ? inventory : [];
+    if (searchParam) {
+      const term = normalize(searchParam);
+      result = result.filter(
+        (item) =>
+          normalize(item.make || "").includes(term) ||
+          normalize(item.model || "").includes(term) ||
+          normalize(item.trim || "").includes(term) ||
+          normalize(item.year ? String(item.year) : "").includes(term) ||
+          normalize(item.conditionType || "").includes(term)
+      );
+    }
+    if (filters.make)
+      result = result.filter((i) => normalize(i.make) === filters.make);
     if (filters.year)
-      result = result.filter((i) => String(i.year) === filters.year);
-    if (filters.model) result = result.filter((i) => i.model === filters.model);
-    if (filters.trim) result = result.filter((i) => i.trim === filters.trim);
+      result = result.filter((i) => normalize(String(i.year)) === filters.year);
+    if (filters.model)
+      result = result.filter((i) => normalize(i.model) === filters.model);
+    if (filters.trim)
+      result = result.filter((i) => normalize(i.trim) === filters.trim);
     if (filters.condition)
-      result = result.filter((i) => i.condition === filters.condition);
+      result = result.filter(
+        (i) => normalize(i.conditionType) === filters.condition
+      );
     if (filters.color)
-      result = result.filter((i) => i?.color?.exterior === filters.color);
-    if (filters.type) result = result.filter((i) => i.type === filters.type);
-
+      result = result.filter(
+        (i) =>
+          normalize(
+            i.color?.exterior || i?.specifications?.color?.exterior || ""
+          ) === filters.color
+      );
+    if (filters.type)
+      result = result.filter(
+        (i) => normalize(i.type || i.bodyType) === filters.type
+      );
     if (filters.minPrice)
       result = result.filter((i) => i?.price?.msrp >= Number(filters.minPrice));
     if (filters.maxPrice)
       result = result.filter((i) => i?.price?.msrp <= Number(filters.maxPrice));
 
-    // sorting
+    // Sorting
     result = [...result];
     switch (sort) {
       case "priceHigh":
@@ -86,42 +94,58 @@ const SRPPageContent = ({ make }) => {
         break;
       case "latest":
       default:
-        // Assuming latest means by _id or created order, fallback to no sort
         break;
     }
     return result;
-  }, [filters, inventoryItems, sort]);
+  }, [inventory, filters, sort, searchParam]);
 
-  // ✅ options cleaner
+  // Helper: Cleans and sorts unique options, preserving original for label, normalizing for value
   const cleanOptions = (arr, isYear = false) => {
-    const values = [...new Set(arr)].filter(Boolean);
+    const unique = [
+      ...new Map(arr.filter(Boolean).map((v) => [normalize(v), v])).values(),
+    ];
     return isYear
-      ? values.sort((a, b) => Number(b) - Number(a))
-      : values.sort();
+      ? unique.sort((a, b) => Number(b) - Number(a))
+      : unique.sort((a, b) => normalize(a).localeCompare(normalize(b)));
   };
 
+  // Helper: Formats options as { label, value }
+  const buildOptions = (arr, isYear = false) => {
+    const values = cleanOptions(arr, isYear);
+    return values.map((v) => ({
+      label: v?.toString() || "",
+      value: normalize(v?.toString()) || "",
+    }));
+  };
+
+  // Memoize dynamic filter options
   const dynamicOptions = useMemo(
     () => ({
-      make: cleanOptions(inventoryItems.map((i) => i.make)),
-      year: cleanOptions(
-        inventoryItems.map((i) => i.year),
+      make: buildOptions(inventory.map((i) => i.make)),
+      year: buildOptions(
+        inventory.map((i) => i.year),
         true
       ),
-      model: cleanOptions(inventoryItems.map((i) => i.model)),
-      trim: cleanOptions(inventoryItems.map((i) => i.trim)),
-      condition: cleanOptions(inventoryItems.map((i) => i.conditionType)),
-      color: cleanOptions(
-        inventoryItems.map((i) => i?.specifications?.color?.exterior)
+      model: buildOptions(inventory.map((i) => i.model)),
+      trim: buildOptions(inventory.map((i) => i.trim)),
+      condition: buildOptions(inventory.map((i) => i.conditionType)),
+      color: buildOptions(
+        inventory.map(
+          (i) => i?.specifications?.color?.exterior || i?.color?.exterior
+        )
       ),
-      type: cleanOptions(inventoryItems.map((i) => i.bodyType)),
+      type: buildOptions(inventory.map((i) => i.bodyType || i.type)),
     }),
-    [inventoryItems]
+    [inventory]
   );
 
-  // ✅ paginate after filter
-  const paginatedItems = filteredItems.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+  const paginatedItems = useMemo(
+    () =>
+      filteredItems.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+      ),
+    [filteredItems, currentPage, itemsPerPage]
   );
 
   return (
@@ -139,15 +163,12 @@ const SRPPageContent = ({ make }) => {
                 Filters
               </StyledButton>
             </div>
-            {/* Slide-over menu for filters */}
             {showFilters && (
               <div className="fixed inset-0 z-50 flex">
-                {/* Overlay */}
                 <div
                   className="fixed inset-0 bg-black/30"
                   onClick={() => setShowFilters(false)}
                 />
-                {/* Drawer */}
                 <div className="relative bg-slate-50 w-80 max-w-full h-full max-h-screen overflow-auto shadow-lg animate-slide-in-right">
                   <button
                     className="text-red-500 size-6 aspect-square absolute top-4 right-4"
@@ -181,6 +202,7 @@ const SRPPageContent = ({ make }) => {
     </div>
   );
 };
+
 export default function SRPPage() {
   return (
     <Suspense fallback={<SpinLoader />}>

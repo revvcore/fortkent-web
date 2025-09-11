@@ -126,7 +126,7 @@ export default function SRPItem({ item }) {
         >
           Get Pre-Approved
         </StyledButton>
-        <Link href={`/vehicle/${slug}`} prefetch>
+        <Link href={`/vehicle/${slug}`} prefetch={true} passHref>
           <StyledButton variant="outline" className="w-full" size="sm">
             Full Details
           </StyledButton>

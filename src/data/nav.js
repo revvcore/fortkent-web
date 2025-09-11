@@ -5,7 +5,7 @@ export const navLinks = [
   },
  
    {
-    title: "inventory",
+    title: "Inventory",
     href: "/inventory",
   },
   {
@@ -23,7 +23,7 @@ export const navLinks = [
      isSubMenu:true,
      subMenu:[
       {title:"Schedule a Service Appointment", href:"/schedule-a-service-appointment"},
-      {title:"Order a Parts", href:"/order-a-part"},
+      {title:"Order a Parts", href:"#"},
    
      ]
      

@@ -1,4 +1,4 @@
-export default function Promo({
+export default function HomePageSlider({
     title = "About",
     image = "/images/promo"
 }) {
@@ -11,7 +11,7 @@ export default function Promo({
             />
             {/* Overlay for darkness */}
             <div className="absolute inset-0 bg-black/60" aria-hidden="true" />
-            <h1 className="absolute inset-0 flex items-center justify-center text-white text-3xl font-bold z-10">{title}</h1>
+            <h1 className="absolute inset-0 flex items-center justify-center text-white  z-10">{title}</h1>
         </div>
     );
 }

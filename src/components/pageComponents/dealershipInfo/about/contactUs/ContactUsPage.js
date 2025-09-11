@@ -1,4 +1,4 @@
-import Promo from "../../../../commonComponents/Promo";
+import Promo from "../../../../commonComponents/PageHeader";
 import ContactForm from "./ContactForm";
 
 

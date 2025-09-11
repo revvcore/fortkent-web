@@ -1,4 +1,4 @@
-import Promo from "@/components/commonComponents/Promo";
+import Promo from "@/components/commonComponents/PageHeader";
 import HeroSection from "./HeroSection";
 import AgreementForm from "./AgreementForm";
 
@@ -7,7 +7,6 @@ export default function PreQualifyPage(){
         <>
         <Promo title="Pre-Qualify" />
         <HeroSection/>
-        <AgreementForm/>
         </>
     )
 }

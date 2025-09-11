@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 
 export async function POST(req) {
   const body = await req.json();
-  const { toEmail, payload } = body;
+  const { toEmail, payload, subject, formType } = body;
 
   if (!toEmail || !payload) {
     return Response.json(
@@ -27,7 +27,7 @@ export async function POST(req) {
       from: process.env.SMTP_FROM,
       to: toEmail,
       cc: process.env.SMTP_USER, // optional
-      subject: subject,
+      subject: subject || `${formType || 'Form'} Submission`,
       text: payload,
     });
 

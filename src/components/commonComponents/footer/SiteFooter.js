@@ -2,6 +2,7 @@ import { siteIdentity } from "@/data/siteIdentity";
 import { salesServiceHours, customerSupport } from "@/data/footerInfo";
 import { Facebook } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function SiteFooter() {
   return (
@@ -9,10 +10,14 @@ export default function SiteFooter() {
       <div className="py-6 bg-[#232323]">
         <div className="section-container">
           {/* Upper Secion */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-6 ">
+          <div className="grid justify-items-center grid-cols-1 lg:grid-cols-3 lg:gap-6 ">
             <div>
               <div>
-                <img className="h-12 " src={siteIdentity.logo} alt={siteIdentity.siteName} />
+                <img
+                  className="h-12 "
+                  src={siteIdentity.logo}
+                  alt={siteIdentity.siteName}
+                />
               </div>
               <div className="mt-5 flex gap-4">
                 {siteIdentity?.socialLinks?.map((link, idx) => (
@@ -22,7 +27,6 @@ export default function SiteFooter() {
                       src={`/icons/social/${link.icon}.webp`}
                     />
                   </a>
-                  
                 ))}
               </div>
               <div className="mt-4">
@@ -38,42 +42,67 @@ export default function SiteFooter() {
                 </p>
               </div>
             </div>
-            <div className="text-white max-w-sm">
-              <h2 className="text-xl text-center bg-neutral-800 p-6">Sales & Service Hours</h2>
+            <div className="text-white w-full lg:max-w-sm">
+              <h2 className=" text-center bg-neutral-800 p-6">
+                Sales & Service Hours
+              </h2>
               <div className="divide-gray-700">
                 {salesServiceHours.map((item, idx) => (
                   <div
                     key={item.day}
-                    className={`flex justify-between p-3 ${item.highlight ? "bg-neutral-800" : "hover:bg-neutral-800"}`}
+                    className={`flex justify-between p-3 ${
+                      item.highlight ? "bg-neutral-800" : "hover:bg-neutral-800"
+                    }`}
                   >
                     <span>{item.day}</span>
-                    <span className={item.closed ? "text-red-500 font-medium" : ""}>{item.hours}</span>
+                    <span
+                      className={item.closed ? "text-red-500 font-medium" : ""}
+                    >
+                      {item.hours}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="text-white max-w-sm">
-              <h2 className="text-xl text-center bg-neutral-800 p-6">Customer Support</h2>
+            <div className="text-white w-full lg:max-w-sm">
+              <h2 className=" text-center bg-neutral-800 p-6">
+                Customer Support
+              </h2>
               <div className="divide-gray-700">
                 {customerSupport.map((item, idx) => (
                   <div
                     key={item.label}
-                    className={`flex justify-between p-3 ${item.highlight ? "bg-neutral-800" : "hover:bg-neutral-800"}`}
+                    className={`flex justify-between p-3 ${
+                      item.highlight ? "bg-neutral-800" : "hover:bg-neutral-800"
+                    }`}
                   >
                     <span>{item.label}</span>
-                    <span className={item.bold ? "font-medium" : ""}>{item.value}</span>
+                    <span className={item.bold ? "font-medium" : ""}>
+                      {item.value}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
           {/* Lower Section */}
-          <div className="text-white mt-10 flex  justify-between">
-            <p>
+          <div className="text-white mt-10 flex flex-col lg:flex-row  justify-between">
+            <p className="text-sm">
               2025 Fort Kent Powersports. All Rights Reserved.
-              <span className="hover:text-red-600 ml-6 mr-2"> Contact</span>|
-              <span className="hover:text-red-600 ml-2">Privacy Policy</span>
             </p>
+            <Link
+              href="/about/contact"
+              className="hover:text-primary-500 ml-6 mr-2 cursor-pointer"
+            >
+              Contact
+            </Link>
+            |
+            <Link
+              href="/privacy-policy"
+              className="hover:text-primary-500 ml-2 cursor-pointer"
+            >
+              Privacy Policy
+            </Link>
             <p>Powered by i1SmartMarketing</p>
           </div>
         </div>

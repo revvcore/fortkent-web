@@ -9,7 +9,7 @@ export const promotions = [
   {
     _id: 1,
     title: "2025 Ski-Doo Snowmobiles",
-    bannerUrl: "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=800",
+    bannerUrl: "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/09/Can-Am-banner-07.webp",
     isRedirect: true,
     redirectUrl: "https://www.brp.com/en-us/ski-doo.html",
   },

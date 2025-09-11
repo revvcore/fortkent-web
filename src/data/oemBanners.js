@@ -19,8 +19,9 @@ export const oemBanners = [
     _id: 2,
     title: "Mountain Adventure",
     bannerUrl:
-      "https://images.pexels.com/photos/714258/pexels-photo-714258.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/09/Can-Am-banner-07.webp",
     isRedirect: false,
+    make: "Can-Am",
     redirectUrl: "",
   },
   {
@@ -30,6 +31,7 @@ export const oemBanners = [
       "https://images.pexels.com/photos/1840595/pexels-photo-1840595.jpeg?auto=compress&cs=tinysrgb&w=800",
     isRedirect: true,
     redirectUrl: "https://example.com/winter-escape",
+    make: "Polaris",
   },
   {
     _id: 4,

@@ -2,13 +2,14 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
-import { sliders } from "@/data/homePageSlider";
+import { sliders as defaultSliders, sliders } from "@/data/homePageSlider";
 import MarkDownRenderer from "@/components/commonComponents/markdown/MarkDownRenderer";
 
-export default function Banner() {
+export default function PromotionBanners() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoScrolling, setIsAutoScrolling] = useState(true);
   const [playingVideo, setPlayingVideo] = useState(null);
+  const [banners, setBanners] = useState(defaultSliders);
   const autoScrollRef = useRef(null);
 
   const videosPerPage = {
@@ -43,8 +44,7 @@ export default function Banner() {
     if (isAutoScrolling) {
       autoScrollRef.current = setInterval(() => {
         setCurrentIndex((prevIndex) => {
-          const maxIndex =
-            Math.ceil(sliders.length / currentVideosPerPage) - 1;
+          const maxIndex = Math.ceil(sliders.length / currentVideosPerPage) - 1;
           return prevIndex >= maxIndex ? 0 : prevIndex + 1;
         });
       }, 5000);
@@ -92,14 +92,68 @@ export default function Banner() {
 
   const getCurrentVideos = () => {
     const startIndex = currentIndex * currentVideosPerPage;
-    return sliders.slice(startIndex, startIndex + currentVideosPerPage);
+    return banners.slice(startIndex, startIndex + currentVideosPerPage);
   };
 
-  const totalPages = Math.ceil(sliders.length / currentVideosPerPage);
+  const totalPages = Math.ceil(banners.length / currentVideosPerPage);
+
+  // --- Banner Video Caching ---
+  const BANNER_CACHE_KEY = "promotionBannersCache";
+  const BANNER_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
+
+  // Helper to fetch video as base64
+  async function fetchVideoAsBase64(url) {
+    const res = await fetch(url);
+    const blob = await res.blob();
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  // On mount, check cache or download and cache videos
+  useEffect(() => {
+    async function loadBanners() {
+      if (typeof window === "undefined") return;
+      try {
+        const cached = localStorage.getItem(BANNER_CACHE_KEY);
+        if (cached) {
+          const { data, ts } = JSON.parse(cached);
+          if (Date.now() - ts < BANNER_CACHE_TTL) {
+            setBanners(data);
+            return;
+          }
+        }
+        // Download and cache videos as base64
+        const bannersWithVideos = await Promise.all(
+          defaultSliders.map(async (banner) => {
+            if (banner.videoUrl) {
+              try {
+                const base64 = await fetchVideoAsBase64(banner.videoUrl);
+                return { ...banner, videoUrl: base64 };
+              } catch {
+                return banner;
+              }
+            }
+            return banner;
+          })
+        );
+        setBanners(bannersWithVideos);
+        localStorage.setItem(
+          BANNER_CACHE_KEY,
+          JSON.stringify({ data: bannersWithVideos, ts: Date.now() })
+        );
+      } catch {
+        setBanners(defaultSliders);
+      }
+    }
+    loadBanners();
+  }, []);
 
   return (
-    <div className="overflow-hidden mt-5 ">
-      <div className="flex items-center justify-center pb-1 bg-black">
+    <div className="overflow-hidden bg-slate-100">
+      <div className="flex items-center justify-center">
         {/* Left Arrow */}
         <button
           onClick={handlePrevious}
@@ -112,7 +166,7 @@ export default function Banner() {
         {/* Right Arrow */}
         <button
           onClick={handleNext}
-          className="absolute -right-2 z-20 text-white p-4 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-2xl group"
+          className="absolute right-0 z-20 text-white p-4 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-2xl group"
           aria-label="Next videos"
         >
           <ChevronRight className="w-8 h-8 group-hover:scale-110 transition-transform duration-200" />
@@ -124,12 +178,12 @@ export default function Banner() {
             className="flex transition-transform duration-700 ease-in-out"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
-            {sliders.map((video) => (
+            {banners.map((video) => (
               <div
                 key={video._id}
                 className="min-w-full group relative border border-white/10"
-                onMouseEnter={() => handleVideoHover(video._id, true)}
-                onMouseLeave={() => handleVideoHover(video._id, false)}
+                // onMouseEnter={() => handleVideoHover(video._id, true)}
+                // onMouseLeave={() => handleVideoHover(video._id, false)}
               >
                 {/* Video Container */}
                 <div className="relative h-[400px] overflow-hidden">
@@ -139,11 +193,7 @@ export default function Banner() {
                     muted
                     loop
                     playsInline
-                    onLoadedData={(e) => {
-                      if (playingVideo === video._id) {
-                        e.target.play();
-                      }
-                    }}
+                    autoPlay
                   >
                     <source src={video.videoUrl} type="video/mp4" />
                     Your browser does not support the video tag.
@@ -151,9 +201,12 @@ export default function Banner() {
 
                   {/* Overlay Content */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center text-white px-6">
+                    <div className="text-center text-white px-6 z-10">
                       <MarkDownRenderer content={video?.content} />
                     </div>
+                    {video.overlay && (
+                      <div className="absolute inset-0 bg-black/60" />
+                    )}
                   </div>
 
                   {/* Video Overlay (Play/Pause button) */}
@@ -170,28 +223,28 @@ export default function Banner() {
                       </div>
                     </div>
                   </div>
+
+                  {/* Pagination Dots INSIDE video container */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex justify-center items-center mt-2 space-x-3 z-20">
+                    {Array.from({ length: totalPages }).map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => {
+                          setCurrentIndex(index);
+                          setIsAutoScrolling(false);
+                          setTimeout(() => setIsAutoScrolling(true), 10000);
+                        }}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                          index === currentIndex
+                            ? "bg-white scale-125 shadow-lg"
+                            : "bg-white/30 hover:bg-white/60 hover:scale-110"
+                        }`}
+                        aria-label={`Go to page ${index + 1}`}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
-
-          {/* Pagination Dots */}
-          <div className="flex justify-center items-center mt-2 space-x-3">
-            {Array.from({ length: totalPages }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  setCurrentIndex(index);
-                  setIsAutoScrolling(false);
-                  setTimeout(() => setIsAutoScrolling(true), 10000);
-                }}
-                className={`w-1 h-1 rounded-full transition-all duration-300 ${
-                  index === currentIndex
-                    ? "bg-white scale-125 shadow-lg"
-                    : "bg-white/30 hover:bg-white/60 hover:scale-110"
-                }`}
-                aria-label={`Go to page ${index + 1}`}
-              />
             ))}
           </div>
         </div>

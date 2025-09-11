@@ -4,7 +4,7 @@ export default function Clothing() {
             <div className="section-container py-10 ">
                 <div className="grid grid-cols-1 md:grid-cols-2">
                     <div className="p-2 place-content-center">
-                        <h1>Clothing & Accessories</h1>
+                        <h2>Clothing & Accessories</h2>
                         <ul className="list-disc text-gray-400 pl-6">
                             <li>Nylon clothing</li>
                             <li>GoreTex clothing</li>

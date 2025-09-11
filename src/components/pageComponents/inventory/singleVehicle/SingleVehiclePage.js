@@ -1,12 +1,13 @@
 "use client";
+import ExploreOtherVehicles from "../relatedVehicle/ExploreOtherVehicles";
 import RelatedVehicles from "../relatedVehicle/RelatedVehicles";
 import ActionsTab from "./ActionsTab";
 import DescTab from "./DescTab";
 import MediaGallery from "./MediaGallery";
 import UnitSpecsTab from "./UnitSpecsTab";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
-export default function SingleVehiclePage({ item }) {
+function SingleVehiclePageContent({ item }) {
   const [activeTab, setActiveTab] = useState("desc");
   const vehicleName =
     `${item.year} ${item.make} ${item.model} ${item.trim} ${item.class} ${item.conditionType} ${item?.specifications?.color?.exterior} ${item.stockNumber}` ||
@@ -63,6 +64,20 @@ export default function SingleVehiclePage({ item }) {
           <RelatedVehicles make={item.make} />
         </div>
       </section>
+      <section className="w-full pt-8 pb-12 bg-slate-50">
+        <div className="section-container">
+          <h2 className="text-center mb-4">Explore More Options</h2>
+          <ExploreOtherVehicles make={item.make} />
+        </div>
+      </section>
     </main>
+  );
+}
+
+export default function SingleVehiclePage({ item }) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SingleVehiclePageContent item={item} />
+    </Suspense>
   );
 }

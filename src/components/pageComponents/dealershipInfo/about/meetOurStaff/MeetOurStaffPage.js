@@ -1,4 +1,4 @@
-import Promo from "../../../../commonComponents/Promo";
+import Promo from "../../../../commonComponents/PageHeader";
 import StaffInformation from "./StaffInformation";
 
 export default function MeetOurStaffPage(){

@@ -11,7 +11,7 @@ export default function Vehicle(){
                         />
                     </div>
                     <div className="p-2 place-content-center">
-                        <h1>Vehicle Accessories</h1>
+                        <h2>Vehicle Accessories</h2>
                         <ul className="list-disc text-gray-400 pl-6">
                             <li>Color-matched components</li>
                             <li>Chrome components</li>
