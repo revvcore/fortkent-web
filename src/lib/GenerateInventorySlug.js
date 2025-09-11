@@ -13,5 +13,8 @@ export function generateInventorySlug(item) {
     .join("-") // join with dashes
     .toLowerCase()
     .replace(/\s+/g, "-") // replace spaces
-    .replace(/[^a-z0-9\-]/g, ""); // clean special chars
+    .replace(/[^a-z0-9\-]/g, "") // clean special chars
+    .replace(/\s*-\s*/g, "-") // normalize spaces around dashes to single dash
+    .replace(/-+/g, "-") // collapse multiple dashes
+    .replace(/^-|-$/g, ""); // trim leading/trailing dashes
 }

@@ -23,9 +23,7 @@ export default function SearchableSelect({
   const filteredOptions =
     query === ""
       ? options
-      : options.filter((opt) =>
-          opt.toLowerCase().includes(query.toLowerCase())
-        );
+      : options.filter((opt) => opt.value.includes(query.toLowerCase()));
 
   const handleClear = () => {
     onChange({ target: { name, value: "" } });
@@ -54,7 +52,12 @@ export default function SearchableSelect({
             <div className="relative w-full cursor-default overflow-hidden rounded border border-slate-400 bg-white text-left shadow-sm focus:outline-gray-500 sm:text-sm">
               <ComboboxInput
                 className="w-full border-none py-2 pl-3 leading-5 text-gray-900 focus:ring-0"
-                displayValue={(opt) => opt}
+                displayValue={(optValue) => {
+                  const selectedOpt = options.find(
+                    (opt) => opt.value === optValue
+                  );
+                  return selectedOpt ? selectedOpt.label : "";
+                }}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder={placeholder}
               />
@@ -79,13 +82,13 @@ export default function SearchableSelect({
               ) : (
                 filteredOptions?.map((opt) => (
                   <ComboboxOption
-                    key={opt}
+                    key={opt.value}
                     className={({ focus }) =>
                       `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
                         focus ? "bg-slate-100" : "text-gray-900"
                       }`
                     }
-                    value={opt}
+                    value={opt.value}
                   >
                     {({ selected }) => (
                       <>
@@ -94,7 +97,7 @@ export default function SearchableSelect({
                             selected ? "font-medium" : "font-normal"
                           }`}
                         >
-                          {opt}
+                          {opt.label}
                         </span>
                         {selected && (
                           <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600">

@@ -1,41 +1,78 @@
 "use client";
 import SpinLoader from "@/components/commonComponents/loader/SpinLoader";
 import { oemMakes } from "@/data/oemMakes";
+import normalize from "@/lib/normalize";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const INVENTORY_URL =
   "https://portal.revvcore.com/export/inventory/json/680b71c9d79737af91836e8f";
+const CACHE_KEY = "browseMakesCache";
+const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
+
+function loadCachedMakes() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const cached = JSON.parse(raw);
+    if (!cached || !cached.data || !cached.timestamp) return null;
+    if (Date.now() - cached.timestamp > CACHE_TTL) {
+      localStorage.removeItem(CACHE_KEY);
+      return null;
+    }
+    return cached.data;
+  } catch {
+    localStorage.removeItem(CACHE_KEY);
+    return null;
+  }
+}
+
+function saveCachedMakes(data) {
+  localStorage.setItem(
+    CACHE_KEY,
+    JSON.stringify({ data, timestamp: Date.now() })
+  );
+}
 
 export default function BrowseInventory() {
   const [filteredMakes, setFilteredMakes] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchInventory() {
+    let isMounted = true;
+    async function getMakes() {
       setLoading(true);
-      try {
-        const res = await fetch(INVENTORY_URL);
-        const data = await res.json();
-        // Get all unique makes from inventory (normalized: lowercase & trimmed)
-        const inventoryMakes = [
-          ...new Set(
-            data.map((item) => (item.make || "").trim()?.toLowerCase())
-          ),
-        ];
-        // Function to normalize make names for comparison
-        const normalize = (make) => (make || "").trim()?.toLowerCase();
-        const filteredOEMs = oemMakes.filter((oem) =>
-          inventoryMakes?.includes(normalize(oem?.make))
-        );
-        setFilteredMakes(filteredOEMs);
-      } catch (err) {
-        setFilteredMakes([]);
-      } finally {
+      // Try cache first
+      const cached = loadCachedMakes();
+      if (cached) {
+        setFilteredMakes(cached);
         setLoading(false);
+        return;
+      }
+      // Fetch inventory and filter makes
+      try {
+        const res = await fetch(INVENTORY_URL, { cache: "force-cache" });
+        const data = await res.json();
+        const inventoryMakes = new Set(
+          data.map((item) => normalize(item.make))
+        );
+        const filteredOEMs = oemMakes.filter((oem) =>
+          inventoryMakes.has(normalize(oem.make))
+        );
+        if (isMounted) {
+          setFilteredMakes(filteredOEMs);
+          saveCachedMakes(filteredOEMs);
+        }
+      } catch {
+        if (isMounted) setFilteredMakes([]);
+      } finally {
+        if (isMounted) setLoading(false);
       }
     }
-    fetchInventory();
+    getMakes();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
@@ -47,8 +84,8 @@ export default function BrowseInventory() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 max-w-6xl mx-auto items-center">
           {filteredMakes.map((brand) => {
             const redirectUrl = brand.isOem
-              ? `/promotions/${brand.make?.toLowerCase()}`
-              : `/inventory?make=${brand.make?.toLowerCase()}`;
+              ? `/promotions/${normalize(brand.make)}`
+              : `/inventory?make=${normalize(brand.make)}`;
             return (
               <Link
                 href={redirectUrl}
