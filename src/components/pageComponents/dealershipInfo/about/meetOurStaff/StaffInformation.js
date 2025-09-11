@@ -24,11 +24,11 @@ export default function StaffInformation() {
     return (
         <div className="section-container py-10 justify-items-center">
             {/* Filter Buttons */}
-            <div className="flex flex-wrap gap-6 items-center mb-8 ">
+            <div className="flex flex-wrap gap-6 mb-8 justify-center">
                 {departments.map((dept) => (
                     <button
                         key={dept}
-                        className={`px-6 py-2 rounded-full border text-base font-medium transition-all ${
+                        className={`px-6 py-2 rounded-full border  font-medium transition-all ${
                             selectedDept === dept
                                 ? "bg-red-600 text-white border-red-600"
                                 : "bg-white text-gray-500 border-gray-300 hover:bg-gray-100"
@@ -48,6 +48,7 @@ export default function StaffInformation() {
                         image={profile.image}
                         title={profile.title}
                         subtitle={profile.subtitle}
+                        profileLink={profile.profileLink}
                     />
                 ))}
             </div>

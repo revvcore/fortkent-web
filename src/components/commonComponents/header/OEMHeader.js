@@ -63,7 +63,7 @@ export default function OEMHeader({ make }) {
       </div>
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="lg:hidden bg-white border-t fixed top-32 left-0 w-full z-40 shadow-md">
+        <div className="lg:hidden bg-white border-t absolute top-32 left-0 w-full z-40 shadow-md">
           <nav className="flex flex-col gap-2 px-4 py-2">
             {oemMenu.map((menu, idx) =>
               menu.isButton ? (

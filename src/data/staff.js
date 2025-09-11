@@ -1,76 +1,101 @@
 const staffProfiles = [
     {
         image: "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/01/4-150x150.png",
-        title: "Keith Pelletier",
-        subtitle: "Sales Manager",
-        department: "Management Department"
+        title: "Frank Fournier",
+        subtitle: "Owner",
+        department: "Management Department",
+        profileLink: "https://www.flarepass.com/p/frank-fournier"
     },
     {
-        image: "https://randomuser.me/api/portraits/women/12.jpg",
-        title: "Jessica Smith",
-        subtitle: "Parts Specialist",
-        department: "Parts Department"
-    },
-    {
-        image: "https://randomuser.me/api/portraits/men/13.jpg",
-        title: "Mike Johnson",
-        subtitle: "Sales Associate",
-        department: "Sales Department"
-    },
-    {
-        image: "https://randomuser.me/api/portraits/women/14.jpg",
-        title: "Emily Davis",
-        subtitle: "Service Advisor",
-        department: "Service Department"
-    },
-    {
-        image: "https://randomuser.me/api/portraits/men/15.jpg",
-        title: "Robert Brown",
-        subtitle: "General Manager",
-        department: "Management Department"
-    },
-    {
-        image: "https://randomuser.me/api/portraits/women/16.jpg",
-        title: "Linda Wilson",
-        subtitle: "Parts Manager",
-        department: "Parts Department"
-    },
-    {
-        image: "https://randomuser.me/api/portraits/men/17.jpg",
-        title: "James Lee",
-        subtitle: "Sales Consultant",
-        department: "Sales Department"
-    },
-    {
-        image: "https://randomuser.me/api/portraits/women/18.jpg",
-        title: "Patricia Miller",
+        image: "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/05/mike-eastwood-300x300-1-150x150.webp",
+        title: "Mike Eastwood",
         subtitle: "Service Technician",
         department: "Service Department"
     },
     {
-        image: "https://randomuser.me/api/portraits/men/19.jpg",
-        title: "David Anderson",
-        subtitle: "Assistant Manager",
-        department: "Management Department"
+        image: "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/05/raphael-babin-300x300-1-150x150.webp",
+        title: "Raphael Babin",
+        subtitle: "Service Technician",
+        department: "Service Department"
     },
     {
-        image: "https://randomuser.me/api/portraits/women/20.jpg",
-        title: "Barbara Thomas",
-        subtitle: "Parts Clerk",
-        department: "Parts Department"
+        image: "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/05/keith-square-300x300-1-150x150.webp",
+        title: "Keith Pelletier",
+        subtitle: "Sales Manager",
+        department: "Sales Department",
+        profileLink:"https://www.flarepass.com/fortkent/keith-pelletier"
+
     },
     {
-        image: "https://randomuser.me/api/portraits/men/21.jpg",
-        title: "William Martinez",
-        subtitle: "Sales Rep",
+        image: "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/05/brendan-beaulieu-300x300-1-150x150.webp",
+        title: "Brendan Beaulieu",
+        subtitle: "Finance Manager",
         department: "Sales Department"
     },
+     {
+        image: "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/05/tyler-square-300x300-1-150x150.png",
+        title: "Tyler Thibeault",
+        subtitle: "Parts Manager",
+        department: "Parts Department",
+        profileLink:"https://www.flarepass.com/fortkent/tyler-thibeault"
+    },
     {
-        image: "https://randomuser.me/api/portraits/women/22.jpg",
-        title: "Susan Garcia",
+        image: "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/05/brenda-square-300x300-1-150x150.png",
+        title: "Brenda Bourgoin",
+        subtitle: "Shipping and Receiving Associate",
+        department: "Parts Department",
+         },
+         {
+        image: "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/04/10-150x150.png",
+        title: "Fancy Drolet",
+        subtitle: "Office Administrator",
+        department: "Management Department",
+        profileLink:"https://www.flarepass.com/fortkent/fancy-drolet"
+         },
+          {
+        image: "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/05/12-150x150.png",
+        title: "Brett Labbe",
+        subtitle: "Shop Foreman",
+        department: "Service Department",
+         },
+    {
+        image: "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/05/13-150x150.png",
+        title: "Parker Jandreau",
         subtitle: "Service Manager",
+        department: "Service Department",
+        profileLink:"https://www.flarepass.com/fortkent/parker-jandreau"
+    },
+    {
+        image: "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/05/7-150x150.png",
+        title: "Jeff Drolet",
+        subtitle: "Porter",
         department: "Service Department"
-    }
+    },
+    {
+        image: "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/05/9-150x150.png",
+        title: "Auttumn Pearson",
+        subtitle: "Certified BRP and Polaris Technician",
+        department: "Service Department"
+    },
+    {
+        image: "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/05/6-150x150.png",
+        title: "Bruce Labbe",
+        subtitle: "Jack of All Trades",
+        department: "Service Department"
+    },
+    {
+        image: "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/05/austin-st-peter-300x300-1-150x150.webp",
+        title: "Austin St. Peter",
+        subtitle: "Porter",
+        department: "Service Department"
+    },
+    {
+        image: "https://fortkentpowersports.com/wp-content/uploads/sites/2/2025/05/jason-bossie-300x300-1-150x150.webp",
+        title: "Jason Bossie",
+        subtitle: "Service Technician",
+        department: "Service Department"
+    },
+   
 ];
 
 export default staffProfiles;

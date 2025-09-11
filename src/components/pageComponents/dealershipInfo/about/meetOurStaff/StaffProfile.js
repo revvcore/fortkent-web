@@ -1,10 +1,16 @@
+
 export default function StaffProfile({
     image,
     title,
     subtitle,
     buttonText = "View Profile",
-    onButtonClick
+    profileLink
 }) {
+    const handleButtonClick = () => {
+        if (profileLink) {
+            window.open(profileLink, "_blank");
+        }
+    };
     return (
         <div className="flex flex-col items-center p-4">
             <img
@@ -18,12 +24,14 @@ export default function StaffProfile({
                 </div>
                 <div className="text-gray-500 font-semibold mb-4">{subtitle}</div>
             </div>
-            <button
-                className="w-full border border-gray-300 rounded bg-gray-50 py-2 text-gray-600 hover:bg-gray-100 transition"
-                onClick={onButtonClick}
-            >
-                {buttonText}
-            </button>
+            {profileLink && (
+                <button
+                    className="w-full border border-gray-300 rounded bg-gray-50 py-2 text-gray-600 hover:bg-gray-100 transition"
+                    onClick={handleButtonClick}
+                >
+                    {buttonText}
+                </button>
+            )}
         </div>
     );
 }
