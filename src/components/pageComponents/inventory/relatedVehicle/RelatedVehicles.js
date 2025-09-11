@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import SpinLoader from "@/components/commonComponents/loader/SpinLoader";
 import VehicleCard from "./VehicleCard";
+import { useInventory } from "@/context/InventoryContext";
 
 function NextArrow({ onClick }) {
   return (
@@ -28,28 +29,27 @@ function PrevArrow({ onClick }) {
 }
 
 export default function RelatedVehicles({ make, toShow, toScroll }) {
-  const [inventoryItems, setInventoryItems] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { inventory, loading } = useInventory();
 
-  useEffect(() => {
-    const fetchInventoryItems = async () => {
-      setLoading(true);
-      const response = await fetch(
-        "https://portal.revvcore.com/export/inventory/json/680b71c9d79737af91836e8f"
-      );
-      const data = await response.json();
+  // useEffect(() => {
+  //   const fetchInventoryItems = async () => {
+  //     setLoading(true);
+  //     const response = await fetch(
+  //       "https://portal.revvcore.com/export/inventory/json/680b71c9d79737af91836e8f"
+  //     );
+  //     const data = await response.json();
 
-      setInventoryItems(
-        make
-          ? data.filter((v) => v.make === make).slice(0, 12)
-          : data.slice(0, 12)
-      );
+  //     setInventoryItems(
+  //       make
+  //         ? data.filter((v) => v.make === make).slice(0, 12)
+  //         : data.slice(0, 12)
+  //     );
 
-      setLoading(false);
-    };
+  //     setLoading(false);
+  //   };
 
-    fetchInventoryItems();
-  }, [make]); // ✅ runs again if `make` changes
+  //   fetchInventoryItems();
+  // }, [make]); // ✅ runs again if `make` changes
 
   const settings = {
     dots: true,
@@ -75,7 +75,6 @@ export default function RelatedVehicles({ make, toShow, toScroll }) {
       { breakpoint: 1024, settings: { slidesToShow: 2 } },
       { breakpoint: 640, settings: { slidesToShow: 1 } },
     ],
-    
   };
 
   return (
@@ -86,7 +85,7 @@ export default function RelatedVehicles({ make, toShow, toScroll }) {
         </div>
       ) : (
         <Slider {...settings}>
-          {inventoryItems.map((vehicle) => (
+          {inventory?.slice(0, 6)?.map((vehicle) => (
             <div key={vehicle._id} className="px-1 h-full flex-1">
               <VehicleCard item={vehicle} />
             </div>

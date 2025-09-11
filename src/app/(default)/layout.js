@@ -4,6 +4,7 @@ import SiteHeader from "@/components/commonComponents/header/SiteHeader";
 import SiteFooter from "@/components/commonComponents/footer/SiteFooter";
 import ContactBar from "@/components/commonComponents/header/ContactBar";
 import GlobalRouteLoader from "@/components/commonComponents/loader/GlobalRouteLoader";
+import { InventoryProvider } from "@/context/InventoryContext";
 
 const fontSans = Gabarito({
   variable: "--font-manrope-sans",
@@ -31,11 +32,13 @@ export default function RootLayout({ children }) {
       <body
         className={`${fontSans.variable} ${fontMono.variable} ${fontHeading.variable} antialiased`}
       >
-        <ContactBar />
-        <SiteHeader />
-        <GlobalRouteLoader />
-        {children}
-        <SiteFooter />
+        <InventoryProvider>
+          <ContactBar />
+          <SiteHeader />
+          <GlobalRouteLoader />
+          {children}
+          <SiteFooter />
+        </InventoryProvider>
       </body>
     </html>
   );

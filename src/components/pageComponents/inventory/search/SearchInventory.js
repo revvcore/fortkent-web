@@ -1,11 +1,13 @@
 import SpinLoader from "@/components/commonComponents/loader/SpinLoader";
+import { useInventory } from "@/context/InventoryContext";
 import { currencyFormatter } from "@/lib/CurrencyFormatter";
 import { generateInventorySlug } from "@/lib/GenerateInventorySlug";
+import Fuse from "fuse.js";
 import { ChevronRight, Search } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 
-// Debounce hook for efficient requests
+// Debounce hook for efficient local search
 function useDebounce(value, delay) {
   const [debounced, setDebounced] = useState(value);
   useEffect(() => {
@@ -16,11 +18,9 @@ function useDebounce(value, delay) {
 }
 
 export default function SearchInventory() {
+  const { inventory, loading } = useInventory();
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const cache = useRef({}); // query: result[]
   const containerRef = useRef(null);
   const debouncedQuery = useDebounce(query, 300);
 
@@ -40,41 +40,68 @@ export default function SearchInventory() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showPopup]);
 
-  // Fetch with cache
-  useEffect(() => {
-    if (debouncedQuery.length > 2) {
-      // Check cache first
-      if (cache.current[debouncedQuery]) {
-        setResults(cache.current[debouncedQuery]);
-        setLoading(false);
-        return;
-      }
-      setLoading(true);
-      fetch(
-        `https://portal.revvcore.com/export/inventory/json/680b71c9d79737af91836e8f?search=${debouncedQuery}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          cache.current[debouncedQuery] = data;
-          setResults(data);
-        })
-        .catch(() => setResults([]))
-        .finally(() => setLoading(false));
-    } else {
-      setResults([]);
-      setLoading(false);
-    }
-  }, [debouncedQuery]);
+  // Memoize Fuse instance for performance
+  // Enhance inventory with a combined string for better multi-word search
+  const enhancedInventory = useMemo(() => {
+    if (!Array.isArray(inventory)) return [];
+    return inventory.map((item) => ({
+      ...item,
+      _search: [
+        item.year,
+        item.make,
+        item.model,
+        item.trim,
+        item.class,
+        item.conditionType,
+        item?.specifications?.color?.exterior,
+        item.vin,
+        item.stockNumber,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase(),
+    }));
+  }, [inventory]);
 
+  const fuse = useMemo(() => {
+    if (!Array.isArray(enhancedInventory)) return null;
+    return new Fuse(enhancedInventory, {
+      shouldSort: true,
+      includeScore: true,
+      threshold: 0.55, // fuzzier
+      matchAllTokens: true,
+      keys: [
+        "_search",
+        "year",
+        "make",
+        "model",
+        "trim",
+        "class",
+        "conditionType",
+        "specifications.color.exterior",
+        "vin",
+        "stockNumber",
+      ],
+    });
+  }, [enhancedInventory]);
+
+  const results = useMemo(() => {
+    if (!debouncedQuery || debouncedQuery.length < 2 || !fuse) return [];
+    return fuse.search(debouncedQuery.toLowerCase()).map((res) => res.item);
+  }, [debouncedQuery, fuse]);
   // Show popup on focus if input has any value
   const handleFocus = () => setShowPopup(true);
-
   // Prevent popup from closing on dropdown click
   const handleDropdownMouseDown = (e) => e.preventDefault();
+  const shouldShowPopup =
+    showPopup && (loading || results.length > 0 || query.length > 2);
+  // Handle Enter key to navigate to inventory page with search param
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && query.trim().length > 0) {
+      window.location.href = `/inventory?s=${encodeURIComponent(query.trim())}`;
+    }
+  };
 
-  const shouldShowPopup = showPopup && (loading || results.length > 3);
-
-  console.log({ results });
   return (
     <div className="relative" ref={containerRef}>
       <div className="relative w-full cursor-default overflow-hidden rounded border border-slate-400 bg-white text-left shadow-sm ">
@@ -86,6 +113,7 @@ export default function SearchInventory() {
           placeholder="Search Inventory (e.g., '2018 KAYO Storm')"
           onFocus={handleFocus}
           autoComplete="off"
+          onKeyDown={handleKeyDown}
         />
         <Search className="size-4 aspect-square absolute right-2 top-1/2 transform -translate-y-1/2" />
       </div>
@@ -117,7 +145,7 @@ export default function SearchInventory() {
               <div className="py-2 px-4 flex justify-between items-center">
                 <p>Total Results: {results.length}</p>
                 <Link
-                  href={`/inventory?s=${debouncedQuery}`}
+                  href={`/inventory?s=${encodeURIComponent(query.trim())}`}
                   className="text-sm font-semibold text-primary-500"
                   prefetch={true}
                 >
@@ -141,7 +169,9 @@ export default function SearchInventory() {
                     prefetch={true}
                   >
                     <img
-                      src={item.media?.imgFeatured?.url || "/no-image.webp"}
+                      src={
+                        item.media?.imgFeatured?.url || "/images/no-image.webp"
+                      }
                       alt=""
                       className="w-16 aspect-square object-cover mr-4"
                     />

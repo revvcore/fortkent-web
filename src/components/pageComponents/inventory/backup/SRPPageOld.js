@@ -1,8 +1,8 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import { useMemo, Suspense, useState } from "react";
-import SRPInventory from "./SRPInventory";
-import Filters from "./Filters";
+import SRPInventory from "../SRPInventory";
+import Filters from "../Filters";
 import SpinLoader from "@/components/commonComponents/loader/SpinLoader";
 import { useDevice } from "@/lib/useDevice";
 import StyledButton from "@/components/commonComponents/actions/buttons/StyledButton";
@@ -14,6 +14,7 @@ const SRPPageContent = ({ make }) => {
   const { inventory = [], loading } = useInventory(); // fallback to [] for safety
   const [showFilters, setShowFilters] = useState(false);
   const { IsTab, IsMob } = useDevice();
+  console.log("inventory data in SRPPageContent:", inventory);
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("p")) || 1;
   const itemsPerPage = 12;

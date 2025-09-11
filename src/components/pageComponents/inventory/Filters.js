@@ -78,19 +78,6 @@ export default function Filters({ options, closeModal }) {
         onChange={handleChange}
         placeholder={`Select ${label}`}
       />
-      {/* <select
-        name={name}
-        value={filters[name]}
-        onChange={handleChange}
-        className="p-2 border rounded"
-      >
-        <option value="">{`Select ${label}`}</option>
-        {opts.map((opt) => (
-          <option key={opt} value={opt}>
-            {opt}
-          </option>
-        ))}
-      </select> */}
     </>
   );
 
