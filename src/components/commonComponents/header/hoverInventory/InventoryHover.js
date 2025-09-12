@@ -1,9 +1,11 @@
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { oemMakes } from "@/data/oemMakes";
 import InventoryCard from "./InventoryCard";
 import InventoryDetailCard from "./InventoryDetailCard";
 import normalize from "@/lib/normalize";
+import Link from "next/link";
 
 
 const browseList = [
@@ -16,6 +18,7 @@ const browseList = [
 ];
 
 export default function InventoryHover({ show, onMouseEnter, onMouseLeave }) {
+  const router = useRouter();
   const [makeCounts, setMakeCounts] = useState({});
   const [loading, setLoading] = useState(true);
   const [allInventory, setAllInventory] = useState([]);
@@ -114,11 +117,17 @@ export default function InventoryHover({ show, onMouseEnter, onMouseLeave }) {
         <div className="w-64 border-l p-8 flex flex-col justify-start bg-white h-full">
           <div className="font-bold text-2xl mb-4 text-gray-800">Browse</div>
           <ul className="space-y-3">
-            {browseList.map((item, i) => (
-              <li key={i} className="text-base text-gray-700 font-medium hover:text-red-500 cursor-pointer transition">
-                {item}
-              </li>
-            ))}
+            <li className="text-base text-gray-700 font-medium hover:text-red-500 cursor-pointer transition">New Inventory</li>
+            <li className="text-base text-gray-700 font-medium hover:text-red-500 cursor-pointer transition">Pre-owned Inventory</li>
+          <Link href="/schedule-test-ride"><li
+              className="text-base text-gray-700 font-medium hover:text-red-500 cursor-pointer transition"
+             
+            >
+              Schedule Test Ride
+            </li></Link>
+            <li className="text-base text-gray-700 font-medium hover:text-red-500 cursor-pointer transition">Get a Quote</li>
+            <li className="text-base text-gray-700 font-medium hover:text-red-500 cursor-pointer transition">Value Your Trade</li>
+            <li className="text-base text-gray-700 font-medium hover:text-red-500 cursor-pointer transition">Polaris® Off-Road</li>
           </ul>
         </div>
       </div>
