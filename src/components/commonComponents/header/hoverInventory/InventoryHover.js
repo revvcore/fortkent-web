@@ -125,7 +125,7 @@ export default function InventoryHover({ show, onMouseEnter, onMouseLeave }) {
             >
               Schedule Test Ride
             </li></Link>
-            <li className="text-base text-gray-700 font-medium hover:text-red-500 cursor-pointer transition">Get a Quote</li>
+         <Link href="/get-a-quote"><li className="text-base text-gray-700 font-medium hover:text-red-500 cursor-pointer transition">Get a Quote</li></Link>
             <li className="text-base text-gray-700 font-medium hover:text-red-500 cursor-pointer transition">Value Your Trade</li>
             <li className="text-base text-gray-700 font-medium hover:text-red-500 cursor-pointer transition">Polaris® Off-Road</li>
           </ul>
