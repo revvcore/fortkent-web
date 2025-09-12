@@ -186,7 +186,7 @@ export default function PromotionBanners() {
                 // onMouseLeave={() => handleVideoHover(video._id, false)}
               >
                 {/* Video Container */}
-                <div className="relative h-[400px] overflow-hidden">
+                <div className="relative md:h-[400px] overflow-hidden">
                   <video
                     className="w-full object-cover transition-transform duration-500"
                     poster={video.fallBackImg}

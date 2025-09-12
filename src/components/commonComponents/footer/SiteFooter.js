@@ -87,22 +87,26 @@ export default function SiteFooter() {
           </div>
           {/* Lower Section */}
           <div className="text-white mt-10 flex flex-col lg:flex-row  justify-between">
-            <p className="text-sm">
+            <div  className="flex">
+
+            <p className="">
               2025 Fort Kent Powersports. All Rights Reserved.
             </p>
-            <Link
-              href="/about/contact"
-              className="hover:text-primary-500 ml-6 mr-2 cursor-pointer"
-            >
-              Contact
-            </Link>
-            |
-            <Link
-              href="/privacy-policy"
-              className="hover:text-primary-500 ml-2 cursor-pointer"
-            >
-              Privacy Policy
-            </Link>
+            <ul className="flex items-center">
+              <Link href="/about/contact-us">
+         
+              <li className="hover:text-primary-500 ml-6 mr-2 cursor-pointer">
+                Contact
+              </li>
+              </Link>
+              |
+              <Link href="privacy-policy">
+              <li className="hover:text-primary-500 ml-2 cursor-pointer">
+                Privacy Policy
+              </li>
+              </Link>
+            </ul>
+            </div>
             <p>Powered by i1SmartMarketing</p>
           </div>
         </div>
