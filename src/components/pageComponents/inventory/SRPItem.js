@@ -6,6 +6,7 @@ import { useState } from "react";
 import { generateInventorySlug } from "@/lib/GenerateInventorySlug";
 import Link from "next/link";
 import GetEPriceForm from "@/components/commonComponents/form/GetEPriceForm";
+import MakeOfferForm from "@/components/commonComponents/form/MakeOfferForm";
 export default function SRPItem({ item }) {
   const slug = generateInventorySlug(item);
   const [openFormModal, setOpenFormModal] = useState(false);
@@ -126,6 +127,16 @@ export default function SRPItem({ item }) {
         >
           Get Pre-Approved
         </StyledButton>
+        <StyledButton
+          variant="outline"
+          className="w-full"
+          size="sm"
+          onClick={() => {
+            setOpenFormModal(true), setFormTitle("Make Offer");
+          }}
+        >
+          Make Offer
+        </StyledButton>
         <Link href={`/vehicle/${slug}`} prefetch={true} passHref>
           <StyledButton variant="outline" className="w-full" size="sm">
             Full Details
@@ -143,7 +154,19 @@ export default function SRPItem({ item }) {
       </div>
       <FormModal isOpen={openFormModal} onClose={() => setOpenFormModal(false)}>
         <div className="bg-white rounded p-4 max-w-lg w-full">
-          <GetEPriceForm title={formTitle} item={item} />
+          {formTitle === "Make Offer" ? (
+            <MakeOfferForm 
+              title={formTitle} 
+              item={item} 
+              setOpenFormModal={setOpenFormModal}
+            />
+          ) : (
+            <GetEPriceForm 
+              title={formTitle} 
+              item={item} 
+              setOpenFormModal={setOpenFormModal}
+            />
+          )}
         </div>
       </FormModal>
     </div>

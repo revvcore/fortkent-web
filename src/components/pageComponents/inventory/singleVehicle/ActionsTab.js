@@ -155,13 +155,25 @@ export default function ActionsTab({ item }) {
         >
           <div className="bg-white rounded p-4 max-w-lg w-full">
             {formTitle === "Personalize Payment" && (
-              <CalculateInstalmentForm title={formTitle} item={item} />
+              <CalculateInstalmentForm 
+                title={formTitle} 
+                item={item} 
+                setOpenFormModal={setOpenFormModal}
+              />
             )}
             {(formTitle === "E-Price" || formTitle === "Incentive") && (
-              <GetEPriceForm title={formTitle} item={item} />
+              <GetEPriceForm 
+                title={formTitle} 
+                item={item} 
+                setOpenFormModal={setOpenFormModal}
+              />
             )}
             {formTitle === "Make Offer" && (
-              <MakeOfferForm title={formTitle} item={item} />
+              <MakeOfferForm 
+                title={formTitle} 
+                item={item} 
+                setOpenFormModal={setOpenFormModal}
+              />
             )}
           </div>
         </FormModal>

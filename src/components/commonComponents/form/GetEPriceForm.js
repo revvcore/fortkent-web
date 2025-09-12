@@ -52,7 +52,7 @@ export default function GetEPriceForm({ title, item, setOpenFormModal }) {
         }
       }
       const emailPayload = `
-New ${title} Request
+New ${title} | Fortkent Powersports 
 
 Vehicle: ${vehicleName}
 ${item.stock ? `Stock #: ${item.stock}` : ''}
@@ -68,22 +68,63 @@ Request Type: ${title}
 Submitted: ${new Date().toLocaleString()}
       `.trim();
 
-      const emailData = {
-        toEmail: 'developers@i1smartmarketing.com',
-        subject: `${title} Request - ${vehicleName}`,
-        payload: emailPayload,
-        formType: title
+      // Prepare data for unified API (both email and CRM)
+      const unifiedApiData = {
+        // Email data
+        emailPayload: emailPayload,
+        subject: `${title} Request - ${vehicleName} - Fortkent Powersports`,
+        formType: title,
+        
+        // CRM data
+        itemXML: {
+          email: formData.email,
+          name: `${formData.firstName} ${formData.lastName}`,
+          phone: formData.phone,
+          vehicleMake: item.make || '',
+          vehicleModel: item.model || '',
+          vehicleYear: item.year || '',
+          vehicleVIN: item.vin || '',
+          vehicleStockNum: item.stock || '',
+          vehicleColor: item.specifications?.color?.exterior || '',
+          vehiclePrice: formattedPrice,
+          note: `${title} request for ${vehicleName}`
+        },
+        prospectId: `${title}_${Date.now()}`,
+        
+        // Enable both email and CRM
+        enableEmail: true,
+        enableCrm: true
       };
-      const response = await fetch('/api/send-email', {
+
+      const response = await fetch('/api/lead-and-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(emailData)
+        body: JSON.stringify(unifiedApiData)
       });
 
       if (response.ok) {
-        setSubmitMessage("Your request has been submitted successfully!");
+        const result = await response.json();
+        
+        // Check if both operations were successful
+        if (result.success) {
+          setSubmitMessage("Your request has been submitted successfully! We've sent your information to our team and added you to our CRM system.");
+        } else {
+          // Partial success - show what worked and what didn't
+          let message = "Your request was partially processed: ";
+          if (result.results?.email?.success) {
+            message += "Email sent successfully. ";
+          }
+          if (result.results?.crm?.success) {
+            message += "Lead added to our system. ";
+          }
+          if (result.results?.errors?.length > 0) {
+            message += `However, some issues occurred: ${result.results.errors.join(', ')}`;
+          }
+          setSubmitMessage(message);
+        }
+        
         setFormData({
           firstName: "",
           lastName: "",
@@ -92,9 +133,10 @@ Submitted: ${new Date().toLocaleString()}
         });
         setTimeout(() => {
           if (setOpenFormModal) setOpenFormModal(false);
-        }, 2000);
+        }, 3000);
       } else {
-        setSubmitMessage("There was an error submitting your request. Please try again.");
+        const errorResult = await response.json().catch(() => ({}));
+        setSubmitMessage(errorResult.message || "There was an error submitting your request. Please try again.");
       }
     } catch (error) {
       setSubmitMessage("There was an error submitting your request. Please try again.");
